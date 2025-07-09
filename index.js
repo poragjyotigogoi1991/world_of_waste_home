@@ -257,8 +257,8 @@ function loadButtons() {
 }
 
 function LoadControls() {
-  worldMapButton = document.createElement("button");
-  worldMapButton.insertAdjacentHTML("beforeend", worldIconSvgUrl); // Unicode character for world map
+ // worldMapButton = document.createElement("button");
+ // worldMapButton.insertAdjacentHTML("beforeend", worldIconSvgUrl); // Unicode character for world map
 
   // Create the second button with a plus sign
   plusButton = document.createElement("button");
