@@ -69,6 +69,7 @@ const updateDonughtChart = (
         {
           data: values, // Values for each segment
           backgroundColor: colors, // Colors for each segment
+          hoverBackgroundColor: colors,
           borderWidth: 0, // No border
         },
       ],
