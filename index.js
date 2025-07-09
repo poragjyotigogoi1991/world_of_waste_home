@@ -286,7 +286,7 @@ function LoadControls() {
     button.style.pointerEvents = "auto";
   }
 
-  styleControls(worldMapButton);
+ // styleControls(worldMapButton);
   styleControls(plusButton);
   styleControls(minusButton);
 
