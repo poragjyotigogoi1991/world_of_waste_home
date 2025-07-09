@@ -208,6 +208,9 @@ function loadButtons() {
   // Create the buttons and append them to the container
   postConsumerBtn = document.createElement("button");
   postConsumerBtn.innerText = "Post-Consumer";
+  postConsumerBtn.style.border = "4px solid #000000";
+  postConsumerBtn.style.boxShadow = "1px 1px 9px 5px rgba(0,0,0,0.75)";
+  postConsumerBtn.style.backgroundColor = "rgba(0,0,0,0.20)";
   buttonContainer.appendChild(postConsumerBtn);
 
   postIndustrialBtn = document.createElement("button");
