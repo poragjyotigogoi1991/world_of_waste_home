@@ -182,11 +182,11 @@ function loadButtons() {
     button.style.padding = "10px 20px"; // Add padding for spacing
     button.style.fontSize = "16px"; // Set font size
     button.style.cursor = "pointer"; // Pointer cursor on hover
-    button.style.border = "1px solid #000"; // Add a black border for the outline
+    button.style.border = "4px solid #000"; // Add a black border for the outline
     button.style.borderRadius = "30px"; // Apply full-rounded corners
-    button.style.backgroundColor = "#F5F5F5"; // Light background color
+    button.style.backgroundColor = "#E4E4E4"; // Light background color
     button.style.color = "#000"; // Black text color
-    //button.style.boxShadow = "4px 4px 4px #333";
+    button.style.boxShadow = "4px 4px 4px #333";
     button.style.pointerEvents = "auto";
   }
 
@@ -208,9 +208,6 @@ function loadButtons() {
   // Create the buttons and append them to the container
   postConsumerBtn = document.createElement("button");
   postConsumerBtn.innerText = "Post-Consumer";
-  postConsumerBtn.style.border = "4px solid #000000";
-  postConsumerBtn.style.boxShadow = "1px 1px 9px 5px rgba(0,0,0,0.75)";
-  postConsumerBtn.style.backgroundColor = "rgba(0,0,0,0.20)";
   buttonContainer.appendChild(postConsumerBtn);
 
   postIndustrialBtn = document.createElement("button");
