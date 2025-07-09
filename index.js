@@ -330,7 +330,7 @@ function activateButton(button) {
   // button.style.backgroundColor = "#333"; // White background when active
   // button.style.border = "0px";
   // button.style.color = "#fff";
-  button.style.border = "none";
+  button.style.border = "2px solid #000000";
 }
 
 // Function to deactivate the button (reset its style)
