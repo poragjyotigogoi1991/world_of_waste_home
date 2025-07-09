@@ -338,7 +338,7 @@ function formatDate(date) {
 }
 
 function activateButton(button) {
-  // button.style.backgroundColor = "#333"; // White background when active
+   button.style.backgroundColor = "#F5F5F5"; // White background when active
   // button.style.border = "0px";
   // button.style.color = "#fff";
   button.style.border = "2px solid #000000";
