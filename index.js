@@ -186,7 +186,7 @@ function loadButtons() {
     button.style.borderRadius = "30px"; // Apply full-rounded corners
     button.style.backgroundColor = "#E4E4E4"; // Light background color
     button.style.color = "#000"; // Black text color
-    button.style.boxShadow = "4px 4px 4px #333";
+    button.style.boxShadow = "1px 1px 2px #e4e4e4";
     button.style.pointerEvents = "auto";
   }
 
