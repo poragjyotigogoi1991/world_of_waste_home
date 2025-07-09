@@ -338,7 +338,7 @@ function formatDate(date) {
 }
 
 function activateButton(button) {
-   button.style.backgroundColor = "#F5F5F5"; // White background when active
+   //button.style.backgroundColor = "#F5F5F5"; // White background when active
   // button.style.border = "0px";
   // button.style.color = "#fff";
   button.style.border = "2px solid #000000";
@@ -973,6 +973,7 @@ function initMap() {
 
   function activateFilter(button) {
     button.style.border = "2px solid #000";
+    button.style.backgroundColor = "#F5F5F5";
   }
 
   function deactivateFilter(button) {
