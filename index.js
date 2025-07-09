@@ -182,7 +182,7 @@ function loadButtons() {
     button.style.padding = "10px 20px"; // Add padding for spacing
     button.style.fontSize = "16px"; // Set font size
     button.style.cursor = "pointer"; // Pointer cursor on hover
-    button.style.border = "4px solid #000"; // Add a black border for the outline
+    button.style.border = "2px solid #000"; // Add a black border for the outline
     button.style.borderRadius = "30px"; // Apply full-rounded corners
     button.style.backgroundColor = "#E4E4E4"; // Light background color
     button.style.color = "#000"; // Black text color
