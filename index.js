@@ -978,6 +978,7 @@ function initMap() {
 
   function deactivateFilter(button) {
     button.style.border = "2px solid rgba(0,0,0,0)";
+    button.style.backgroundColor = "#E4E4E4";
   }
 
   function handlePostConsumerBtn() {
