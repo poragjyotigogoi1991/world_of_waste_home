@@ -213,7 +213,8 @@ function loadButtons() {
     postConsumerBtn.style.border = "2px solid #000000";
   })
    postConsumerBtn.addEventListener("mouseout", (event) => {
-     postConsumerBtn.style.boxShadow = "none";
+     // postConsumerBtn.style.boxShadow = "none";
+      postConsumerBtn.style.border = "2px solid rgba(0,0,0,0)";
   })
 
   postIndustrialBtn = document.createElement("button");
@@ -224,7 +225,8 @@ function loadButtons() {
      postIndustrialBtn.style.border = "2px solid #000000";
   })
    postIndustrialBtn.addEventListener("mouseout", (event) => {
-     postIndustrialBtn.style.boxShadow = "none";
+     // postIndustrialBtn.style.boxShadow = "none";
+      postIndustrialBtn.style.border = "2px solid rgba(0,0,0,0)";
   })
 
   highestDataBtn = document.createElement("a");
