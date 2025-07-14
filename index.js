@@ -219,7 +219,7 @@ function loadButtons() {
   postIndustrialBtn.innerText = "Post-Industrial";
   buttonContainer.appendChild(postIndustrialBtn);
    postIndustrialBtn.addEventListener("mouseover", (event) => {
-     postIndustrialBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.4)";
+     postIndustrialBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
   })
    postIndustrialBtn.addEventListener("mouseout", (event) => {
      postIndustrialBtn.style.boxShadow = "none";
@@ -342,6 +342,7 @@ function activateButton(button) {
   // button.style.border = "0px";
   // button.style.color = "#fff";
   button.style.border = "2px solid #000000";
+  button.style.boxShadow = none
 }
 
 // Function to deactivate the button (reset its style)
