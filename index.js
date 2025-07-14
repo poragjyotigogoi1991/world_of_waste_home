@@ -140,7 +140,8 @@ function highlightAllStates(states) {
   });
 }
 
-const text = `This map displays countries with available textile waste data. Click on a region for an overview or to check more details.Â Switch between the filters to narrow search to a specific waste type.`;
+const text = `This map displays countries and cities with available textile waste data. Click on a region for an overview or to check more details.`;
+const filtertext = `Filter by waste type:`;
 
 const mapTitleSvgUrl =
   "https://cdn.prod.website-files.com/66bc6dcc9423ad2cdca2ec11/66ec466ad330a727573b788d_map-title.svg";
@@ -246,13 +247,22 @@ function loadButtons() {
   infoText.style.textAlign = "justify";
   //buttonContainer.append(infoText);
 
+  filterText = document.createElement("h1");
+  filterText.innerText = filtertext;
+  filterText.style.padding = "10px";
+  filterText.style.fontSize = "19px";
+  filterText.style.width = "24rem";
+  filterText.style.textAlign = "justify";
+
   scaleEle = document.createElement("img");
   scaleEle.src = mapScaleSvgUrl;
   //scaleEle.style.height = "20px";
   scaleEle.style.width = "50%";
   scaleEle.style.alignSelf = "flex-end";
-  buttonInfoWrapper.append(infoText);
+  buttonInfoWrapper.append(filterHeading);
   buttonInfoWrapper.append(buttonContainer);
+  buttonInfoWrapper.append(infoText);
+  
 
   mainContainer.appendChild(buttonInfoWrapper);
   mainContainer.appendChild(scaleEle);
