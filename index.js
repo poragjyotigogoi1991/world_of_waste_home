@@ -209,7 +209,7 @@ function loadButtons() {
   postConsumerBtn.innerText = "Post-Consumer";
   buttonContainer.appendChild(postConsumerBtn);
   postConsumerBtn.addEventListener("mouseover", (event) => {
-     postConsumerBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.4)";
+     postConsumerBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
   })
    postConsumerBtn.addEventListener("mouseout", (event) => {
      postConsumerBtn.style.boxShadow = "none";
