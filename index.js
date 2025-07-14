@@ -247,7 +247,7 @@ function loadButtons() {
   infoText.style.textAlign = "justify";
   //buttonContainer.append(infoText);
 
-  filterText = document.createElement("h1");
+  filterText = document.createElement("p");
   filterText.innerText = filtertext;
   filterText.style.padding = "10px";
   filterText.style.fontSize = "19px";
