@@ -259,7 +259,7 @@ function loadButtons() {
   //scaleEle.style.height = "20px";
   scaleEle.style.width = "50%";
   scaleEle.style.alignSelf = "flex-end";
-  buttonInfoWrapper.append(filterHeading);
+  buttonInfoWrapper.append(filterText);
   buttonInfoWrapper.append(buttonContainer);
   buttonInfoWrapper.append(infoText);
   
