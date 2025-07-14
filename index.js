@@ -168,7 +168,7 @@ function loadButtons() {
 
   const buttonInfoWrapper = document.createElement("div");
   buttonInfoWrapper.style.display = "flex";
-  buttonInfoWrapper.style.gap = "1rem";
+  buttonInfoWrapper.style.gap = "0.5rem";
   buttonInfoWrapper.style.alignItem = "center";
   buttonInfoWrapper.style.flexDirection = "column";
 
@@ -245,12 +245,14 @@ function loadButtons() {
   infoText.style.fontSize = "16px";
   infoText.style.width = "24rem";
   infoText.style.textAlign = "justify";
+  infoText.style.marginTop = "0.25rem";
   //buttonContainer.append(infoText);
 
   filterText = document.createElement("p");
   filterText.innerText = filtertext;
   filterText.style.padding = "10px";
   filterText.style.fontSize = "19px";
+  filterText.style.fontWeight = "600";
   filterText.style.width = "24rem";
   filterText.style.textAlign = "justify";
 
