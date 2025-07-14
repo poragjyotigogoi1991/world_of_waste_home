@@ -241,16 +241,15 @@ function loadButtons() {
 
   infoText = document.createElement("p");
   infoText.innerText = text;
-  infoText.style.padding = "10px";
+  infoText.style.padding = "0 10px";
   infoText.style.fontSize = "16px";
   infoText.style.width = "24rem";
-  infoText.style.textAlign = "justify";
   infoText.style.marginTop = "0.25rem";
   //buttonContainer.append(infoText);
 
   filterText = document.createElement("p");
   filterText.innerText = filtertext;
-  filterText.style.padding = "10px";
+  filterText.style.padding = "0 10px";
   filterText.style.fontSize = "19px";
   filterText.style.fontWeight = "600";
   filterText.style.width = "24rem";
