@@ -187,6 +187,7 @@ function loadButtons() {
     button.style.backgroundColor = "#E4E4E4"; // Light background color
     button.style.color = "#000"; // Black text color
     button.style.pointerEvents = "auto";
+    button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
   }
 
   function styleLinkButton(button) {
@@ -209,7 +210,8 @@ function loadButtons() {
   postConsumerBtn.innerText = "Post-Consumer";
   buttonContainer.appendChild(postConsumerBtn);
   postConsumerBtn.addEventListener("mouseover", (event) => {
-     postConsumerBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
+     // postConsumerBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
+    postConsumerBtn.style.border = "2px solid #000000";
   })
    postConsumerBtn.addEventListener("mouseout", (event) => {
      postConsumerBtn.style.boxShadow = "none";
@@ -219,7 +221,8 @@ function loadButtons() {
   postIndustrialBtn.innerText = "Post-Industrial";
   buttonContainer.appendChild(postIndustrialBtn);
    postIndustrialBtn.addEventListener("mouseover", (event) => {
-     postIndustrialBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
+     // postIndustrialBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
+     postIndustrialBtn.style.border = "2px solid #000000";
   })
    postIndustrialBtn.addEventListener("mouseout", (event) => {
      postIndustrialBtn.style.boxShadow = "none";
@@ -341,8 +344,8 @@ function activateButton(button) {
    //button.style.backgroundColor = "#F5F5F5"; // White background when active
   // button.style.border = "0px";
   // button.style.color = "#fff";
-  button.style.border = "2px solid #000000";
-  button.style.boxShadow = none
+  // button.style.border = "2px solid #000000";
+  button.style.boxShadow = "none";
 }
 
 // Function to deactivate the button (reset its style)
