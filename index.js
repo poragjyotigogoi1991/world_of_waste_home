@@ -187,7 +187,6 @@ function loadButtons() {
     button.style.backgroundColor = "#E4E4E4"; // Light background color
     button.style.color = "#000"; // Black text color
     button.style.pointerEvents = "auto";
-    button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
   }
 
   function styleLinkButton(button) {
@@ -344,15 +343,15 @@ function activateButton(button) {
    //button.style.backgroundColor = "#F5F5F5"; // White background when active
   // button.style.border = "0px";
   // button.style.color = "#fff";
-  // button.style.border = "2px solid #000000";
-  button.style.boxShadow = "none";
+  button.style.border = "2px solid #000000";
+  button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
 }
 
 // Function to deactivate the button (reset its style)
 function deactivateButton(button) {
   // button.style.backgroundColor = "#F5F5F5"; // Revert to default background
   //button.style.color = "#333";
-  button.style.border = "2px solid #000";
+  button.style.border = "2px solid #000000";
 }
 
 function applyResponsiveStyles() {
@@ -977,11 +976,13 @@ function initMap() {
 
   function activateFilter(button) {
     button.style.border = "2px solid #000";
+    button.style.boxShadow = "none";
     button.style.backgroundColor = "#F5F5F5";
   }
 
   function deactivateFilter(button) {
     button.style.border = "2px solid rgba(0,0,0,0)";
+     button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
     button.style.backgroundColor = "#E4E4E4";
   }
 
