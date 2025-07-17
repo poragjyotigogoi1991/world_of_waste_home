@@ -840,7 +840,8 @@ function initMap() {
         "LKA",
         "VNM",
         "IDN",
-        "CAN"
+        "CAN",
+        "BGD"
       ].includes(Fg)
     ) {
       //hide popop
