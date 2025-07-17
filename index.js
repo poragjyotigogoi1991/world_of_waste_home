@@ -22,6 +22,45 @@ let infoText = null;
 let lastUpdatedText = null;
 let scaleEle = null;
 
+
+const style = document.createElement("style");
+style.innerHTML = `
+.consumer-action-wrapper {
+position: relative;
+display: inline-block;
+}
+
+.consumer-action-btn {
+position: relative;
+z-index: 1;
+padding: 12px 24px;
+background: white;
+color: black;
+font-size: 16px;
+border: none; /* remove border */
+border-radius: 30px;
+cursor: pointer;
+overflow: hidden;
+box-shadow: 4px 4px 4px 0.25px black; /* simulate base 1px border */
+}
+
+.svg-border {
+position: absolute;
+top: 0; left: 0;
+width: 100%; height: 100%;
+pointer-events: none;
+z-index: 2;
+}
+
+.svg-border rect {
+fill: none;
+stroke: black;
+stroke-width: 2;
+transition: stroke-dashoffset 0.8s ease;
+}
+`;
+document.head.appendChild(style);
+
 const selectors = {
   popup: `[popup=type-p]`,
   popupTitle: `[popup=country]`,
@@ -183,7 +222,7 @@ function loadButtons() {
     button.style.padding = "10px 20px"; // Add padding for spacing
     button.style.fontSize = "16px"; // Set font size
     button.style.cursor = "pointer"; // Pointer cursor on hover
-    button.style.border = "2px solid #000"; // Add a black border for the outline
+    button.style.border = "1px solid #000"; // Add a black border for the outline
     button.style.borderRadius = "30px"; // Apply full-rounded corners
     button.style.backgroundColor = "#E4E4E4"; // Light background color
     button.style.color = "#000"; // Black text color
@@ -206,21 +245,75 @@ function loadButtons() {
   }
 
   // Create the buttons and append them to the container
+  // Wrapper
+  const postConsumerWrapper = document.createElement("div"); //new
+  postConsumerWrapper.className = "consumer-action-wrapper"; //new
   postConsumerBtn = document.createElement("button");
+  postConsumerBtn.className = "consumer-action-btn"; //new
   postConsumerBtn.innerText = "Post-Consumer";
-  buttonContainer.appendChild(postConsumerBtn);
-  postConsumerBtn.addEventListener("mouseover", (event) => {
-     // postConsumerBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
-    postConsumerBtn.style.border = "2px solid #000000";
-  })
-   postConsumerBtn.addEventListener("mouseout", (event) => {
-     // postConsumerBtn.style.boxShadow = "none";
-      postConsumerBtn.style.border = "2px solid rgba(0,0,0,0)";
-  })
+  postConsumerWrapper.appendChild(postConsumerBtn); //new
+  buttonContainer.appendChild(postConsumerWrapper);
 
+  //new-start
+  requestAnimationFrame(() => {
+const { offsetWidth: w, offsetHeight: h } = postConsumerBtn;
+const radius = 20;
+const strokeWidth = 1;
+
+// SVG container
+const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+svg.setAttribute("class", "svg-border");
+svg.setAttribute("width", w);
+svg.setAttribute("height", h);
+svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+svg.setAttribute("preserveAspectRatio", "none");
+
+const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+const inset = strokeWidth / 2;
+rect.setAttribute("x", inset);
+rect.setAttribute("y", inset);
+rect.setAttribute("width", w - strokeWidth);
+rect.setAttribute("height", h - strokeWidth);
+rect.setAttribute("rx", radius);
+rect.setAttribute("ry", radius);
+
+// Exact perimeter of rounded rect
+const perimeter =
+2 * Math.PI * radius + 2 * (w - 2 * radius) + 2 * (h - 2 * radius);
+rect.setAttribute("stroke-dasharray", perimeter);
+rect.setAttribute("stroke-dashoffset", perimeter);
+
+svg.appendChild(rect);
+postConsumerWrapper.appendChild(svg);
+
+// Hover logic
+postConsumerWrapper.addEventListener("mouseenter", () => {
+rect.style.strokeDashoffset = "0";
+});
+
+postConsumerWrapper.addEventListener("mouseleave", () => {
+rect.style.strokeDashoffset = perimeter;
+});
+});
+  //new-end
+  
+  // postConsumerBtn.addEventListener("mouseover", (event) => {
+  //    // postConsumerBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
+  //   postConsumerBtn.style.border = "2px solid #000000";
+  // })
+  //  postConsumerBtn.addEventListener("mouseout", (event) => {
+  //    // postConsumerBtn.style.boxShadow = "none";
+  //     postConsumerBtn.style.border = "2px solid rgba(0,0,0,0)";
+  // })
+
+  // Wrapper
+  const postIndustrialWrapper = document.createElement("div");
+  postIndustrialWrapper.className = "consumer-action-wrapper";
   postIndustrialBtn = document.createElement("button");
+  postIndustrialBtn.className = "consumer-action-btn";
   postIndustrialBtn.innerText = "Post-Industrial";
-  buttonContainer.appendChild(postIndustrialBtn);
+  postIndustrialWrapper.appendChild(postIndustrialBtn);
+  buttonContainer.appendChild(postIndustrialWrapper);
    postIndustrialBtn.addEventListener("mouseover", (event) => {
      // postIndustrialBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
      postIndustrialBtn.style.border = "2px solid #000000";
@@ -356,7 +449,7 @@ function activateButton(button) {
    //button.style.backgroundColor = "#F5F5F5"; // White background when active
   // button.style.border = "0px";
   // button.style.color = "#fff";
-  button.style.border = "2px solid #000000";
+  button.style.border = "1px solid #000000";
   button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
 }
 
@@ -364,7 +457,7 @@ function activateButton(button) {
 function deactivateButton(button) {
   // button.style.backgroundColor = "#F5F5F5"; // Revert to default background
   //button.style.color = "#333";
-  button.style.border = "2px solid #000000";
+  button.style.border = "1px solid #000000";
 }
 
 function applyResponsiveStyles() {
@@ -988,13 +1081,13 @@ function initMap() {
   };
 
   function activateFilter(button) {
-    button.style.border = "2px solid #000";
+    button.style.border = "1px solid #000";
     button.style.boxShadow = "none";
     button.style.backgroundColor = "#F5F5F5";
   }
 
   function deactivateFilter(button) {
-    button.style.border = "2px solid rgba(0,0,0,0)";
+    button.style.border = "1px solid rgba(0,0,0,0)";
      button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
     button.style.backgroundColor = "#E4E4E4";
   }
