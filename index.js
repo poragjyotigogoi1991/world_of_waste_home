@@ -905,6 +905,8 @@ function initMap() {
     "Netherlands",
     "Germany",
     "United Kingdom",
+    "Canada",
+    "Pakistan",
   ]; // Add real country names
   const postIndustrialCountries = [
     "Egypt",
