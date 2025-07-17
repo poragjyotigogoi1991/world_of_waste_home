@@ -841,7 +841,6 @@ function initMap() {
         "VNM",
         "IDN",
         "CAN",
-        "BGD"
       ].includes(Fg)
     ) {
       //hide popop
