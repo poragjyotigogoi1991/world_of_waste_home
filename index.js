@@ -244,58 +244,6 @@ function loadButtons() {
     button.style.pointerEvents = "auto";
   }
 
-  // Create the buttons and append them to the container
-  // Wrapper
-//   const postConsumerWrapper = document.createElement("div"); //new
-//   postConsumerWrapper.className = "consumer-action-wrapper"; //new
-//   postConsumerBtn = document.createElement("button");
-//   postConsumerBtn.className = "consumer-action-btn"; //new
-//   postConsumerBtn.innerText = "Post-Consumer";
-//   postConsumerWrapper.appendChild(postConsumerBtn); //new
-//   buttonContainer.appendChild(postConsumerWrapper);
-
-//   //new-start
-//   requestAnimationFrame(() => {
-// const { offsetWidth: w, offsetHeight: h } = postConsumerBtn;
-// const radius = 16;
-// const strokeWidth = 4;
-
-// // SVG container
-// const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-// svg.setAttribute("class", "svg-border");
-// svg.setAttribute("width", w);
-// svg.setAttribute("height", h);
-// svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
-// svg.setAttribute("preserveAspectRatio", "none");
-
-// const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-// const inset = strokeWidth / 2;
-// rect.setAttribute("x", inset);
-// rect.setAttribute("y", inset);
-// rect.setAttribute("width", w - strokeWidth);
-// rect.setAttribute("height", h - strokeWidth);
-// rect.setAttribute("rx", radius);
-// rect.setAttribute("ry", radius);
-
-// // Exact perimeter of rounded rect
-// const perimeter =
-// 2 * Math.PI * radius + 2 * (w - 2 * radius) + 2 * (h - 2 * radius);
-// rect.setAttribute("stroke-dasharray", perimeter);
-// rect.setAttribute("stroke-dashoffset", perimeter);
-
-// svg.appendChild(rect);
-// postConsumerWrapper.appendChild(svg);
-
-// // Hover logic
-// postConsumerWrapper.addEventListener("mouseenter", () => {
-// rect.style.strokeDashoffset = "0";
-// });
-
-// postConsumerWrapper.addEventListener("mouseleave", () => {
-// rect.style.strokeDashoffset = perimeter;
-// });
-// });
-  //new-end
 const postConsumerWrapper = document.createElement("div");
 postConsumerWrapper.className = "consumer-action-wrapper";
 postConsumerBtn = document.createElement("button");
@@ -351,14 +299,6 @@ requestAnimationFrame(() => {
     rect.style.strokeDashoffset = perimeter.toString();
   });
 });
-  // postConsumerBtn.addEventListener("mouseover", (event) => {
-  //    // postConsumerBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
-  //   postConsumerBtn.style.border = "2px solid #000000";
-  // })
-  //  postConsumerBtn.addEventListener("mouseout", (event) => {
-  //    // postConsumerBtn.style.boxShadow = "none";
-  //     postConsumerBtn.style.border = "2px solid rgba(0,0,0,0)";
-  // })
 
   // Wrapper
   const postIndustrialWrapper = document.createElement("div");
