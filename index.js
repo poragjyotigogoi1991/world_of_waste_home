@@ -306,7 +306,7 @@ buttonContainer.appendChild(postConsumerWrapper);
 
 requestAnimationFrame(() => {
   const { offsetWidth: w, offsetHeight: h } = postConsumerBtn;
-  const radius = 16; // Increased radius won't cause ellipse
+  const radius = 100; // Increased radius won't cause ellipse
   const strokeWidth = 4;
 
   // SVG container
