@@ -296,7 +296,7 @@ function loadButtons() {
 // });
 // });
   //new-end
-  const postConsumerWrapper = document.createElement("div");
+const postConsumerWrapper = document.createElement("div");
 postConsumerWrapper.className = "consumer-action-wrapper";
 postConsumerBtn = document.createElement("button");
 postConsumerBtn.className = "consumer-action-btn";
@@ -306,24 +306,27 @@ buttonContainer.appendChild(postConsumerWrapper);
 
 requestAnimationFrame(() => {
   const { offsetWidth: w, offsetHeight: h } = postConsumerBtn;
-  const radius = 100; // Increased radius won't cause ellipse
+  const radius = h / 2; // Set radius to half the height for fully rounded corners
   const strokeWidth = 4;
 
   // SVG container
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("class", "svg-border");
-  svg.setAttribute("width", w);
-  svg.setAttribute("height", h);
+  svg.setAttribute("width", w.toString());
+  svg.setAttribute("height", h.toString());
   svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+  svg.style.position = "absolute"; // Ensure SVG aligns with div
+  svg.style.top = "0";
+  svg.style.left = "0";
   svg.setAttribute("preserveAspectRatio", "none");
 
   const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
   const inset = strokeWidth / 2;
-  rect.setAttribute("x", inset);
-  rect.setAttribute("y", inset);
-  rect.setAttribute("width", w - strokeWidth);
-  rect.setAttribute("height", h - strokeWidth);
-  rect.setAttribute("rx", radius.toString()); // Explicitly set radius
+  rect.setAttribute("x", inset.toString());
+  rect.setAttribute("y", inset.toString());
+  rect.setAttribute("width", (w - strokeWidth).toString());
+  rect.setAttribute("height", (h - strokeWidth).toString());
+  rect.setAttribute("rx", radius.toString()); // Fully rounded corners
   rect.setAttribute("ry", radius.toString()); // Same for both to avoid ellipse
   rect.setAttribute("stroke-width", strokeWidth.toString());
   rect.setAttribute("vector-effect", "non-scaling-stroke"); // Prevent stroke scaling
@@ -335,6 +338,9 @@ requestAnimationFrame(() => {
 
   svg.appendChild(rect);
   postConsumerWrapper.appendChild(svg);
+
+  // Ensure wrapper is positioned relatively to contain absolute SVG
+  postConsumerWrapper.style.position = "relative";
 
   // Hover logic
   postConsumerWrapper.addEventListener("mouseenter", () => {
