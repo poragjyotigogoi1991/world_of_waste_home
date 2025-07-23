@@ -257,7 +257,7 @@ function loadButtons() {
   //new-start
   requestAnimationFrame(() => {
 const { offsetWidth: w, offsetHeight: h } = postConsumerBtn;
-const radius = 18;
+const radius = 100;
 const strokeWidth = 2;
 
 // SVG container
