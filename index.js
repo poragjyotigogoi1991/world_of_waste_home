@@ -1,11 +1,9 @@
-// Disable console.log for production
-// console.log = () => {};
+/* console.log = () => {};
 window.V = "2.0-";
-console.log("Loadded...", V);
-
+console.log("Loadded...", V); */
 let map;
 let stateLayer;
-const statePolygons = {};
+const statePolygons = {}; // Store state polygons
 const highlightedStates = {};
 const lowData = "#4CACB6";
 const upcomingData = "#9E9E9E";
@@ -27,37 +25,37 @@ let scaleEle = null;
 const style = document.createElement("style");
 style.innerHTML = `
 .consumer-action-wrapper {
-  position: relative;
-  display: inline-block;
+position: relative;
+display: inline-block;
 }
 
 .consumer-action-btn {
-  position: relative;
-  z-index: 1;
-  padding: 12px 24px;
-  background: white;
-  color: black;
-  font-size: 16px;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  overflow: hidden;
-  box-shadow: 4px 4px 4px 0.25px black;
+position: relative;
+z-index: 1;
+padding: 12px 24px;
+background: white;
+color: black;
+font-size: 16px;
+border: none; /* remove border */
+border-radius: 30px;
+cursor: pointer;
+overflow: hidden;
+box-shadow: 4px 4px 4px 0.25px black; /* simulate base 1px border */
 }
 
 .svg-border {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 2;
+position: absolute;
+top: 0; left: 0;
+width: 100%; height: 100%;
+pointer-events: none;
+z-index: 2;
 }
 
 .svg-border rect {
-  fill: none;
-  stroke: black;
-  stroke-width: 2;
-  transition: stroke-dashoffset 0.8s ease;
+fill: none;
+stroke: black;
+stroke-width: 2;
+transition: stroke-dashoffset 0.8s ease;
 }
 `;
 document.head.appendChild(style);
@@ -132,55 +130,34 @@ function getCountryHighlightColor(countryName) {
   }
 }
 
-function getPopupElement(countryName, countryCode) {
+function getPopupElement(countryName) {
   const allPopups = document.querySelectorAll("[country-name]");
-  console.log("Available popups:", Array.from(allPopups).map(p => p.getAttribute("country-name")));
-
-  let foundPopup = null;
+  console.log("All popups", allPopups);
   allPopups.forEach((ev) => {
     const value = ev.getAttribute("country-name");
+    console.log("value>>>", value);
+    var countryValue = value;
     if (
       value === countryName ||
-      (countryName === "United States of America" && value === "USA") ||
-      (countryName === "United Kingdom" && value === "UK") ||
-      (countryName === "Cambodia" && value === "Cambodia")
+      (countryName.includes("United States of America") && value === "USA") ||
+      (countryName.includes("United Kingdom") && value === "UK")
     ) {
-      foundPopup = ev;
+      popupEle = ev;
     }
   });
 
-  if (!foundPopup) {
-    console.error(`No popup element found for ${countryName} (Code: ${countryCode})`);
-    return null;
-  }
-
-  if (countryCode === "KHM") {
-    const cta = foundPopup.querySelector("[popup=cta]");
-    const title = foundPopup.querySelector("[popup=title]");
-    if (cta && title) {
-      title.innerText = "Upcoming: 2025";
-      cta.innerText = "Read more";
-      cta.addEventListener("click", (rv) => {
-        rv.preventDefault();
-        window.location.href = `https://www.worldofwaste.co/projects/cambodia`;
+  // Only attach event listener if popupEle exists
+  if (popupEle) {
+    popupEle
+      .querySelector('[popup="close-btn"]')
+      ?.addEventListener("click", () => {
+        console.log("POPUP CROSSED", { countryName });
+        popupEle.style.display = "none";
+        stateLayer.revertStyle();
       });
-    } else {
-      console.warn(`Cambodia popup missing [popup=cta] or [popup=title]`);
-    }
   }
 
-  const closeBtn = foundPopup.querySelector('[popup="close-btn"]');
-  if (closeBtn) {
-    closeBtn.addEventListener("click", () => {
-      console.log("POPUP CROSSED", { countryName });
-      foundPopup.style.display = "none";
-      stateLayer.revertStyle();
-    });
-  } else {
-    console.warn(`No close button found for ${countryName} popup`);
-  }
-
-  return foundPopup;
+  return popupEle;
 }
 
 function highlightAllStates(states) {
@@ -209,7 +186,6 @@ const zoomOutSvgUrl = `<img src="https://cdn.prod.website-files.com/66bc6dcc9423
 
 const mapContainer = document.getElementById("custom-map");
 const mapWrapper = document.querySelector("[map-wrapper]");
-
 function loadButtons() {
   mainContainer = document.createElement("div");
   mainContainer.style.position = "absolute";
@@ -357,8 +333,8 @@ function loadButtons() {
 
   highestDataBtn = document.createElement("a");
   highestDataBtn.innerText = "Reset";
-  buttonContainer.appendChild(highestDataBtn);
 
+  buttonContainer.appendChild(highestDataBtn);
   styleButton(postConsumerBtn);
   styleButton(postIndustrialBtn);
   styleLinkButton(highestDataBtn);
@@ -393,10 +369,8 @@ function loadButtons() {
 
 function LoadControls() {
   worldMapButton = document.createElement("button");
-
   plusButton = document.createElement("button");
   plusButton.insertAdjacentHTML("beforeend", zoomInSvgUrl);
-
   minusButton = document.createElement("button");
   minusButton.insertAdjacentHTML("beforeend", zoomOutSvgUrl);
 
@@ -482,7 +456,7 @@ function applyResponsiveStyles() {
     buttonContainer.style.width = "55%";
     buttonContainer.style.left = "0%";
     buttonContainer.style.transform = "translateX(0%)";
-    buttonContainer.style.backgroundColor = "#ffffff";
+    buttonContainer.style.backgroundColor = "#fffff";
     buttonContainer.style.padding = "15px";
 
     mainContainer.style.flexDirection = "column";
@@ -522,6 +496,7 @@ function applyResponsiveStyles() {
 }
 
 function handlePopup(show = true, title, value, coords, popupEle) {
+  if (!popupEle) return; // Prevent popups if no valid popup element exists
   if (show) {
     popupEle.style.display = "block";
     popupEle.style.position = "absolute";
@@ -536,7 +511,6 @@ function handlePopup(show = true, title, value, coords, popupEle) {
   } else {
     popupEle.style.display = "none";
     popupEle.classList.toggle("show");
-    return;
   }
 }
 
@@ -645,15 +619,14 @@ function initMap() {
           const southWest = bounds.getSouthWest();
           const northEast = bounds.getNorthEast();
 
-          const countryName = feature.getProperty("name");
-          if (countryName === "United States of America") {
+          if (stateName === "United States of America") {
             center = new google.maps.LatLng(
               (southWest.lat() + northEast.lat()) / 2.3,
               (southWest.lng() + northEast.lng()) / 2.3
             );
           }
 
-          if (countryName === "India") {
+          if (stateName === "India") {
             center = new google.maps.LatLng(
               (southWest.lat() + northEast.lat()) / 2,
               (southWest.lng() + northEast.lng()) / 2.1
@@ -704,6 +677,9 @@ function initMap() {
 
   getTotalWasteCountryWise();
 
+  let masked = false;
+  let dottedOverlay;
+
   function getValue(country) {
     if (["India", "USA", "Bangladesh", "China"].includes(country)) {
       return "9,990,000";
@@ -713,8 +689,10 @@ function initMap() {
 
   stateLayer.addListener("mouseover", function (event) {
     map.data.revertStyle();
-    const countryCode = event.feature.getProperty("id");
-    if (["ATA"].includes(countryCode)) return;
+    const name = event.feature.getProperty("name");
+    const code = event.feature.getProperty("id");
+    if (["Antarctica"].includes(name)) return;
+
     stateLayer.overrideStyle(event.feature, {
       strokeColor: "#4CACB6",
       strokeWeight: 1,
@@ -729,16 +707,55 @@ function initMap() {
   });
 
   let activePopups;
-  var selectedStates = {};
+  var selecteedStates = {};
 
   stateLayer.addListener("click", function (event) {
     stateLayer.revertStyle();
     const name = event.feature.getProperty("name");
-    const countryCode = event.feature.getProperty("id");
+    const code = event.feature.getProperty("id");
     const { clientX: x, clientY: y } = event.domEvent;
 
-    console.log(`Clicked country: ${name || "unknown"} (Code: ${countryCode || "none"})`);
+    if (["Antarctica"].includes(name)) return;
 
+    function handleSignupCta(e) {
+      e.preventDefault();
+      window.open(`https://www.worldofwaste.co/sign-up`, "_blank");
+    }
+
+    const defaultPopup = document.querySelectorAll("[popup=default]")[1];
+    const defaultPopupEle = defaultPopup.cloneNode(true);
+    defaultPopup.querySelector("[popup=country]").innerText =
+      name.toUpperCase();
+
+    let finalText = "No data yet. Sign up for updates.";
+    let ctaText = "Sign up";
+    if (code === "KHM") {
+      finalText = `Upcoming: 2025`;
+      ctaText = "Read more";
+      defaultPopup
+        .querySelector("[popup=cta]")
+        .addEventListener("click", (rv) => {
+          rv.preventDefault();
+          window.location.href = `https://www.worldofwaste.co/projects/cambodia`;
+        });
+    } else {
+      finalText = "No data yet. Sign up for updates.";
+      ctaText = "Sign up";
+      defaultPopup
+        .querySelector("[popup=cta]")
+        .addEventListener("click", handleSignupCta);
+    }
+
+    defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
+    defaultPopup.querySelector("[popup=title]").innerText = finalText;
+
+    defaultPopup
+      .querySelector("[popup=close-btn]")
+      .addEventListener("click", () => {
+        handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
+      });
+
+    // Check if country code exists in the list of valid codes
     const validCountryCodes = [
       "IND",
       "USA",
@@ -759,41 +776,42 @@ function initMap() {
       "CAN",
     ];
 
-    if (!countryCode || !validCountryCodes.includes(countryCode)) {
-      console.log(`Skipping popup for country: ${name || "unknown"} (Code: ${countryCode || "none"})`);
+    if (!validCountryCodes.includes(code)) {
+      handlePopup(true, name, "", { x, y }, defaultPopup.parentElement);
+      if (activePopups)
+        handlePopup(false, name, getValue(name), { x, y }, activePopups);
       return;
+    } else {
+      handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
     }
 
-    if (!selectedStates[name]) {
-      selectedStates[name] = true;
+    if (!selecteedStates[name]) {
+      selecteedStates[name] = true;
     }
-    const isSelected = selectedStates[name];
-    console.log("Click details:", { currentCountry, isSelected, countryCode });
+
+    const isSelected = selecteedStates[name];
+    console.log("Clided >>>", { currentCountry, isSelected });
 
     if (interactionType === "click") {
-      if (currentCountry && currentCountry !== name && activePopups) {
-        console.log("Closing previous popup", { currentCountry, newCountry: name });
-        handlePopup(false, currentCountry, "", { x, y }, activePopups);
+      if (currentCountry && currentCountry !== name) {
+        console.log("country chcek", { currentCountry, c: name });
+        handlePopup(false, name, getValue(name), { x, y }, activePopups);
       }
 
-      const popupElerEF = getPopupElement(name, countryCode);
-      if (!popupElerEF) {
-        console.error(`No popup element found for country: ${name} (Code: ${countryCode})`);
-        return;
-      }
-
+      const popupElerEF = getPopupElement(name);
+      if (!popupElerEF) return; // Prevent popups if no valid popup element
       activePopups = popupElerEF;
       currentCountry = name;
       handlePopup(true, name, getValue(name), { x, y }, popupElerEF);
-
-      stateLayer.overrideStyle(event.feature, {
-        fillColor: !isSelected
-          ? "#FFFFFF"
-          : getCountryHighlightColor(name) || "#00BCD4",
-        strokeColor: !isSelected ? "#000000" : "#888888",
-        strokeWeight: 0,
-      });
     }
+
+    stateLayer.overrideStyle(event.feature, {
+      fillColor: !isSelected
+        ? "#FFFFFF"
+        : getCountryHighlightColor(name) || "#00BCD4",
+      strokeColor: !isSelected ? "#000000" : "#888888",
+      strokeWeight: 0,
+    });
   });
 
   const postConsumptionCountries = [
@@ -852,6 +870,7 @@ function initMap() {
 
     stateLayer.setStyle(function (feature) {
       const countryName = feature.getProperty("name");
+
       let fillColor = "#FFFFFF";
 
       if (
@@ -964,6 +983,7 @@ function initMap() {
 
     stateLayer.setStyle(function (feature) {
       const countryName = feature.getProperty("name");
+
       let fillColor = "#FFFFFF";
 
       if (activeCountries.postConsumer && countries.includes(countryName)) {
@@ -1013,6 +1033,7 @@ function initMap() {
 
     stateLayer.setStyle(function (feature) {
       const countryName = feature.getProperty("name");
+
       let fillColor = "#FFFFFF";
 
       if (
@@ -1047,6 +1068,7 @@ function initMap() {
     deactivateFilter(postIndustrialBtn);
     stateLayer.setStyle(function (feature) {
       const countryName = feature.getProperty("name");
+
       let fillColor = "#FFFFFF";
 
       if (
