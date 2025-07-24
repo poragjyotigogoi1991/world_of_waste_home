@@ -895,6 +895,20 @@ function initMap() {
       return;
     }
     
+    //need to check for upcoming countries popup
+    if (!["IND","USA","GBR","TUN","ESP","POL","NLD",
+          "MAR","EGY","BEL","DEU","BGD",
+          "PAK","LKA","VNM","IDN","CAN"].includes(Fg)) {
+        //hide popop
+        handlePopup(true, name, "", { x, y }, defaultPopup.parentElement);
+        if (activePopups)
+        handlePopup(false, name, getValue(name), { x, y }, activePopups);
+        return;
+      } else {
+        handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
+      }
+
+    
     // if (isSelected) popupEle?.classList.remove("show");
     event.feature.setProperty("isSelected", !!selecteedStates[name]);
 
