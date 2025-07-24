@@ -1,6 +1,6 @@
-/* console.log = () => {};
+//console.log = () => {};
 window.V = "2.0-";
-console.log("Loadded...", V); */
+console.log("Loadded...", V);
 let map;
 let stateLayer;
 const statePolygons = {}; // Store state polygons
@@ -21,6 +21,7 @@ let interactionType = "click";
 let infoText = null;
 let lastUpdatedText = null;
 let scaleEle = null;
+
 
 const style = document.createElement("style");
 style.innerHTML = `
@@ -798,105 +799,138 @@ function initMap() {
 
   // Add click event to toggle highlight
   stateLayer.addListener("click", function (event) {
+    // const isSelected = event.feature.getProperty("isSelected");
     stateLayer.revertStyle();
+    const { Fg } = event.feature; //Fg was internal variable and now removed
     const name = event.feature.getProperty("name");
-    const code = event.feature.getProperty("id"); // Use correct property for country code
+    const code = Fg;
+
     const { clientX: x, clientY: y } = event.domEvent;
-    if (name === "Antarctica") return;
-
-    const validCountryCodes = [
-      "IND",
-      "USA",
-      "GBR",
-      "TUN",
-      "ESP",
-      "POL",
-      "NLD",
-      "MAR",
-      "EGY",
-      "BEL",
-      "DEU",
-      "BGD",
-      "PAK",
-      "LKA",
-      "VNM",
-      "IDN",
-      "CAN",
-    ];
-
-    // If country code is not valid and not KHM, do nothing (no popup)
-    if (!validCountryCodes.includes(code) && code !== "KHM") {
-      if (activePopups) {
-        handlePopup(false, name, getValue(name), { x, y }, activePopups);
-      }
+    if (
+      [
+        "ATA",
+        //"RUS"
+      ].includes(Fg)
+    )
       return;
-    }
 
     function handleSignupCta(e) {
       e.preventDefault();
       window.open(`https://www.worldofwaste.co/sign-up`, "_blank");
     }
 
-    // Handle Cambodia (KHM) default popup
-    if (code === "KHM") {
-      const defaultPopup = document.querySelectorAll("[popup=default]")[1];
-      if (defaultPopup) {
-        const defaultPopupEle = defaultPopup.cloneNode(true);
-        defaultPopup.querySelector("[popup=country]").innerText =
-          name.toUpperCase();
+    const defaultPopup = document.querySelectorAll("[popup=default]")[1];
+    const defaultPopupEle = defaultPopup.cloneNode(true);
+    defaultPopup.querySelector("[popup=country]").innerText =
+      name.toUpperCase();
 
-        let finalText = `Upcoming: 2025`;
-        let ctaText = "Read more";
+    let finalText = "No data yet. Sign up for updates.";
+    let ctaText = "Sign up";
+    //if (Fg === "PAK" || Fg === "KHM") {
+       if ( Fg === "KHM") {
+      finalText = `Upcoming: 2025`;
+      ctaText = "Read more";
+      if (Fg === "KHM") {
         defaultPopup
           .querySelector("[popup=cta]")
           .addEventListener("click", (rv) => {
             rv.preventDefault();
             window.location.href = `https://www.worldofwaste.co/projects/cambodia`;
           });
-
-        defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
-        defaultPopup.querySelector("[popup=title]").innerText = finalText;
-
-        defaultPopup
-          .querySelector("[popup=close-btn]")
-          .addEventListener("click", () => {
-            handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
-          });
-
-        handlePopup(true, name, "", { x, y }, defaultPopup.parentElement);
       }
-      if (activePopups) {
-        handlePopup(false, name, getValue(name), { x, y }, activePopups);
-      }
-      return;
+      //defaultPopup.querySelector("[popup=cta]").removeEventListener("click", handleSignupCta);
+    } else {
+      finalText = "No data yet. Sign up for updates.";
+      ctaText = "Sign up";
+      defaultPopup
+        .querySelector("[popup=cta]")
+        .addEventListener("click", handleSignupCta);
     }
 
-    // Handle valid country codes
+    defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
+    defaultPopup.querySelector("[popup=title]").innerText = finalText;
+
+    defaultPopup
+      .querySelector("[popup=close-btn]")
+      .addEventListener("click", () => {
+        handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
+      });
+
+    // Toggle the 'isSelected' property
+    if (
+      ![
+        "IND",
+        "USA",
+        "GBR",
+        "TUN",
+        "ESP",
+        "POL",
+        "NLD",
+        "MAR",
+        "EGY",
+        "BEL",
+        "DEU",
+        "BGD",
+        "PAK",
+        "LKA",
+        "VNM",
+        "IDN",
+        "CAN",
+      ].includes(Fg)
+    ) {
+      //hide popop
+      handlePopup(true, name, "", { x, y }, defaultPopup.parentElement);
+      if (activePopups)
+        handlePopup(false, name, getValue(name), { x, y }, activePopups);
+      return;
+    } else {
+      handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
+    }
+    // if (isSelected) popupEle?.classList.remove("show");
+    event.feature.setProperty("isSelected", !!selecteedStates[name]);
+
     if (!selecteedStates[name]) {
       selecteedStates[name] = true;
-    }
+    } /* else {
+      selecteedStates[name] = false;
+    } */
     const isSelected = selecteedStates[name];
-    console.log("Clicked >>>", { currentCountry, isSelected });
+    console.log("Clided >>>", { currentCountry, isSelected });
 
     if (interactionType === "click") {
       if (currentCountry && currentCountry !== name) {
-        console.log("country check", { currentCountry, c: name });
+        console.log("country chcek", { currentCountry, c: name });
         handlePopup(false, name, getValue(name), { x, y }, activePopups);
       }
 
       const popupElerEF = getPopupElement(name);
+      /*  if (activePopups && activePopups !== popupElerEF) {
+        console.log("REF check", { activePopups, popupElerEF });
+        handlePopup(false, name, getValue(name), { x, y }, activePopups);
+        return;
+      } */
       activePopups = popupElerEF;
       currentCountry = name;
       handlePopup(true, name, getValue(name), { x, y }, popupElerEF);
     }
 
+    // Set style based on 'isSelected' property
     stateLayer.overrideStyle(event.feature, {
       fillColor: !isSelected
         ? "#FFFFFF"
-        : getCountryHighlightColor(name) || "#00BCD4",
-      strokeColor: !isSelected ? "#000000" : "#888888",
-      strokeWeight: 0,
+        : getCountryHighlightColor(name) || "#00BCD4", // Toggle fill color
+      strokeColor: !isSelected ? "#000000" : "#888888", // Toggle stroke color
+      strokeWeight: 0, // Toggle stroke weight
     });
+
+    /* stateLayer.setStyle(function (feature) {
+      return {
+        fillColor: isSelected
+          ? getCountryHighlightColor(feature.getProperty("name"))
+          : "#ffffff",
+        strokeWeight: 0,
+      };
+    }); */
   });
 
   const postConsumptionCountries = [
@@ -910,7 +944,7 @@ function initMap() {
     "United Kingdom",
     "Canada",
     "Pakistan",
-  ];
+  ]; // Add real country names
   const postIndustrialCountries = [
     "Egypt",
     "Morocco",
@@ -924,6 +958,7 @@ function initMap() {
     upcomingData: true,
   };
 
+  //highlight array of states on the map similar to toggle highlight
   function highlightCountries(initialData, btn, activeKey) {
     stateLayer.revertStyle();
     let countries = [
@@ -933,6 +968,7 @@ function initMap() {
       "Cambodia",
     ];
 
+    // Toggle the active state
     if (activeKey && btn) {
       activeStates[activeKey] = !activeStates[activeKey];
 
@@ -941,6 +977,13 @@ function initMap() {
       } else {
         deactivateButton(btn);
       }
+
+      // If both buttons are inactive, reset to highlight all
+      /*  if (!activeStates.lowData && !activeStates.upcomingData) {
+        activeStates.lowData = activeStates.upcomingData = true;
+        activateButton(postConsumerBtn); // assuming buttons are accessible
+        activateButton(postIndustrialBtn);
+      } */
     } else {
       activeStates = {
         lowData: true,
@@ -953,9 +996,11 @@ function initMap() {
       countries = [...upcomingCountries, "United Kingdom", "Cambodia"];
     }
 
+    // Style the countries based on active states
     stateLayer.setStyle(function (feature) {
       const countryName = feature.getProperty("name");
 
+      // Set default fill color
       let fillColor = "#FFFFFF";
 
       if (
@@ -969,36 +1014,80 @@ function initMap() {
         return {
           fillColor: fillColor,
           strokeWeight: 0,
+          // fillOpacity: 1,
           fillOpacity: fillColor === "#FFFFFF" ? 0.4 : 0.9,
         };
       }
 
+      // Highlight lowData or upcomingData countries
       if (activeStates.lowData && countries.includes(countryName)) {
-        fillColor = getCountryHighlightColor(countryName);
+        fillColor = getCountryHighlightColor(countryName); // Color for lowData countries
       }
       if (
         countryName !== "United Kingdom" &&
         activeStates.upcomingData &&
         countries.includes(countryName)
       ) {
-        fillColor = getCountryHighlightColor(countryName);
+        fillColor = getCountryHighlightColor(countryName); // Color for upcomingData countries
       }
 
+      // Return the style with appropriate color
       return {
         fillColor: fillColor,
         strokeWeight: 0,
+        // fillOpacity: 1,
         fillOpacity: fillColor === "#FFFFFF" ? 0.4 : 0.9,
       };
     });
   }
 
+  // Define your sets of countries
+
   const upcomingCountries = [
+    // "China",
     "India",
     "USA",
+    //"Russia",
     "Sri Lanka",
     "Vietnam",
     "Indonesia",
   ];
+  //const highestDataCountries = ["Brazil", "Russia"];
+  /* setTimeout(() => {
+    highlightCountries(allCountries, highestDataBtn);
+  }, 1500); */
+  // Add event listeners for the buttons
+  /* postConsumerBtn.addEventListener("click", () => {
+    // toggleHighlight(postConsumerBtn, postConsumptionCountries, lowData, "lowData");
+    highlightCountries2(
+      postConsumptionCountries,
+      postConsumerBtn,
+      "upcomingData",
+      postIndustrialBtn,
+      "lowData"
+    );
+    toggleCountryLabels(postIndustrialCountries, activeStates.upcomingData);
+  });
+
+  postIndustrialBtn.addEventListener("click", () => {
+    highlightCountries2(
+      postIndustrialCountries,
+      postIndustrialBtn,
+      "lowData",
+      postConsumerBtn,
+      "upcomingData"
+    );
+
+    toggleCountryLabels(postConsumptionCountries, activeStates.lowData);
+  }); 
+
+  //reset button
+  highestDataBtn.addEventListener("click", () => {
+    highlightCountries(allCountries, highestDataBtn);
+    toggleCountryLabels(allCountries, activeStates.highestData);
+  });
+
+  */
 
   worldMapButton.addEventListener("click", () => {
     map.setZoom(3);
@@ -1042,6 +1131,7 @@ function initMap() {
   }
 
   function handlePostConsumerBtn() {
+    //deactivate other active button
     if (activeCountries.postIndustrial) {
       activeCountries.postIndustrial = false;
       deactivateFilter(postIndustrialBtn);
@@ -1055,6 +1145,7 @@ function initMap() {
     } else {
       deactivateFilter(postConsumerBtn);
       toggleCountryLabels(postConsumptionCountries, false);
+      //toggleCountryLabels(postConsumptionCountries, false);
     }
     console.log("active countries", activeCountries);
 
@@ -1066,13 +1157,16 @@ function initMap() {
       "Cambodia",
     ];
 
+    // Style the countries based on active states
     stateLayer.setStyle(function (feature) {
       const countryName = feature.getProperty("name");
 
+      // Set default fill color
       let fillColor = "#FFFFFF";
 
+      // Highlight lowData or upcomingData countries
       if (activeCountries.postConsumer && countries.includes(countryName)) {
-        fillColor = getCountryHighlightColor(countryName);
+        fillColor = getCountryHighlightColor(countryName); // Color for lowData countries
       }
 
       if (
@@ -1084,15 +1178,18 @@ function initMap() {
         toggleCountryLabels(allCountries, activeStates.highestData);
       }
 
+      // Return the style with appropriate color
       return {
         fillColor: fillColor,
         strokeWeight: 0,
+        // fillOpacity: 1,
         fillOpacity: fillColor === "#FFFFFF" ? 0.4 : 0.9,
       };
     });
   }
 
   function handlePostIndustrialBtn() {
+    //deactivate other active button
     if (activeCountries.postConsumer) {
       activeCountries.postConsumer = false;
       deactivateFilter(postConsumerBtn);
@@ -1116,17 +1213,21 @@ function initMap() {
       "Cambodia",
     ];
 
+    // Style the countries based on active states
     stateLayer.setStyle(function (feature) {
       const countryName = feature.getProperty("name");
 
+      // Set default fill color
       let fillColor = "#FFFFFF";
+
+      // Highlight lowData or upcomingData countries
 
       if (
         countryName !== "United Kingdom" &&
         activeCountries.postIndustrial &&
         countries.includes(countryName)
       ) {
-        fillColor = getCountryHighlightColor(countryName);
+        fillColor = getCountryHighlightColor(countryName); // Color for upcomingData countries
       }
 
       if (
@@ -1138,9 +1239,11 @@ function initMap() {
         toggleCountryLabels(allCountries, activeStates.highestData);
       }
 
+      // Return the style with appropriate color
       return {
         fillColor: fillColor,
         strokeWeight: 0,
+        // fillOpacity: 1,
         fillOpacity: fillColor === "#FFFFFF" ? 0.4 : 0.9,
       };
     });
@@ -1154,7 +1257,10 @@ function initMap() {
     stateLayer.setStyle(function (feature) {
       const countryName = feature.getProperty("name");
 
+      // Set default fill color
       let fillColor = "#FFFFFF";
+
+      // Highlight lowData or upcomingData countries
 
       if (
         !activeCountries.postConsumer &&
@@ -1164,9 +1270,11 @@ function initMap() {
         fillColor = getCountryHighlightColor(countryName);
       }
 
+      // Return the style with appropriate color
       return {
         fillColor: fillColor,
         strokeWeight: 0,
+        // fillOpacity: 1,
         fillOpacity: fillColor === "#FFFFFF" ? 0.4 : 0.9,
       };
     });
