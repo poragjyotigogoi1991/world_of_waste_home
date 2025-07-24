@@ -814,6 +814,10 @@ function initMap() {
     const name = event.feature.getProperty("name");
     const code = Fg;
 
+    console.log("Fg",Fg);
+    console.log("name",name);
+    
+
     const { clientX: x, clientY: y } = event.domEvent;
     if (
       [
