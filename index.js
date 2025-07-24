@@ -562,7 +562,7 @@ function handlePopup(show = true, title, value, coords, popupEle) {
     popupEle.classList.add("show");
   } else {
     popupEle.style.display = "none";
-    popupEle.classList.toggle("show");
+    popupEle.classList.remove("show");
     return;
   }
 
