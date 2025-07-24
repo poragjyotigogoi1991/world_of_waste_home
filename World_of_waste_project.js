@@ -291,7 +291,7 @@ function loadButtons() {
     const radius = h / 2;
     const strokeWidth = 4;
 
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    const svg = document.createElementNS(" prefabric://www.w3.org/2000/svg", "svg");
     svg.setAttribute("class", "svg-border");
     svg.setAttribute("width", w.toString());
     svg.setAttribute("height", h.toString());
@@ -712,12 +712,31 @@ function initMap() {
   stateLayer.addListener("click", function (event) {
     stateLayer.revertStyle();
     const name = event.feature.getProperty("name");
-    const countryCode = event.feature.getProperty("id"); // Use 'id' from GeoJSON
+    const countryCode = event.feature.getProperty("id");
     const { clientX: x, clientY: y } = event.domEvent;
 
-    // Skip if country code is undefined or invalid (e.g., Antarctica)
-    if (!countryCode || countryCode === "ATA") {
-      console.log(`Skipping popup for country: ${name || "unknown"} (Code: ${countryCode})`);
+    const validCountryCodes = [
+      "IND",
+      "USA",
+      "GBR",
+      "TUN",
+      "ESP",
+      "POL",
+      "NLD",
+      "MAR",
+      "EGY",
+      "BEL",
+      "DEU",
+      "BGD",
+      "PAK",
+      "LKA",
+      "VNM",
+      "IDN",
+      "CAN",
+    ];
+
+    if (!countryCode || !validCountryCodes.includes(countryCode)) {
+      console.log(`Skipping popup for country: ${name || "unknown"} (Code: ${countryCode || "none"})`);
       return;
     }
 
@@ -759,37 +778,6 @@ function initMap() {
       .addEventListener("click", () => {
         handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
       });
-
-    const validCountryCodes = [
-      "IND",
-      "USA",
-      "GBR",
-      "TUN",
-      "ESP",
-      "POL",
-      "NLD",
-      "MAR",
-      "EGY",
-      "BEL",
-      "DEU",
-      "BGD",
-      "PAK",
-      "LKA",
-      "VNM",
-      "IDN",
-      "CAN",
-    ];
-
-    if (!validCountryCodes.includes(countryCode)) {
-      console.log(`Showing default popup for ${name} (Code: ${countryCode})`);
-      handlePopup(true, name, "", { x, y }, defaultPopup.parentElement);
-      if (activePopups) {
-        handlePopup(false, name, getValue(name), { x, y }, activePopups);
-      }
-      return;
-    } else {
-      handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
-    }
 
     if (!selecteedStates[name]) {
       selecteedStates[name] = true;
