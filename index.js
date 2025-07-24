@@ -865,44 +865,34 @@ function initMap() {
       });
 
     // Toggle the 'isSelected' property
-    //change the if from here
-    //if (
-      //![
-        //"IND",
-        //"USA",
-        //"GBR",
-        //"TUN",
-        //"ESP",
-        //"POL",
-        //"NLD",
-        //"MAR",
-        //"EGY",
-        //"BEL",
-        //"DEU",
-        //"BGD",
-        //"PAK",
-        //"LKA",
-        //"VNM",
-        //"IDN",
-        //"CAN",
-      //].includes(Fg)
-    //)
-    //to here
-    if (
-      [
-        "India", "United States of America", "United Kingdom", "Tunisia", "Spain",
-        "Poland", "Netherlands", "Morocco", "Egypt", "Belgium", "Germany",
-        "Bangladesh", "Pakistan", "Sri Lanka", "Vietnam", "Indonesia"
-      ].includes(name)
-    ){
-      //hide popop
-      handlePopup(true, name, "", { x, y }, defaultPopup.parentElement);
-      if (activePopups)
-        handlePopup(false, name, getValue(name), { x, y }, activePopups);
-      return;
-    } else {
-      handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
-    }
+    //removed but need to be added here later
+    const supportedCountries = [
+  "India",
+  "United States of America",
+  "United Kingdom",
+  "Tunisia",
+  "Spain",
+  "Poland",
+  "Netherlands",
+  "Morocco",
+  "Egypt",
+  "Belgium",
+  "Germany",
+  "Bangladesh",
+  "Pakistan",
+  "Sri Lanka",
+  "Vietnam",
+  "Indonesia",
+];
+
+if (!supportedCountries.includes(name)) {
+  // 🔒 Don’t show anything
+  return;
+}
+
+    
+    
+    
     // if (isSelected) popupEle?.classList.remove("show");
     event.feature.setProperty("isSelected", !!selecteedStates[name]);
 
