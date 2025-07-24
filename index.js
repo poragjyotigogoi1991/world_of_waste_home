@@ -681,7 +681,7 @@ function initMap() {
   let dottedOverlay;
 
   function getValue(country) {
-    if (["India", "USA", "Bangladesh", "China"].includes(country)) {
+    if (["India", "USA", "Bangladesh", "China"].includes(color)) {
       return "9,990,000";
     }
     return "7,793,000";
@@ -717,44 +717,6 @@ function initMap() {
 
     if (["Antarctica"].includes(name)) return;
 
-    function handleSignupCta(e) {
-      e.preventDefault();
-      window.open(`https://www.worldofwaste.co/sign-up`, "_blank");
-    }
-
-    const defaultPopup = document.querySelectorAll("[popup=default]")[1];
-    const defaultPopupEle = defaultPopup.cloneNode(true);
-    defaultPopup.querySelector("[popup=country]").innerText =
-      name.toUpperCase();
-
-    let finalText = "No data yet. Sign up for updates.";
-    let ctaText = "Sign up";
-    if (code === "KHM") {
-      finalText = `Upcoming: 2025`;
-      ctaText = "Read more";
-      defaultPopup
-        .querySelector("[popup=cta]")
-        .addEventListener("click", (rv) => {
-          rv.preventDefault();
-          window.location.href = `https://www.worldofwaste.co/projects/cambodia`;
-        });
-    } else {
-      finalText = "No data yet. Sign up for updates.";
-      ctaText = "Sign up";
-      defaultPopup
-        .querySelector("[popup=cta]")
-        .addEventListener("click", handleSignupCta);
-    }
-
-    defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
-    defaultPopup.querySelector("[popup=title]").innerText = finalText;
-
-    defaultPopup
-      .querySelector("[popup=close-btn]")
-      .addEventListener("click", () => {
-        handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
-      });
-
     // Check if country code exists in the list of valid codes
     const validCountryCodes = [
       "IND",
@@ -776,13 +738,49 @@ function initMap() {
       "CAN",
     ];
 
-    if (!validCountryCodes.includes(code)) {
-      handlePopup(true, name, "", { x, y }, defaultPopup.parentElement);
-      if (activePopups)
+    // If country code is not valid, do not show any popup
+    if (!validCountryCodes.includes(code) && code !== "KHM") {
+      if (activePopups) {
         handlePopup(false, name, getValue(name), { x, y }, activePopups);
+      }
       return;
-    } else {
-      handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
+    }
+
+    function handleSignupCta(e) {
+      e.preventDefault();
+      window.open(`https://www.worldofwaste.co/sign-up`, "_blank");
+    }
+
+    // Only create default popup for Cambodia (KHM)
+    if (code === "KHM") {
+      const defaultPopup = document.querySelectorAll("[popup=default]")[1];
+      const defaultPopupEle = defaultPopup.cloneNode(true);
+      defaultPopup.querySelector("[popup=country]").innerText =
+        name.toUpperCase();
+
+      let finalText = `Upcoming: 2025`;
+      let ctaText = "Read more";
+      defaultPopup
+        .querySelector("[popup=cta]")
+        .addEventListener("click", (rv) => {
+          rv.preventDefault();
+          window.location.href = `https://www.worldofwaste.co/projects/cambodia`;
+        });
+
+      defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
+      defaultPopup.querySelector("[popup=title]").innerText = finalText;
+
+      defaultPopup
+        .querySelector("[popup=close-btn]")
+        .addEventListener("click", () => {
+          handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
+        });
+
+      handlePopup(true, name, "", { x, y }, defaultPopup.parentElement);
+      if (activePopups) {
+        handlePopup(false, name, getValue(name), { x, y }, activePopups);
+      }
+      return;
     }
 
     if (!selecteedStates[name]) {
