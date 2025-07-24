@@ -69,6 +69,7 @@ const selectors = {
 };
 
 const getElement = (selector) => document.querySelector(selector);
+//const popupEle = getElement(selectors.popup);
 const popupTitle = getElement(selectors.popupTitle);
 const popupValue = getElement(selectors.popupValue);
 
@@ -82,12 +83,13 @@ let postIndustrialCountries = [];
 
 function getTotalWasteCountryWise() {
   const allPopups = document.querySelectorAll("[country-name]");
-  console.log("All popups found:", allPopups.length, allPopups);
+  console.log("All popups", allPopups);
 
   allPopups.forEach((popup) => {
     const countryName = popup.getAttribute("country-name");
-    const waste = popup.querySelector(".dialog_number")?.innerText;
-    console.log("Processing popup:", { countryName, waste });
+    const waste = popup.querySelector(".dialog_number").innerText;
+    //console.log("Country + waste>>>", { countryName, waste });
+    // var countryValue = value;
     allCountries.push(countryName);
     if (isNaN(waste)) {
       upcomingCountries.push(countryName);
@@ -109,10 +111,14 @@ function getTotalWasteCountryWise() {
       countryWiseTotalWaste[countryName] = parseInt(
         waste?.replaceAll(",", "").replace("K", "000")
       );
-    }
+    } /* else {
+      countryWiseTotalWaste[countryName] =
+        parseInt(countryWiseTotalWaste[countryName]) + parseInt(waste);
+    } */
   });
 
-  console.log("Country wise waste:", countryWiseTotalWaste);
+  console.log("Country wise waste :::", countryWiseTotalWaste);
+  // highlightAllStates(allCountries);
 }
 
 function getCountryHighlightColor(countryName) {
@@ -132,36 +138,32 @@ function getCountryHighlightColor(countryName) {
 }
 
 function getPopupElement(countryName) {
-  console.log("Looking for popup for country:", countryName);
   const allPopups = document.querySelectorAll("[country-name]");
-  let foundPopup = null;
-
+  console.log("All popups", allPopups);
   allPopups.forEach((ev) => {
     const value = ev.getAttribute("country-name");
-    console.log("Checking popup with country-name:", value);
+    console.log("value>>>", value);
+    var countryValue = value;
     if (
       value === countryName ||
       (countryName.includes("United States of America") && value === "USA") ||
       (countryName.includes("United Kingdom") && value === "UK")
     ) {
-      foundPopup = ev;
+      // console.log("<<< MATCHED >>>", { value, countryName });
+      popupEle = ev;
     }
   });
 
-  if (foundPopup) {
-    console.log("Popup found for:", countryName);
-    foundPopup
-      .querySelector('[popup="close-btn"]')
-      ?.addEventListener("click", () => {
-        console.log("POPUP CROSSED", { countryName });
-        foundPopup.style.display = "none";
-        stateLayer.revertStyle();
-      });
-  } else {
-    console.warn("No popup found for:", countryName);
-  }
+  //attach addEventListener
+  popupEle
+    .querySelector('[popup="close-btn"]')
+    .addEventListener("click", () => {
+      console.log("POPUP CROSSED", { countryName });
+      popupEle.style.display = "none";
+      stateLayer.revertStyle();
+    });
 
-  return foundPopup;
+  return popupEle;
 }
 
 function highlightAllStates(states) {
@@ -195,29 +197,34 @@ function loadButtons() {
   mainContainer.style.position = "absolute";
   mainContainer.style.bottom = "5%";
   mainContainer.style.left = "3%";
-  mainContainer.style.display = "flex";
+  //mainContainer.style.transform = "translateX(-50%)";
+  mainContainer.style.display = "flex"; // Align buttons horizontally
+  // mainContainer.style.flexDirection = "column";
   mainContainer.style.gap = "10rem";
+  //to let click pass through
   mainContainer.style.pointerEvents = "none";
 
   const buttonInfoWrapper = document.createElement("div");
   buttonInfoWrapper.style.display = "flex";
   buttonInfoWrapper.style.gap = "0.5rem";
-  buttonInfoWrapper.style.alignItems = "center";
+  buttonInfoWrapper.style.alignItem = "center";
   buttonInfoWrapper.style.flexDirection = "column";
 
+  // Create a container for the buttons
   buttonContainer = document.createElement("div");
-  buttonContainer.style.display = "flex";
-  buttonContainer.style.gap = "10px";
+  buttonContainer.style.display = "flex"; // Align buttons horizontally
+  buttonContainer.style.gap = "10px"; // Add spacing between buttons
 
+  // Apply rounded, outlined style to each button
   function styleButton(button) {
-    button.style.margin = "0";
-    button.style.padding = "10px 20px";
-    button.style.fontSize = "16px";
-    button.style.cursor = "pointer";
-    button.style.border = "1px solid #000";
-    button.style.borderRadius = "30px";
-    button.style.backgroundColor = "#E4E4E4";
-    button.style.color = "#000";
+    button.style.margin = "0"; // Reset margin for a clean layout
+    button.style.padding = "10px 20px"; // Add padding for spacing
+    button.style.fontSize = "16px"; // Set font size
+    button.style.cursor = "pointer"; // Pointer cursor on hover
+    button.style.border = "1px solid #000"; // Add a black border for the outline
+    button.style.borderRadius = "30px"; // Apply full-rounded corners
+    button.style.backgroundColor = "#E4E4E4"; // Light background color
+    button.style.color = "#000"; // Black text color
     button.style.pointerEvents = "auto";
   }
 
@@ -225,64 +232,74 @@ function loadButtons() {
     button.style.fontFamily = "IBM Plex Mono";
     button.style.alignSelf = "center";
     button.style.fontWeight = 600;
-    button.style.fontSize = "16px";
-    button.style.cursor = "pointer";
-    button.style.color = "#000";
+    // button.style.padding = "10px 20px"; // Add padding for spacing
+    button.style.fontSize = "16px"; // Set font size
+    button.style.cursor = "pointer"; // Pointer cursor on hover
+    //button.style.border = "1px solid #000"; // Add a black border for the outline
+    //button.style.borderRadius = "30px"; // Apply full-rounded corners
+    //button.style.backgroundColor = "#F5F5F5"; // Light background color
+    button.style.color = "#000"; // Black text color
+    //button.style.boxShadow = "4px 4px 4px #333";
     button.style.pointerEvents = "auto";
   }
 
-  const postConsumerWrapper = document.createElement("div");
-  postConsumerWrapper.className = "consumer-action-wrapper";
-  postConsumerBtn = document.createElement("button");
-  postConsumerBtn.className = "consumer-action-btn";
-  postConsumerBtn.innerText = "Post-Consumer";
-  postConsumerWrapper.appendChild(postConsumerBtn);
-  buttonContainer.appendChild(postConsumerWrapper);
+const postConsumerWrapper = document.createElement("div");
+postConsumerWrapper.className = "consumer-action-wrapper";
+postConsumerBtn = document.createElement("button");
+postConsumerBtn.className = "consumer-action-btn";
+postConsumerBtn.innerText = "Post-Consumer";
+postConsumerWrapper.appendChild(postConsumerBtn);
+buttonContainer.appendChild(postConsumerWrapper);
 
-  requestAnimationFrame(() => {
-    const { offsetWidth: w, offsetHeight: h } = postConsumerBtn;
-    const radius = h / 2;
-    const strokeWidth = 4;
+requestAnimationFrame(() => {
+  const { offsetWidth: w, offsetHeight: h } = postConsumerBtn;
+  const radius = h / 2; // Set radius to half the height for fully rounded corners
+  const strokeWidth = 4;
 
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("class", "svg-border");
-    svg.setAttribute("width", w.toString());
-    svg.setAttribute("height", h.toString());
-    svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
-    svg.style.position = "absolute";
-    svg.style.top = "0";
-    svg.style.left = "0";
-    svg.setAttribute("preserveAspectRatio", "none");
+  // SVG container
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("class", "svg-border");
+  svg.setAttribute("width", w.toString());
+  svg.setAttribute("height", h.toString());
+  svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+  svg.style.position = "absolute"; // Ensure SVG aligns with div
+  svg.style.top = "0";
+  svg.style.left = "0";
+  svg.setAttribute("preserveAspectRatio", "none");
 
-    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-    const inset = strokeWidth / 2;
-    rect.setAttribute("x", inset.toString());
-    rect.setAttribute("y", inset.toString());
-    rect.setAttribute("width", (w - strokeWidth).toString());
-    rect.setAttribute("height", (h - strokeWidth).toString());
-    rect.setAttribute("rx", radius.toString());
-    rect.setAttribute("ry", radius.toString());
-    rect.setAttribute("stroke-width", strokeWidth.toString());
-    rect.setAttribute("vector-effect", "non-scaling-stroke");
+  const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  const inset = strokeWidth / 2;
+  rect.setAttribute("x", inset.toString());
+  rect.setAttribute("y", inset.toString());
+  rect.setAttribute("width", (w - strokeWidth).toString());
+  rect.setAttribute("height", (h - strokeWidth).toString());
+  rect.setAttribute("rx", radius.toString()); // Fully rounded corners
+  rect.setAttribute("ry", radius.toString()); // Same for both to avoid ellipse
+  rect.setAttribute("stroke-width", strokeWidth.toString());
+  rect.setAttribute("vector-effect", "non-scaling-stroke"); // Prevent stroke scaling
 
-    const perimeter = 2 * (w - 2 * radius) + 2 * (h - 2 * radius) + 2 * Math.PI * radius;
-    rect.setAttribute("stroke-dasharray", perimeter.toString());
-    rect.setAttribute("stroke-dashoffset", perimeter.toString());
+  // Exact perimeter of rounded rect
+  const perimeter = 2 * (w - 2 * radius) + 2 * (h - 2 * radius) + 2 * Math.PI * radius;
+  rect.setAttribute("stroke-dasharray", perimeter.toString());
+  rect.setAttribute("stroke-dashoffset", perimeter.toString());
 
-    svg.appendChild(rect);
-    postConsumerWrapper.appendChild(svg);
+  svg.appendChild(rect);
+  postConsumerWrapper.appendChild(svg);
 
-    postConsumerWrapper.style.position = "relative";
+  // Ensure wrapper is positioned relatively to contain absolute SVG
+  postConsumerWrapper.style.position = "relative";
 
-    postConsumerWrapper.addEventListener("mouseenter", () => {
-      rect.style.strokeDashoffset = "0";
-    });
-
-    postConsumerWrapper.addEventListener("mouseleave", () => {
-      rect.style.strokeDashoffset = perimeter.toString();
-    });
+  // Hover logic
+  postConsumerWrapper.addEventListener("mouseenter", () => {
+    rect.style.strokeDashoffset = "0";
   });
 
+  postConsumerWrapper.addEventListener("mouseleave", () => {
+    rect.style.strokeDashoffset = perimeter.toString();
+  });
+});
+
+  // Wrapper
   const postIndustrialWrapper = document.createElement("div");
   postIndustrialWrapper.className = "consumer-action-wrapper";
   postIndustrialBtn = document.createElement("button");
@@ -291,54 +308,60 @@ function loadButtons() {
   postIndustrialWrapper.appendChild(postIndustrialBtn);
   buttonContainer.appendChild(postIndustrialWrapper);
 
-  requestAnimationFrame(() => {
-    const { offsetWidth: w, offsetHeight: h } = postIndustrialBtn;
-    const radius = h / 2;
-    const strokeWidth = 4;
+requestAnimationFrame(() => {
+  const { offsetWidth: w, offsetHeight: h } = postIndustrialBtn;
+  const radius = h / 2; // Set radius to half the height for fully rounded corners
+  const strokeWidth = 4;
 
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("class", "svg-border");
-    svg.setAttribute("width", w.toString());
-    svg.setAttribute("height", h.toString());
-    svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
-    svg.style.position = "absolute";
-    svg.style.top = "0";
-    svg.style.left = "0";
-    svg.setAttribute("preserveAspectRatio", "none");
+  // SVG container
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("class", "svg-border");
+  svg.setAttribute("width", w.toString());
+  svg.setAttribute("height", h.toString());
+  svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+  svg.style.position = "absolute"; // Ensure SVG aligns with div
+  svg.style.top = "0";
+  svg.style.left = "0";
+  svg.setAttribute("preserveAspectRatio", "none");
 
-    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-    const inset = strokeWidth / 2;
-    rect.setAttribute("x", inset.toString());
-    rect.setAttribute("y", inset.toString());
-    rect.setAttribute("width", (w - strokeWidth).toString());
-    rect.setAttribute("height", (h - strokeWidth).toString());
-    rect.setAttribute("rx", radius.toString());
-    rect.setAttribute("ry", radius.toString());
-    rect.setAttribute("stroke-width", strokeWidth.toString());
-    rect.setAttribute("vector-effect", "non-scaling-stroke");
+  const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  const inset = strokeWidth / 2;
+  rect.setAttribute("x", inset.toString());
+  rect.setAttribute("y", inset.toString());
+  rect.setAttribute("width", (w - strokeWidth).toString());
+  rect.setAttribute("height", (h - strokeWidth).toString());
+  rect.setAttribute("rx", radius.toString()); // Fully rounded corners
+  rect.setAttribute("ry", radius.toString()); // Same for both to avoid ellipse
+  rect.setAttribute("stroke-width", strokeWidth.toString());
+  rect.setAttribute("vector-effect", "non-scaling-stroke"); // Prevent stroke scaling
 
-    const perimeter = 2 * (w - 2 * radius) + 2 * (h - 2 * radius) + 2 * Math.PI * radius;
-    rect.setAttribute("stroke-dasharray", perimeter.toString());
-    rect.setAttribute("stroke-dashoffset", perimeter.toString());
+  // Exact perimeter of rounded rect
+  const perimeter = 2 * (w - 2 * radius) + 2 * (h - 2 * radius) + 2 * Math.PI * radius;
+  rect.setAttribute("stroke-dasharray", perimeter.toString());
+  rect.setAttribute("stroke-dashoffset", perimeter.toString());
 
-    svg.appendChild(rect);
-    postIndustrialWrapper.appendChild(svg);
+  svg.appendChild(rect);
+  postIndustrialWrapper.appendChild(svg);
 
-    postIndustrialWrapper.style.position = "relative";
+  // Ensure wrapper is positioned relatively to contain absolute SVG
+  postIndustrialWrapper.style.position = "relative";
 
-    postIndustrialWrapper.addEventListener("mouseenter", () => {
-      rect.style.strokeDashoffset = "0";
-    });
-
-    postIndustrialWrapper.addEventListener("mouseleave", () => {
-      rect.style.strokeDashoffset = perimeter.toString();
-    });
+  // Hover logic
+  postIndustrialWrapper.addEventListener("mouseenter", () => {
+    rect.style.strokeDashoffset = "0";
   });
+
+  postIndustrialWrapper.addEventListener("mouseleave", () => {
+    rect.style.strokeDashoffset = perimeter.toString();
+  });
+});
+  
 
   highestDataBtn = document.createElement("a");
   highestDataBtn.innerText = "Reset";
 
   buttonContainer.appendChild(highestDataBtn);
+  // Apply the styles to each button
   styleButton(postConsumerBtn);
   styleButton(postIndustrialBtn);
   styleLinkButton(highestDataBtn);
@@ -349,6 +372,7 @@ function loadButtons() {
   infoText.style.fontSize = "16px";
   infoText.style.width = "24rem";
   infoText.style.marginTop = "0.25rem";
+  //buttonContainer.append(infoText);
 
   filterText = document.createElement("p");
   filterText.innerText = filtertext;
@@ -360,21 +384,29 @@ function loadButtons() {
 
   scaleEle = document.createElement("img");
   scaleEle.src = mapScaleSvgUrl;
+  //scaleEle.style.height = "20px";
   scaleEle.style.width = "50%";
   scaleEle.style.alignSelf = "flex-end";
   buttonInfoWrapper.append(filterText);
   buttonInfoWrapper.append(buttonContainer);
   buttonInfoWrapper.append(infoText);
+  
 
   mainContainer.appendChild(buttonInfoWrapper);
   mainContainer.appendChild(scaleEle);
+  // Append the button container to the map container
   mapWrapper.appendChild(mainContainer);
 }
 
 function LoadControls() {
-  worldMapButton = document.createElement("button");
+ worldMapButton = document.createElement("button");
+ // worldMapButton.insertAdjacentHTML("beforeend", worldIconSvgUrl); // Unicode character for world map
+
+  // Create the second button with a plus sign
   plusButton = document.createElement("button");
   plusButton.insertAdjacentHTML("beforeend", zoomInSvgUrl);
+
+  // Create the third button with a minus sign
   minusButton = document.createElement("button");
   minusButton.insertAdjacentHTML("beforeend", zoomOutSvgUrl);
 
@@ -396,6 +428,7 @@ function LoadControls() {
     button.style.pointerEvents = "auto";
   }
 
+ // styleControls(worldMapButton);
   styleControls(plusButton);
   styleControls(minusButton);
 
@@ -403,7 +436,8 @@ function LoadControls() {
   controlsContainer.style.position = "absolute";
   controlsContainer.style.bottom = "5%";
   controlsContainer.style.right = "3%";
-  controlsContainer.style.display = "flex";
+  //mainContainer.style.transform = "translateX(-50%)";
+  controlsContainer.style.display = "flex"; // Align buttons horizontally
   controlsContainer.style.flexDirection = "column";
   controlsContainer.style.gap = "1rem";
   controlsContainer.style.alignItems = "flex-end";
@@ -417,6 +451,8 @@ function LoadControls() {
   lastUpdatedText.style.padding = "10px";
   lastUpdatedText.style.fontSize = "16px";
   lastUpdatedText.style.fontWeight = "600";
+
+  //infoText.style.width = "25rem";
   lastUpdatedText.style.alignText = "right";
   lastUpdatedText.style.color = "#017C8B";
 
@@ -444,11 +480,17 @@ function formatDate(date) {
 }
 
 function activateButton(button) {
+   //button.style.backgroundColor = "#F5F5F5"; // White background when active
+  // button.style.border = "0px";
+  // button.style.color = "#fff";
   button.style.border = "1px solid #000000";
   button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
 }
 
+// Function to deactivate the button (reset its style)
 function deactivateButton(button) {
+  // button.style.backgroundColor = "#F5F5F5"; // Revert to default background
+  //button.style.color = "#333";
   button.style.border = "1px solid #000000";
 }
 
@@ -456,11 +498,12 @@ function applyResponsiveStyles() {
   const screenWidth = window.innerWidth;
 
   if (screenWidth <= 768) {
-    buttonContainer.style.flexDirection = "column";
+    // Mobile view
+    buttonContainer.style.flexDirection = "column"; // Align buttons vertically
     buttonContainer.style.width = "55%";
     buttonContainer.style.left = "0%";
     buttonContainer.style.transform = "translateX(0%)";
-    buttonContainer.style.backgroundColor = "#ffffff";
+    buttonContainer.style.backgroundColor = "#fffff";
     buttonContainer.style.padding = "15px";
 
     mainContainer.style.flexDirection = "column";
@@ -474,18 +517,24 @@ function applyResponsiveStyles() {
     lastUpdatedText.style.bottom = "2rem";
     scaleEle.style.width = "100%";
 
+    //hide info text
     infoText.style.display = "none";
     worldMapButton.style.display = "none";
     plusButton.style.display = "none";
     minusButton.style.display = "none";
   } else {
-    buttonContainer.style.flexDirection = "row";
+    // Desktop and larger view
+    buttonContainer.style.flexDirection = "row"; // Align buttons horizontally
     buttonContainer.style.width = "auto";
+    //buttonContainer.style.left = "15%";
+    // buttonContainer.style.transform = "translateX(-50%)";
+
     mainContainer.style.flexDirection = "row";
     mainContainer.style.gap = "10rem";
     mainContainer.style.background = "none";
     mainContainer.style.left = "3%";
     mainContainer.style.bottom = "5%";
+    mainContainer.style.gap = "10rem";
     mainContainer.style.padding = "1rem";
     lastUpdatedText.style.maxWidth = "unset";
     lastUpdatedText.style.position = "relative";
@@ -500,95 +549,102 @@ function applyResponsiveStyles() {
 }
 
 function handlePopup(show = true, title, value, coords, popupEle) {
-  if (!popupEle) {
-    console.warn("No popup element provided for:", title);
-    return;
-  }
-  console.log("Handling popup:", { show, title, value, coords });
+  // console.log("called", { show, title, value, coords, popupEle });
+
   if (show) {
     popupEle.style.display = "block";
     popupEle.style.position = "absolute";
     popupEle.style.zIndex = 100;
     if (window.innerWidth <= 768) {
       popupEle.style.bottom = "12rem";
-      popupEle.style.left = "50%";
-      popupEle.style.transform = "translateX(-50%)";
     } else {
       popupEle.style.left = `${coords?.x ?? 0 + 4}px`;
       popupEle.style.top = `${coords?.y ?? 0 - 20}px`;
-      popupEle.style.transform = "none";
     }
     popupEle.classList.add("show");
   } else {
     popupEle.style.display = "none";
-    popupEle.classList.remove("show");
+    popupEle.classList.toggle("show");
+    return;
   }
+
+  //popupTitle.innerText = title;
+  //popupValue.innerText = value;
 }
 
+// Call the responsive style function on window resize
 window.addEventListener("resize", applyResponsiveStyles);
+
+//TODO : figure out intial styles if loaded on phone
+// Initial call to set styles on page load
+//applyResponsiveStyles();
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("custom-map"), {
-    center: { lat: -34.397, lng: 150.644 },
-    zoom: 2.7,
-    minZoom: 2.7,
-    maxZoom: 4.5,
+    center: { lat: -34.397, lng: 150.644 }, // Centered on Africa
+    zoom: 2.7, // Zoom level for viewing most of the world
+    minZoom: 2.7, // Minimum zoom level (restrict too much zooming out)
+    maxZoom: 4.5, // Maximum zoom level (restrict too much zooming in)
     restriction: {
       latLngBounds: {
-        north: 85,
-        south: -60,
-        west: -179.9999,
-        east: 179.9999,
+        north: 85, // Close to North Pole
+        south: -60, // Exclude Antarctica
+        west: -179.9999, // Near international date line (west)
+        east: 179.9999, // Near international date line (east)
       },
+      //strictBounds: true, // Prevent dragging outside the restricted area
     },
     disableDefaultUI: true,
+    /* mapTypeControl: false,
+    scaleControl: false,
+    streetViewControl: false, */
     styles: [
       {
         elementType: "geometry",
-        stylers: [{ color: "#D1D1D1" }],
+        stylers: [{ color: "#D1D1D1" }], // Grey color for land
       },
       {
         elementType: "labels",
-        stylers: [{ visibility: "off" }],
+        stylers: [{ visibility: "off" }], // Remove all labels
       },
       {
         featureType: "water",
         elementType: "geometry",
-        stylers: [{ color: "#ffffff" }],
+        stylers: [{ color: "#ffffff" }], // White water color
       },
       {
         featureType: "administrative",
         elementType: "geometry",
-        stylers: [{ visibility: "off" }],
+        stylers: [{ visibility: "off" }], // Remove borders
       },
       {
         featureType: "landscape",
         elementType: "geometry",
-        stylers: [{ color: "#D1D1D1" }],
+        stylers: [{ color: "#D1D1D1" }], // Grey color for landscape
       },
       {
         featureType: "road",
         elementType: "geometry",
-        stylers: [{ visibility: "off" }],
+        stylers: [{ visibility: "off" }], // Remove roads
       },
       {
         featureType: "poi",
         elementType: "geometry",
-        stylers: [{ visibility: "off" }],
+        stylers: [{ visibility: "off" }], // Remove points of interest
       },
       {
         featureType: "transit",
         elementType: "geometry",
-        stylers: [{ visibility: "off" }],
+        stylers: [{ visibility: "off" }], // Remove transit lines
       },
     ],
   });
 
   const worldBounds = {
-    north: 85,
-    south: -60,
-    east: 180,
-    west: -180,
+    north: 85, // Maximum north latitude (close to the North Pole)
+    south: -60, // Minimum south latitude (excludes Antarctica)
+    east: 180, // Maximum east longitude
+    west: -180, // Minimum west longitude
   };
 
   const bounds = new google.maps.LatLngBounds(
@@ -596,8 +652,10 @@ function initMap() {
     new google.maps.LatLng(worldBounds.north, worldBounds.east)
   );
 
+  // Fit the map to the defined bounds, excluding Antarctica
   map.fitBounds(bounds);
 
+  //load buttons
   loadButtons();
   activateButton(postIndustrialBtn);
   activateButton(postConsumerBtn);
@@ -605,6 +663,8 @@ function initMap() {
   applyResponsiveStyles();
 
   const labels = [];
+  // Load state polygons (simplified example, normally you'd use GeoJSON or another method)
+  // loadStatePolygons();
   stateLayer = new google.maps.Data();
   stateLayer.loadGeoJson(
     "https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json",
@@ -630,17 +690,20 @@ function initMap() {
           const southWest = bounds.getSouthWest();
           const northEast = bounds.getNorthEast();
 
-          if (stateName === "United States of America") {
+          // Adjust the center based on the country size
+          const countryName = feature.getProperty("name"); // Assuming the country name is stored in 'name'
+          if (countryName === "United States of America") {
+            // Adjust the center by moving it slightly towards the south or east based on the country's shape
             center = new google.maps.LatLng(
-              (southWest.lat() + northEast.lat()) / 2.3,
-              (southWest.lng() + northEast.lng()) / 2.3
+              (southWest.lat() + northEast.lat()) / 2.3, // Adjust factor here for better centering
+              (southWest.lng() + northEast.lng()) / 2.3 // Adjust factor here for better centering
             );
           }
 
-          if (stateName === "India") {
+          if (countryName === "India") {
             center = new google.maps.LatLng(
-              (southWest.lat() + northEast.lat()) / 2,
-              (southWest.lng() + northEast.lng()) / 2.1
+              (southWest.lat() + northEast.lat()) / 2, // Adjust factor here for better centering
+              (southWest.lng() + northEast.lng()) / 2.1 // Adjust factor here for better centering
             );
           }
 
@@ -651,6 +714,7 @@ function initMap() {
               text: stateName,
               color: "#000000",
               fontSize: "12px",
+              //fontWeight: "200",
               opacity: 0.8,
             },
             icon: {
@@ -679,6 +743,13 @@ function initMap() {
     }
   );
 
+  const southAfricaTip = { lat: -3.8588, lng: 2.0111 };
+
+  // Center the map on the tip of South Africa
+  /* setTimeout(() => {
+    map.setCenter(southAfricaTip);
+  }, 1000); */
+
   map.addListener("zoom_changed", () => {
     const zoom = map.getZoom();
     labels.forEach((label) => {
@@ -697,21 +768,26 @@ function initMap() {
     }
     return "7,793,000";
   }
-
+  // Highlight on hover
   stateLayer.addListener("mouseover", function (event) {
-    map.data.revertStyle();
-    const name = event.feature.getProperty("name");
-    const code = event.feature.getProperty("id");
-    if (["Antarctica"].includes(name)) return;
+    map.data.revertStyle(); // Revert previous highlight
+    const { Fg } = event.feature; // something messed up in Geo.json Fg is undefined
+    if (["ATA", "RUS"].includes(Fg)) return;
+    // createOverlay(event);
 
+    //TODO:Define color scheme based on countries
     stateLayer.overrideStyle(event.feature, {
-      strokeColor: "#4CACB6",
+      // fillColor: getCountryHighlightColor(name), // Highlight fill color
+      strokeColor: "#4CACB6", // Highlight border color
       strokeWeight: 1,
     });
   });
 
+  // Remove highlight when the mouse leaves
   stateLayer.addListener("mouseout", function (event) {
+    // stateLayer.revertStyle();
     stateLayer.overrideStyle(event.feature, {
+      // fillColor: "#FFFFFF",
       strokeColor: "#000000",
       strokeWeight: 0,
     });
@@ -720,16 +796,14 @@ function initMap() {
   let activePopups;
   var selecteedStates = {};
 
+  // Add click event to toggle highlight
   stateLayer.addListener("click", function (event) {
     stateLayer.revertStyle();
     const name = event.feature.getProperty("name");
-    const code = event.feature.getProperty("id");
+    const code = event.feature.getProperty("id"); // Use correct property for country code
     const { clientX: x, clientY: y } = event.domEvent;
-    console.log("Map clicked:", { name, code, x, y });
+    if (name === "Antarctica") return;
 
-    if (["Antarctica"].includes(name)) return;
-
-    // Check if country code exists in the list of valid codes
     const validCountryCodes = [
       "IND",
       "USA",
@@ -750,9 +824,8 @@ function initMap() {
       "CAN",
     ];
 
-    // If country code is not valid and not KHM, do not show any popup
+    // If country code is not valid and not KHM, do nothing (no popup)
     if (!validCountryCodes.includes(code) && code !== "KHM") {
-      console.log("Invalid country code, no popup shown:", code);
       if (activePopups) {
         handlePopup(false, name, getValue(name), { x, y }, activePopups);
       }
@@ -766,36 +839,32 @@ function initMap() {
 
     // Handle Cambodia (KHM) default popup
     if (code === "KHM") {
-      console.log("Showing default popup for Cambodia");
       const defaultPopup = document.querySelectorAll("[popup=default]")[1];
-      if (!defaultPopup) {
-        console.warn("Default popup not found for Cambodia");
-        return;
+      if (defaultPopup) {
+        const defaultPopupEle = defaultPopup.cloneNode(true);
+        defaultPopup.querySelector("[popup=country]").innerText =
+          name.toUpperCase();
+
+        let finalText = `Upcoming: 2025`;
+        let ctaText = "Read more";
+        defaultPopup
+          .querySelector("[popup=cta]")
+          .addEventListener("click", (rv) => {
+            rv.preventDefault();
+            window.location.href = `https://www.worldofwaste.co/projects/cambodia`;
+          });
+
+        defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
+        defaultPopup.querySelector("[popup=title]").innerText = finalText;
+
+        defaultPopup
+          .querySelector("[popup=close-btn]")
+          .addEventListener("click", () => {
+            handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
+          });
+
+        handlePopup(true, name, "", { x, y }, defaultPopup.parentElement);
       }
-      const defaultPopupEle = defaultPopup.cloneNode(true);
-      defaultPopup.querySelector("[popup=country]").innerText =
-        name.toUpperCase();
-
-      let finalText = `Upcoming: 2025`;
-      let ctaText = "Read more";
-      defaultPopup
-        .querySelector("[popup=cta]")
-        .addEventListener("click", (rv) => {
-          rv.preventDefault();
-          window.location.href = `https://www.worldofwaste.co/projects/cambodia`;
-        });
-
-      defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
-      defaultPopup.querySelector("[popup=title]").innerText = finalText;
-
-      defaultPopup
-        .querySelector("[popup=close-btn]")
-        .addEventListener("click", () => {
-          console.log("Closing default popup for:", name);
-          handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
-        });
-
-      handlePopup(true, name, "", { x, y }, defaultPopup.parentElement);
       if (activePopups) {
         handlePopup(false, name, getValue(name), { x, y }, activePopups);
       }
@@ -806,23 +875,16 @@ function initMap() {
     if (!selecteedStates[name]) {
       selecteedStates[name] = true;
     }
-
     const isSelected = selecteedStates[name];
-    console.log("Clicked country:", { currentCountry, isSelected });
+    console.log("Clicked >>>", { currentCountry, isSelected });
 
     if (interactionType === "click") {
-      if (currentCountry && currentCountry !== name && activePopups) {
-        console.log("Hiding previous popup for:", currentCountry);
-        handlePopup(false, currentCountry, getValue(currentCountry), { x, y }, activePopups);
+      if (currentCountry && currentCountry !== name) {
+        console.log("country check", { currentCountry, c: name });
+        handlePopup(false, name, getValue(name), { x, y }, activePopups);
       }
 
       const popupElerEF = getPopupElement(name);
-      if (!popupElerEF) {
-        console.warn("No popup element found for valid country:", name);
-        return;
-      }
-
-      console.log("Showing popup for:", name);
       activePopups = popupElerEF;
       currentCountry = name;
       handlePopup(true, name, getValue(name), { x, y }, popupElerEF);
@@ -885,7 +947,7 @@ function initMap() {
         upcomingData: true,
       };
     }
-    console.log("Active states:", activeStates);
+    console.log("Active states >>>", activeStates);
 
     if (!activeStates.lowData && !activeStates.upcomingData) {
       countries = [...upcomingCountries, "United Kingdom", "Cambodia"];
@@ -975,7 +1037,7 @@ function initMap() {
 
   function deactivateFilter(button) {
     button.style.border = "1px solid rgba(0,0,0,0)";
-    button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
+     button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
     button.style.backgroundColor = "#E4E4E4";
   }
 
@@ -994,7 +1056,7 @@ function initMap() {
       deactivateFilter(postConsumerBtn);
       toggleCountryLabels(postConsumptionCountries, false);
     }
-    console.log("Active countries:", activeCountries);
+    console.log("active countries", activeCountries);
 
     stateLayer.revertStyle();
     let countries = [
@@ -1045,7 +1107,7 @@ function initMap() {
       deactivateFilter(postIndustrialBtn);
       toggleCountryLabels(postIndustrialCountries, false);
     }
-    console.log("Active countries:", activeCountries);
+    console.log("active countries", activeCountries);
 
     let countries = [
       ...postIndustrialCountries,
