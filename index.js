@@ -320,37 +320,25 @@ requestAnimationFrame(() => {
   svg.setAttribute("preserveAspectRatio", "none");
   svg.style.position = "absolute"; // Ensure SVG aligns with div
   svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+  svg.setAttribute("width", w.toString());
+  svg.setAttribute("height", h.toString());
+  svg.style.top = "0";
+  svg.style.left = "0";
   
-  // svg.setAttribute("width", w.toString());
-  // svg.setAttribute("height", h.toString());
-  // svg.style.top = "0";
-  // svg.style.left = "0";
-  svg.setAttribute("width", (w-strokeWidth).toString());
-  svg.setAttribute("height", (h-strokeWidth).toString());
-  svg.style.top = `${strokeWidth / 2}px`;
-  svg.style.left = `${strokeWidth / 2}px`;
 
   const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
   const inset = strokeWidth / 2;
-  
-  // rect.setAttribute("x", inset.toString());
-  // rect.setAttribute("y", inset.toString());
+  rect.setAttribute("x", inset.toString());
+  rect.setAttribute("y", inset.toString());
   // rect.setAttribute("width", (w - strokeWidth).toString());
   // rect.setAttribute("height", (h - strokeWidth).toString());
-  // rect.setAttribute("rx", radius.toString()); // Fully rounded corners
-  // rect.setAttribute("ry", radius.toString()); // Same for both to avoid ellipse
-  // rect.setAttribute("stroke-width", strokeWidth.toString());
-  // rect.setAttribute("vector-effect", "non-scaling-stroke"); // Prevent stroke scaling
-
-  rect.setAttribute("x", "0");
-  rect.setAttribute("y", "0");
   rect.setAttribute("width", w.toString());
   rect.setAttribute("height", h.toString());
   rect.setAttribute("rx", radius.toString()); // Fully rounded corners
   rect.setAttribute("ry", radius.toString()); // Same for both to avoid ellipse
   rect.setAttribute("stroke-width", strokeWidth.toString());
   rect.setAttribute("vector-effect", "non-scaling-stroke"); // Prevent stroke scaling
-  
+
   // Exact perimeter of rounded rect
   const perimeter = 2 * (w - 2 * radius) + 2 * (h - 2 * radius) + 2 * Math.PI * radius;
   rect.setAttribute("stroke-dasharray", perimeter.toString());
