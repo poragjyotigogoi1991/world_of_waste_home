@@ -1,5 +1,5 @@
-console.log = () => {};
-window.V = "2.1-";
+//console.log = () => {};
+window.V = "2.0-";
 console.log("Loadded...", V);
 let map;
 let stateLayer;
@@ -21,6 +21,45 @@ let interactionType = "click";
 let infoText = null;
 let lastUpdatedText = null;
 let scaleEle = null;
+
+
+const style = document.createElement("style");
+style.innerHTML = `
+.consumer-action-wrapper {
+position: relative;
+display: inline-block;
+}
+
+.consumer-action-btn {
+position: relative;
+z-index: 1;
+padding: 12px 24px;
+background: white;
+color: black;
+font-size: 16px;
+border: none; /* remove border */
+border-radius: 30px;
+cursor: pointer;
+overflow: hidden;
+box-shadow: 4px 4px 4px 0.25px black; /* simulate base 1px border */
+}
+
+.svg-border {
+position: absolute;
+top: 0; left: 0;
+width: 100%; height: 100%;
+pointer-events: none;
+z-index: 2;
+}
+
+.svg-border rect {
+fill: none;
+stroke: black;
+stroke-width: 2;
+transition: stroke-dashoffset 0.8s ease;
+}
+`;
+document.head.appendChild(style);
 
 const selectors = {
   popup: `[popup=type-p]`,
@@ -140,7 +179,8 @@ function highlightAllStates(states) {
   });
 }
 
-const text = `This map displays countries with available textile waste data. Click on a region for an overview or to check more details.Â Switch between the filters to narrow search to a specific waste type.`;
+const text = `This map displays countries and cities with available textile waste data. Click on a region for an overview or to check more details.`;
+const filtertext = `Filter by waste type:`;
 
 const mapTitleSvgUrl =
   "https://cdn.prod.website-files.com/66bc6dcc9423ad2cdca2ec11/66ec466ad330a727573b788d_map-title.svg";
@@ -167,7 +207,7 @@ function loadButtons() {
 
   const buttonInfoWrapper = document.createElement("div");
   buttonInfoWrapper.style.display = "flex";
-  buttonInfoWrapper.style.gap = "1rem";
+  buttonInfoWrapper.style.gap = "0.5rem";
   buttonInfoWrapper.style.alignItem = "center";
   buttonInfoWrapper.style.flexDirection = "column";
 
@@ -184,9 +224,8 @@ function loadButtons() {
     button.style.cursor = "pointer"; // Pointer cursor on hover
     button.style.border = "1px solid #000"; // Add a black border for the outline
     button.style.borderRadius = "30px"; // Apply full-rounded corners
-    button.style.backgroundColor = "#F5F5F5"; // Light background color
+    button.style.backgroundColor = "#E4E4E4"; // Light background color
     button.style.color = "#000"; // Black text color
-    //button.style.boxShadow = "4px 4px 4px #333";
     button.style.pointerEvents = "auto";
   }
 
@@ -205,14 +244,119 @@ function loadButtons() {
     button.style.pointerEvents = "auto";
   }
 
-  // Create the buttons and append them to the container
-  postConsumerBtn = document.createElement("button");
-  postConsumerBtn.innerText = "Post-Consumer";
-  buttonContainer.appendChild(postConsumerBtn);
+const postConsumerWrapper = document.createElement("div");
+postConsumerWrapper.className = "consumer-action-wrapper";
+postConsumerBtn = document.createElement("button");
+postConsumerBtn.className = "consumer-action-btn";
+postConsumerBtn.innerText = "Post-Consumer";
+postConsumerWrapper.appendChild(postConsumerBtn);
+buttonContainer.appendChild(postConsumerWrapper);
 
+requestAnimationFrame(() => {
+  const { offsetWidth: w, offsetHeight: h } = postConsumerBtn;
+  const radius = h / 2; // Set radius to half the height for fully rounded corners
+  const strokeWidth = 4;
+
+  // SVG container
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("class", "svg-border");
+  svg.setAttribute("width", w.toString());
+  svg.setAttribute("height", h.toString());
+  svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+  svg.style.position = "absolute"; // Ensure SVG aligns with div
+  svg.style.top = "0";
+  svg.style.left = "0";
+  svg.setAttribute("preserveAspectRatio", "none");
+
+  const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  const inset = strokeWidth / 2;
+  rect.setAttribute("x", inset.toString());
+  rect.setAttribute("y", inset.toString());
+  rect.setAttribute("width", (w - strokeWidth).toString());
+  rect.setAttribute("height", (h - strokeWidth).toString());
+  rect.setAttribute("rx", radius.toString()); // Fully rounded corners
+  rect.setAttribute("ry", radius.toString()); // Same for both to avoid ellipse
+  rect.setAttribute("stroke-width", strokeWidth.toString());
+  rect.setAttribute("vector-effect", "non-scaling-stroke"); // Prevent stroke scaling
+
+  // Exact perimeter of rounded rect
+  const perimeter = 2 * (w - 2 * radius) + 2 * (h - 2 * radius) + 2 * Math.PI * radius;
+  rect.setAttribute("stroke-dasharray", perimeter.toString());
+  rect.setAttribute("stroke-dashoffset", perimeter.toString());
+
+  svg.appendChild(rect);
+  postConsumerWrapper.appendChild(svg);
+
+  // Ensure wrapper is positioned relatively to contain absolute SVG
+  postConsumerWrapper.style.position = "relative";
+
+  // Hover logic
+  postConsumerWrapper.addEventListener("mouseenter", () => {
+    rect.style.strokeDashoffset = "0";
+  });
+
+  postConsumerWrapper.addEventListener("mouseleave", () => {
+    rect.style.strokeDashoffset = perimeter.toString();
+  });
+});
+
+  // Wrapper
+  const postIndustrialWrapper = document.createElement("div");
+  postIndustrialWrapper.className = "consumer-action-wrapper";
   postIndustrialBtn = document.createElement("button");
+  postIndustrialBtn.className = "consumer-action-btn";
   postIndustrialBtn.innerText = "Post-Industrial";
-  buttonContainer.appendChild(postIndustrialBtn);
+  postIndustrialWrapper.appendChild(postIndustrialBtn);
+  buttonContainer.appendChild(postIndustrialWrapper);
+
+requestAnimationFrame(() => {
+  const { offsetWidth: w, offsetHeight: h } = postIndustrialBtn;
+  const radius = h / 2; // Set radius to half the height for fully rounded corners
+  const strokeWidth = 4;
+
+  // SVG container
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("class", "svg-border");
+  svg.setAttribute("width", w.toString());
+  svg.setAttribute("height", h.toString());
+  svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+  svg.style.position = "absolute"; // Ensure SVG aligns with div
+  svg.style.top = "0";
+  svg.style.left = "0";
+  svg.setAttribute("preserveAspectRatio", "none");
+
+  const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  const inset = strokeWidth / 2;
+  rect.setAttribute("x", inset.toString());
+  rect.setAttribute("y", inset.toString());
+  rect.setAttribute("width", (w - strokeWidth).toString());
+  rect.setAttribute("height", (h - strokeWidth).toString());
+  rect.setAttribute("rx", radius.toString()); // Fully rounded corners
+  rect.setAttribute("ry", radius.toString()); // Same for both to avoid ellipse
+  rect.setAttribute("stroke-width", strokeWidth.toString());
+  rect.setAttribute("vector-effect", "non-scaling-stroke"); // Prevent stroke scaling
+
+  // Exact perimeter of rounded rect
+  const perimeter = 2 * (w - 2 * radius) + 2 * (h - 2 * radius) + 2 * Math.PI * radius;
+  rect.setAttribute("stroke-dasharray", perimeter.toString());
+  rect.setAttribute("stroke-dashoffset", perimeter.toString());
+
+  svg.appendChild(rect);
+  postIndustrialWrapper.appendChild(svg);
+
+  // Ensure wrapper is positioned relatively to contain absolute SVG
+  postIndustrialWrapper.style.position = "relative";
+
+  // Hover logic
+  postIndustrialWrapper.addEventListener("mouseenter", () => {
+    rect.style.strokeDashoffset = "0";
+  });
+
+  postIndustrialWrapper.addEventListener("mouseleave", () => {
+    rect.style.strokeDashoffset = perimeter.toString();
+  });
+});
+  
 
   highestDataBtn = document.createElement("a");
   highestDataBtn.innerText = "Reset";
@@ -225,19 +369,29 @@ function loadButtons() {
 
   infoText = document.createElement("p");
   infoText.innerText = text;
-  infoText.style.padding = "10px";
+  infoText.style.padding = "0 10px";
   infoText.style.fontSize = "16px";
   infoText.style.width = "24rem";
-  infoText.style.textAlign = "justify";
+  infoText.style.marginTop = "0.25rem";
   //buttonContainer.append(infoText);
+
+  filterText = document.createElement("p");
+  filterText.innerText = filtertext;
+  filterText.style.padding = "0 10px";
+  filterText.style.fontSize = "19px";
+  filterText.style.fontWeight = "600";
+  filterText.style.width = "24rem";
+  filterText.style.textAlign = "justify";
 
   scaleEle = document.createElement("img");
   scaleEle.src = mapScaleSvgUrl;
   //scaleEle.style.height = "20px";
   scaleEle.style.width = "50%";
   scaleEle.style.alignSelf = "flex-end";
-  buttonInfoWrapper.append(infoText);
+  buttonInfoWrapper.append(filterText);
   buttonInfoWrapper.append(buttonContainer);
+  buttonInfoWrapper.append(infoText);
+  
 
   mainContainer.appendChild(buttonInfoWrapper);
   mainContainer.appendChild(scaleEle);
@@ -246,8 +400,8 @@ function loadButtons() {
 }
 
 function LoadControls() {
-  worldMapButton = document.createElement("button");
-  worldMapButton.insertAdjacentHTML("beforeend", worldIconSvgUrl); // Unicode character for world map
+ worldMapButton = document.createElement("button");
+ // worldMapButton.insertAdjacentHTML("beforeend", worldIconSvgUrl); // Unicode character for world map
 
   // Create the second button with a plus sign
   plusButton = document.createElement("button");
@@ -275,7 +429,7 @@ function LoadControls() {
     button.style.pointerEvents = "auto";
   }
 
-  styleControls(worldMapButton);
+ // styleControls(worldMapButton);
   styleControls(plusButton);
   styleControls(minusButton);
 
@@ -327,17 +481,18 @@ function formatDate(date) {
 }
 
 function activateButton(button) {
-  // button.style.backgroundColor = "#333"; // White background when active
+   //button.style.backgroundColor = "#F5F5F5"; // White background when active
   // button.style.border = "0px";
   // button.style.color = "#fff";
-  button.style.border = "none";
+  button.style.border = "1px solid #000000";
+  button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
 }
 
 // Function to deactivate the button (reset its style)
 function deactivateButton(button) {
   // button.style.backgroundColor = "#F5F5F5"; // Revert to default background
   //button.style.color = "#333";
-  button.style.border = "2px solid #000";
+  button.style.border = "1px solid #000000";
 }
 
 function applyResponsiveStyles() {
@@ -671,7 +826,8 @@ function initMap() {
 
     let finalText = "No data yet. Sign up for updates.";
     let ctaText = "Sign up";
-    if (Fg === "PAK" || Fg === "KHM") {
+    //if (Fg === "PAK" || Fg === "KHM") {
+       if ( Fg === "KHM") {
       finalText = `Upcoming: 2025`;
       ctaText = "Read more";
       if (Fg === "KHM") {
@@ -719,6 +875,7 @@ function initMap() {
         "LKA",
         "VNM",
         "IDN",
+        "CAN",
       ].includes(Fg)
     ) {
       //hide popop
@@ -785,6 +942,8 @@ function initMap() {
     "Netherlands",
     "Germany",
     "United Kingdom",
+    "Canada",
+    "Pakistan",
   ]; // Add real country names
   const postIndustrialCountries = [
     "Egypt",
@@ -889,7 +1048,6 @@ function initMap() {
     "India",
     "USA",
     //"Russia",
-    "Pakistan",
     "Sri Lanka",
     "Vietnam",
     "Indonesia",
@@ -961,11 +1119,15 @@ function initMap() {
   };
 
   function activateFilter(button) {
-    button.style.border = "2px solid #000";
+    button.style.border = "1px solid #000";
+    button.style.boxShadow = "none";
+    button.style.backgroundColor = "#F5F5F5";
   }
 
   function deactivateFilter(button) {
-    button.style.border = "none";
+    button.style.border = "1px solid rgba(0,0,0,0)";
+     button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
+    button.style.backgroundColor = "#E4E4E4";
   }
 
   function handlePostConsumerBtn() {
