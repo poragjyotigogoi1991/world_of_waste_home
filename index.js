@@ -853,7 +853,10 @@ function initMap() {
     defaultPopup
       .querySelector("[popup=close-btn]")
       .addEventListener("click", () => {
-         // Toggle the 'isSelected' property
+        handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
+      });
+
+    // Toggle the 'isSelected' property
     if (
       ![
         "IND",
@@ -877,10 +880,12 @@ function initMap() {
     ) {
       //hide popop
       handlePopup(true, name, "", { x, y }, defaultPopup.parentElement);
-      
-      });
-
-   
+      if (activePopups)
+        handlePopup(false, name, getValue(name), { x, y }, activePopups);
+      return;
+    } else {
+      handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
+    }
     // if (isSelected) popupEle?.classList.remove("show");
     event.feature.setProperty("isSelected", !!selecteedStates[name]);
 
