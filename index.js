@@ -832,7 +832,7 @@ function initMap() {
     const defaultPopupEle = defaultPopup.cloneNode(true);
     defaultPopup.querySelector("[popup=country]").innerText =
       name.toUpperCase();
-    console.log("defaultPopup",defaultPopup)
+    console.log("defaultPopup",defaultPopup);
 
     let finalText = "No data yet. Sign up for updates.";
     let ctaText = "Sign up";
@@ -907,8 +907,8 @@ function initMap() {
     console.log("Clided >>>", { currentCountry, isSelected });
 
     if (interactionType === "click") {
-      console.log("currentCountry",currentCountry)
-      console.log("name",name)
+      console.log("currentCountry",currentCountry);
+      console.log("name",name);
       if (currentCountry && currentCountry !== name) {
         console.log("country chcek", { currentCountry, c: name });
         handlePopup(false, name, getValue(name), { x, y }, activePopups);
