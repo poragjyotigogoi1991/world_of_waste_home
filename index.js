@@ -82,11 +82,12 @@ let postIndustrialCountries = [];
 
 function getTotalWasteCountryWise() {
   const allPopups = document.querySelectorAll("[country-name]");
-  console.log("All popups", allPopups);
+  console.log("All popups found:", allPopups.length, allPopups);
 
   allPopups.forEach((popup) => {
     const countryName = popup.getAttribute("country-name");
-    const waste = popup.querySelector(".dialog_number").innerText;
+    const waste = popup.querySelector(".dialog_number")?.innerText;
+    console.log("Processing popup:", { countryName, waste });
     allCountries.push(countryName);
     if (isNaN(waste)) {
       upcomingCountries.push(countryName);
@@ -111,7 +112,7 @@ function getTotalWasteCountryWise() {
     }
   });
 
-  console.log("Country wise waste :::", countryWiseTotalWaste);
+  console.log("Country wise waste:", countryWiseTotalWaste);
 }
 
 function getCountryHighlightColor(countryName) {
@@ -131,33 +132,36 @@ function getCountryHighlightColor(countryName) {
 }
 
 function getPopupElement(countryName) {
+  console.log("Looking for popup for country:", countryName);
   const allPopups = document.querySelectorAll("[country-name]");
-  console.log("All popups", allPopups);
+  let foundPopup = null;
+
   allPopups.forEach((ev) => {
     const value = ev.getAttribute("country-name");
-    console.log("value>>>", value);
-    var countryValue = value;
+    console.log("Checking popup with country-name:", value);
     if (
       value === countryName ||
       (countryName.includes("United States of America") && value === "USA") ||
       (countryName.includes("United Kingdom") && value === "UK")
     ) {
-      popupEle = ev;
+      foundPopup = ev;
     }
   });
 
-  // Only attach event listener if popupEle exists
-  if (popupEle) {
-    popupEle
+  if (foundPopup) {
+    console.log("Popup found for:", countryName);
+    foundPopup
       .querySelector('[popup="close-btn"]')
       ?.addEventListener("click", () => {
         console.log("POPUP CROSSED", { countryName });
-        popupEle.style.display = "none";
+        foundPopup.style.display = "none";
         stateLayer.revertStyle();
       });
+  } else {
+    console.warn("No popup found for:", countryName);
   }
 
-  return popupEle;
+  return foundPopup;
 }
 
 function highlightAllStates(states) {
@@ -198,7 +202,7 @@ function loadButtons() {
   const buttonInfoWrapper = document.createElement("div");
   buttonInfoWrapper.style.display = "flex";
   buttonInfoWrapper.style.gap = "0.5rem";
-  buttonInfoWrapper.style.alignItem = "center";
+  buttonInfoWrapper.style.alignItems = "center";
   buttonInfoWrapper.style.flexDirection = "column";
 
   buttonContainer = document.createElement("div");
@@ -456,7 +460,7 @@ function applyResponsiveStyles() {
     buttonContainer.style.width = "55%";
     buttonContainer.style.left = "0%";
     buttonContainer.style.transform = "translateX(0%)";
-    buttonContainer.style.backgroundColor = "#fffff";
+    buttonContainer.style.backgroundColor = "#ffffff";
     buttonContainer.style.padding = "15px";
 
     mainContainer.style.flexDirection = "column";
@@ -496,21 +500,28 @@ function applyResponsiveStyles() {
 }
 
 function handlePopup(show = true, title, value, coords, popupEle) {
-  if (!popupEle) return; // Prevent popups if no valid popup element exists
+  if (!popupEle) {
+    console.warn("No popup element provided for:", title);
+    return;
+  }
+  console.log("Handling popup:", { show, title, value, coords });
   if (show) {
     popupEle.style.display = "block";
     popupEle.style.position = "absolute";
     popupEle.style.zIndex = 100;
     if (window.innerWidth <= 768) {
       popupEle.style.bottom = "12rem";
+      popupEle.style.left = "50%";
+      popupEle.style.transform = "translateX(-50%)";
     } else {
       popupEle.style.left = `${coords?.x ?? 0 + 4}px`;
       popupEle.style.top = `${coords?.y ?? 0 - 20}px`;
+      popupEle.style.transform = "none";
     }
     popupEle.classList.add("show");
   } else {
     popupEle.style.display = "none";
-    popupEle.classList.toggle("show");
+    popupEle.classList.remove("show");
   }
 }
 
@@ -681,7 +692,7 @@ function initMap() {
   let dottedOverlay;
 
   function getValue(country) {
-    if (["India", "USA", "Bangladesh", "China"].includes(color)) {
+    if (["India", "USA", "Bangladesh", "China"].includes(country)) {
       return "9,990,000";
     }
     return "7,793,000";
@@ -714,6 +725,7 @@ function initMap() {
     const name = event.feature.getProperty("name");
     const code = event.feature.getProperty("id");
     const { clientX: x, clientY: y } = event.domEvent;
+    console.log("Map clicked:", { name, code, x, y });
 
     if (["Antarctica"].includes(name)) return;
 
@@ -738,8 +750,9 @@ function initMap() {
       "CAN",
     ];
 
-    // If country code is not valid, do not show any popup
+    // If country code is not valid and not KHM, do not show any popup
     if (!validCountryCodes.includes(code) && code !== "KHM") {
+      console.log("Invalid country code, no popup shown:", code);
       if (activePopups) {
         handlePopup(false, name, getValue(name), { x, y }, activePopups);
       }
@@ -751,9 +764,14 @@ function initMap() {
       window.open(`https://www.worldofwaste.co/sign-up`, "_blank");
     }
 
-    // Only create default popup for Cambodia (KHM)
+    // Handle Cambodia (KHM) default popup
     if (code === "KHM") {
+      console.log("Showing default popup for Cambodia");
       const defaultPopup = document.querySelectorAll("[popup=default]")[1];
+      if (!defaultPopup) {
+        console.warn("Default popup not found for Cambodia");
+        return;
+      }
       const defaultPopupEle = defaultPopup.cloneNode(true);
       defaultPopup.querySelector("[popup=country]").innerText =
         name.toUpperCase();
@@ -773,6 +791,7 @@ function initMap() {
       defaultPopup
         .querySelector("[popup=close-btn]")
         .addEventListener("click", () => {
+          console.log("Closing default popup for:", name);
           handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
         });
 
@@ -783,21 +802,27 @@ function initMap() {
       return;
     }
 
+    // Handle valid country codes
     if (!selecteedStates[name]) {
       selecteedStates[name] = true;
     }
 
     const isSelected = selecteedStates[name];
-    console.log("Clided >>>", { currentCountry, isSelected });
+    console.log("Clicked country:", { currentCountry, isSelected });
 
     if (interactionType === "click") {
-      if (currentCountry && currentCountry !== name) {
-        console.log("country chcek", { currentCountry, c: name });
-        handlePopup(false, name, getValue(name), { x, y }, activePopups);
+      if (currentCountry && currentCountry !== name && activePopups) {
+        console.log("Hiding previous popup for:", currentCountry);
+        handlePopup(false, currentCountry, getValue(currentCountry), { x, y }, activePopups);
       }
 
       const popupElerEF = getPopupElement(name);
-      if (!popupElerEF) return; // Prevent popups if no valid popup element
+      if (!popupElerEF) {
+        console.warn("No popup element found for valid country:", name);
+        return;
+      }
+
+      console.log("Showing popup for:", name);
       activePopups = popupElerEF;
       currentCountry = name;
       handlePopup(true, name, getValue(name), { x, y }, popupElerEF);
@@ -860,7 +885,7 @@ function initMap() {
         upcomingData: true,
       };
     }
-    console.log("Active states >>>", activeStates);
+    console.log("Active states:", activeStates);
 
     if (!activeStates.lowData && !activeStates.upcomingData) {
       countries = [...upcomingCountries, "United Kingdom", "Cambodia"];
@@ -969,7 +994,7 @@ function initMap() {
       deactivateFilter(postConsumerBtn);
       toggleCountryLabels(postConsumptionCountries, false);
     }
-    console.log("active countries", activeCountries);
+    console.log("Active countries:", activeCountries);
 
     stateLayer.revertStyle();
     let countries = [
@@ -1020,7 +1045,7 @@ function initMap() {
       deactivateFilter(postIndustrialBtn);
       toggleCountryLabels(postIndustrialCountries, false);
     }
-    console.log("active countries", activeCountries);
+    console.log("Active countries:", activeCountries);
 
     let countries = [
       ...postIndustrialCountries,
