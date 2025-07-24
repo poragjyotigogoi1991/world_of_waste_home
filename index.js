@@ -836,26 +836,29 @@ function initMap() {
     let finalText = "No data yet. Sign up for updates.";
     let ctaText = "Sign up";
     //if (Fg === "PAK" || Fg === "KHM") {
-       if ( Fg === "KHM") {
-      finalText = `Upcoming: 2025`;
-      ctaText = "Read more";
-      if (Fg === "KHM") {
-        defaultPopup
-          .querySelector("[popup=cta]")
-          .addEventListener("click", (rv) => {
-            rv.preventDefault();
-            window.location.href = `https://www.worldofwaste.co/projects/cambodia`;
-          });
-      }
-      //defaultPopup.querySelector("[popup=cta]").removeEventListener("click", handleSignupCta);
-    } else {
-      finalText = "No data yet. Sign up for updates.";
-      ctaText = "Sign up";
-      defaultPopup
+    //    if ( Fg === "KHM") {
+    //   finalText = `Upcoming: 2025`;
+    //   ctaText = "Read more";
+    //   if (Fg === "KHM") {
+    //     defaultPopup
+    //       .querySelector("[popup=cta]")
+    //       .addEventListener("click", (rv) => {
+    //         rv.preventDefault();
+    //         window.location.href = `https://www.worldofwaste.co/projects/cambodia`;
+    //       });
+    //   }
+    //   //defaultPopup.querySelector("[popup=cta]").removeEventListener("click", handleSignupCta);
+    // } else {
+    //   finalText = "No data yet. Sign up for updates.";
+    //   ctaText = "Sign up";
+    //   defaultPopup
+    //     .querySelector("[popup=cta]")
+    //     .addEventListener("click", handleSignupCta);
+    // }
+    defaultPopup
         .querySelector("[popup=cta]")
         .addEventListener("click", handleSignupCta);
-    }
-
+    
     defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
     defaultPopup.querySelector("[popup=title]").innerText = finalText;
 
