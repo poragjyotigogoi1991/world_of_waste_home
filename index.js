@@ -84,8 +84,6 @@ let postIndustrialCountries = [];
 
 function getTotalWasteCountryWise() {
   const allPopups = document.querySelectorAll("[country-name]");
-  console.log("All popups", allPopups);
-
   allPopups.forEach((popup) => {
     const countryName = popup.getAttribute("country-name");
     const waste = popup.querySelector(".dialog_number").innerText;
@@ -140,17 +138,15 @@ function getCountryHighlightColor(countryName) {
 
 function getPopupElement(countryName) {
   const allPopups = document.querySelectorAll("[country-name]");
-  console.log("All popups", allPopups);
   allPopups.forEach((ev) => {
     const value = ev.getAttribute("country-name");
-    console.log("value>>>", value);
     var countryValue = value;
     if (
       value === countryName ||
       (countryName.includes("United States of America") && value === "USA") ||
       (countryName.includes("United Kingdom") && value === "UK")
     ) {
-      // console.log("<<< MATCHED >>>", { value, countryName });
+      console.log("<<< MATCHED >>>", { value, countryName });
       popupEle = ev;
     }
   });
@@ -911,6 +907,8 @@ function initMap() {
     console.log("Clided >>>", { currentCountry, isSelected });
 
     if (interactionType === "click") {
+      console.log("currentCountry",currentCountry)
+      console.log("name",name)
       if (currentCountry && currentCountry !== name) {
         console.log("country chcek", { currentCountry, c: name });
         handlePopup(false, name, getValue(name), { x, y }, activePopups);
