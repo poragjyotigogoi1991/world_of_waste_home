@@ -772,10 +772,18 @@ function initMap() {
   // Highlight on hover
   stateLayer.addListener("mouseover", function (event) {
     map.data.revertStyle(); // Revert previous highlight
-    const { Fg } = event.feature; // something messed up in Geo.json Fg is undefined
-    if (["ATA", "RUS"].includes(Fg)) return;
-    // createOverlay(event);
 
+    //remove from here
+    //const { Fg } = event.feature; // something messed up in Geo.json Fg is undefined
+    //if (["ATA", "RUS"].includes(Fg)) return;
+    // createOverlay(event);
+    //to here
+
+    //replacing instead
+    const name = event.feature.getProperty("name");
+    if (["Antarctica", "Russia"].includes(name)) return;
+    //till here
+    
     //TODO:Define color scheme based on countries
     stateLayer.overrideStyle(event.feature, {
       // fillColor: getCountryHighlightColor(name), // Highlight fill color
@@ -857,27 +865,36 @@ function initMap() {
       });
 
     // Toggle the 'isSelected' property
+    //change the if from here
+    //if (
+      //![
+        //"IND",
+        //"USA",
+        //"GBR",
+        //"TUN",
+        //"ESP",
+        //"POL",
+        //"NLD",
+        //"MAR",
+        //"EGY",
+        //"BEL",
+        //"DEU",
+        //"BGD",
+        //"PAK",
+        //"LKA",
+        //"VNM",
+        //"IDN",
+        //"CAN",
+      //].includes(Fg)
+    //)
+    //to here
     if (
-      ![
-        "IND",
-        "USA",
-        "GBR",
-        "TUN",
-        "ESP",
-        "POL",
-        "NLD",
-        "MAR",
-        "EGY",
-        "BEL",
-        "DEU",
-        "BGD",
-        "PAK",
-        "LKA",
-        "VNM",
-        "IDN",
-        "CAN",
-      ].includes(Fg)
-    ) {
+      [
+        "India", "United States of America", "United Kingdom", "Tunisia", "Spain",
+        "Poland", "Netherlands", "Morocco", "Egypt", "Belgium", "Germany",
+        "Bangladesh", "Pakistan", "Sri Lanka", "Vietnam", "Indonesia"
+      ].includes(name)
+    ){
       //hide popop
       handlePopup(true, name, "", { x, y }, defaultPopup.parentElement);
       if (activePopups)
