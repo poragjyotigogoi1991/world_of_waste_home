@@ -330,10 +330,8 @@ requestAnimationFrame(() => {
   const inset = strokeWidth / 2;
   rect.setAttribute("x", inset.toString());
   rect.setAttribute("y", inset.toString());
-  // rect.setAttribute("width", (w - strokeWidth).toString());
-  // rect.setAttribute("height", (h - strokeWidth).toString());
-  rect.setAttribute("width", w.toString());
-  rect.setAttribute("height", h.toString());
+  rect.setAttribute("width", (w - strokeWidth/2).toString());
+  rect.setAttribute("height", (h - strokeWidth/2).toString());
   rect.setAttribute("rx", radius.toString()); // Fully rounded corners
   rect.setAttribute("ry", radius.toString()); // Same for both to avoid ellipse
   rect.setAttribute("stroke-width", strokeWidth.toString());
