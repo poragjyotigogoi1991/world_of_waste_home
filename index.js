@@ -867,31 +867,28 @@ function initMap() {
     // Toggle the 'isSelected' property
     //removed but need to be added here later
     const supportedCountries = [
-  "India",
-  "United States of America",
-  "United Kingdom",
-  "Tunisia",
-  "Spain",
-  "Poland",
-  "Netherlands",
-  "Morocco",
-  "Egypt",
-  "Belgium",
-  "Germany",
-  "Bangladesh",
-  "Pakistan",
-  "Sri Lanka",
-  "Vietnam",
-  "Indonesia",
-];
+      "India",
+      "United States of America",
+      "United Kingdom",
+      "Tunisia",
+      "Spain",
+      "Poland",
+      "Netherlands",
+      "Morocco",
+      "Egypt",
+      "Belgium",
+      "Germany",
+      "Bangladesh",
+      "Pakistan",
+      "Sri Lanka",
+      "Vietnam",
+      "Indonesia",
+      "Canada",
+    ];
 
-if (!supportedCountries.includes(name)) {
-  // 🔒 Don’t show anything
-  return;
-}
-
-    
-    
+    if (!supportedCountries.includes(name)) {
+      return;
+    }
     
     // if (isSelected) popupEle?.classList.remove("show");
     event.feature.setProperty("isSelected", !!selecteedStates[name]);
