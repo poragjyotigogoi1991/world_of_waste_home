@@ -877,13 +877,7 @@ function initMap() {
     ) {
       //hide popop
       handlePopup(true, name, "", { x, y }, defaultPopup.parentElement);
-      if (activePopups)
-        handlePopup(false, name, getValue(name), { x, y }, activePopups);
-      return;
-    } else {
-      handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
-    }
-       // handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
+      
       });
 
    
