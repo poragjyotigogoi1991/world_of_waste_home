@@ -1054,7 +1054,7 @@ function initMap() {
     "USA",
     //"Russia",
     "Sri Lanka",
-    "Vietnam",
+    // "Vietnam",
     "Indonesia",
   ];
   //const highestDataCountries = ["Brazil", "Russia"];
