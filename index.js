@@ -856,12 +856,13 @@ function initMap() {
     //     .querySelector("[popup=cta]")
     //     .addEventListener("click", handleSignupCta);
     // }
+    
     defaultPopup
         .querySelector("[popup=cta]")
         .addEventListener("click", handleSignupCta);
     
-    defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
-    defaultPopup.querySelector("[popup=title]").innerText = finalText;
+    // defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
+    // defaultPopup.querySelector("[popup=title]").innerText = finalText;
 
     defaultPopup
       .querySelector("[popup=close-btn]")
