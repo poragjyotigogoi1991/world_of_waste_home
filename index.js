@@ -5,7 +5,7 @@ console.log("Loadded...", V);
 
 let map;
 let stateLayer;
-const statePolygons = {}; // Store state polygons
+const statePolygons = {};
 const highlightedStates = {};
 const lowData = "#4CACB6";
 const upcomingData = "#9E9E9E";
@@ -132,30 +132,55 @@ function getCountryHighlightColor(countryName) {
   }
 }
 
-function getPopupElement(countryName) {
+function getPopupElement(countryName, countryCode) {
   const allPopups = document.querySelectorAll("[country-name]");
-  console.log("All popups", allPopups);
+  console.log("Available popups:", Array.from(allPopups).map(p => p.getAttribute("country-name")));
+
+  let foundPopup = null;
   allPopups.forEach((ev) => {
     const value = ev.getAttribute("country-name");
-    console.log("value>>>", value);
     if (
       value === countryName ||
-      (countryName.includes("United States of America") && value === "USA") ||
-      (countryName.includes("United Kingdom") && value === "UK")
+      (countryName === "United States of America" && value === "USA") ||
+      (countryName === "United Kingdom" && value === "UK") ||
+      (countryName === "Cambodia" && value === "Cambodia")
     ) {
-      popupEle = ev;
+      foundPopup = ev;
     }
   });
 
-  popupEle
-    .querySelector('[popup="close-btn"]')
-    .addEventListener("click", () => {
+  if (!foundPopup) {
+    console.error(`No popup element found for ${countryName} (Code: ${countryCode})`);
+    return null;
+  }
+
+  if (countryCode === "KHM") {
+    const cta = foundPopup.querySelector("[popup=cta]");
+    const title = foundPopup.querySelector("[popup=title]");
+    if (cta && title) {
+      title.innerText = "Upcoming: 2025";
+      cta.innerText = "Read more";
+      cta.addEventListener("click", (rv) => {
+        rv.preventDefault();
+        window.location.href = `https://www.worldofwaste.co/projects/cambodia`;
+      });
+    } else {
+      console.warn(`Cambodia popup missing [popup=cta] or [popup=title]`);
+    }
+  }
+
+  const closeBtn = foundPopup.querySelector('[popup="close-btn"]');
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
       console.log("POPUP CROSSED", { countryName });
-      popupEle.style.display = "none";
+      foundPopup.style.display = "none";
       stateLayer.revertStyle();
     });
+  } else {
+    console.warn(`No close button found for ${countryName} popup`);
+  }
 
-  return popupEle;
+  return foundPopup;
 }
 
 function highlightAllStates(states) {
@@ -291,7 +316,7 @@ function loadButtons() {
     const radius = h / 2;
     const strokeWidth = 4;
 
-    const svg = document.createElementNS(" prefabric://www.w3.org/2000/svg", "svg");
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("class", "svg-border");
     svg.setAttribute("width", w.toString());
     svg.setAttribute("height", h.toString());
@@ -457,7 +482,7 @@ function applyResponsiveStyles() {
     buttonContainer.style.width = "55%";
     buttonContainer.style.left = "0%";
     buttonContainer.style.transform = "translateX(0%)";
-    buttonContainer.style.backgroundColor = "#fffff";
+    buttonContainer.style.backgroundColor = "#ffffff";
     buttonContainer.style.padding = "15px";
 
     mainContainer.style.flexDirection = "column";
@@ -679,9 +704,6 @@ function initMap() {
 
   getTotalWasteCountryWise();
 
-  let masked = false;
-  let dottedOverlay;
-
   function getValue(country) {
     if (["India", "USA", "Bangladesh", "China"].includes(country)) {
       return "9,990,000";
@@ -707,13 +729,15 @@ function initMap() {
   });
 
   let activePopups;
-  var selecteedStates = {};
+  var selectedStates = {};
 
   stateLayer.addListener("click", function (event) {
     stateLayer.revertStyle();
     const name = event.feature.getProperty("name");
     const countryCode = event.feature.getProperty("id");
     const { clientX: x, clientY: y } = event.domEvent;
+
+    console.log(`Clicked country: ${name || "unknown"} (Code: ${countryCode || "none"})`);
 
     const validCountryCodes = [
       "IND",
@@ -740,70 +764,36 @@ function initMap() {
       return;
     }
 
-    function handleSignupCta(e) {
-      e.preventDefault();
-      window.open(`https://www.worldofwaste.co/sign-up`, "_blank");
+    if (!selectedStates[name]) {
+      selectedStates[name] = true;
     }
-
-    const defaultPopup = document.querySelectorAll("[popup=default]")[1];
-    if (!defaultPopup) {
-      console.error("Default popup not found");
-      return;
-    }
-    const defaultPopupEle = defaultPopup.cloneNode(true);
-    defaultPopup.querySelector("[popup=country]").innerText = name.toUpperCase();
-
-    let finalText = "No data yet. Sign up for updates.";
-    let ctaText = "Sign up";
-    if (countryCode === "KHM") {
-      finalText = `Upcoming: 2025`;
-      ctaText = "Read more";
-      defaultPopup.querySelector("[popup=cta]").addEventListener("click", (rv) => {
-        rv.preventDefault();
-        window.location.href = `https://www.worldofwaste.co/projects/cambodia`;
-      });
-    } else {
-      finalText = "No data yet. Sign up for updates.";
-      ctaText = "Sign up";
-      defaultPopup
-        .querySelector("[popup=cta]")
-        .addEventListener("click", handleSignupCta);
-    }
-
-    defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
-    defaultPopup.querySelector("[popup=title]").innerText = finalText;
-
-    defaultPopup
-      .querySelector("[popup=close-btn]")
-      .addEventListener("click", () => {
-        handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
-      });
-
-    if (!selecteedStates[name]) {
-      selecteedStates[name] = true;
-    }
-    const isSelected = selecteedStates[name];
-    console.log("Clicked >>>", { currentCountry, isSelected });
+    const isSelected = selectedStates[name];
+    console.log("Click details:", { currentCountry, isSelected, countryCode });
 
     if (interactionType === "click") {
-      if (currentCountry && currentCountry !== name) {
-        console.log("country check", { currentCountry, c: name });
-        handlePopup(false, name, getValue(name), { x, y }, activePopups);
+      if (currentCountry && currentCountry !== name && activePopups) {
+        console.log("Closing previous popup", { currentCountry, newCountry: name });
+        handlePopup(false, currentCountry, "", { x, y }, activePopups);
       }
 
-      const popupElerEF = getPopupElement(name);
+      const popupElerEF = getPopupElement(name, countryCode);
+      if (!popupElerEF) {
+        console.error(`No popup element found for country: ${name} (Code: ${countryCode})`);
+        return;
+      }
+
       activePopups = popupElerEF;
       currentCountry = name;
       handlePopup(true, name, getValue(name), { x, y }, popupElerEF);
-    }
 
-    stateLayer.overrideStyle(event.feature, {
-      fillColor: !isSelected
-        ? "#FFFFFF"
-        : getCountryHighlightColor(name) || "#00BCD4",
-      strokeColor: !isSelected ? "#000000" : "#888888",
-      strokeWeight: 0,
-    });
+      stateLayer.overrideStyle(event.feature, {
+        fillColor: !isSelected
+          ? "#FFFFFF"
+          : getCountryHighlightColor(name) || "#00BCD4",
+        strokeColor: !isSelected ? "#000000" : "#888888",
+        strokeWeight: 0,
+      });
+    }
   });
 
   const postConsumptionCountries = [
