@@ -836,10 +836,10 @@ function initMap() {
     let finalText = "No data yet. Sign up for updates.";
     let ctaText = "Sign up";
     //if (Fg === "PAK" || Fg === "KHM") {
-       if ( name === "Cambodia") {
+       if ( Fg === "KHM") {
       finalText = `Upcoming: 2025`;
       ctaText = "Read more";
-      if (name === "Cambodia") {
+      if (Fg === "KHM") {
         defaultPopup
           .querySelector("[popup=cta]")
           .addEventListener("click", (rv) => {
