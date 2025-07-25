@@ -855,12 +855,11 @@ function initMap() {
     ];
 
     console.log("allpopup",document.querySelectorAll("[popup=default]"))
-    console.log(
-      "ddd",
-      document
-        .querySelectorAll("[popup=default]")
-        .querySelector("[popup=country]").innerText
-    );
+    const matchingPopup = Array.from(allPopups).find(popup => {
+      const countryElement = popup.querySelector("[popup=country]");
+      return countryElement && countryElement.innerText.trim().toUpperCase() === name.toUpperCase();
+    });
+    console.log("dd",matchingPopup)
     const defaultPopup = document.querySelectorAll("[popup=default]")[1];
     const defaultPopupEle = defaultPopup.cloneNode(true);
     defaultPopup.querySelector("[popup=country]").innerText =
