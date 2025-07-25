@@ -857,10 +857,18 @@ function initMap() {
     const allPopups = document.querySelectorAll("[popup=default]")
     console.log("allpopup",allPopups)
     const matchingPopup = Array.from(allPopups).find(popup => {
+      let countryname
       if(popup){
       const countryElement = popup.querySelector("[popup=country]");
       console.log("text title", countryElement.innerText);
-      return countryElement && countryElement.innerText.toUpperCase() === name.toUpperCase();
+      if(countryElement.innerText === "USA"){
+      countryname = "United States of America";
+      }else if (countryElement.innerText === "UK"){
+      countryname = "United Kingdom";
+      }else if(countryElement.innerText === "BANGLADESH"){
+      countryname = "Bangladesh";
+      }else{ countryname = countryElement.innerText}  
+      return countryElement && countryname.toUpperCase() === name.toUpperCase();
       }
     });
     
