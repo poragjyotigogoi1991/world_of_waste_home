@@ -848,7 +848,7 @@ function initMap() {
       "Indonesia",
       "Canada",
     ];
-    const upcomingCountries = [
+    const upcomingCountry = [
     // "China",
     //"Russia",
     "Sri Lanka",
