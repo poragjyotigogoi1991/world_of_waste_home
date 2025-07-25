@@ -146,7 +146,7 @@ function getPopupElement(countryName) {
       (countryName.includes("United States of America") && value === "USA") ||
       (countryName.includes("United Kingdom") && value === "UK")
     ) {
-      console.log("<<< MATCHED >>>", { value, countryName });
+      // console.log("<<< MATCHED >>>", { value, countryName });
       popupEle = ev;
     }
   });
@@ -155,7 +155,7 @@ function getPopupElement(countryName) {
   popupEle
     .querySelector('[popup="close-btn"]')
     .addEventListener("click", () => {
-      console.log("POPUP CROSSED", { countryName });
+      // console.log("POPUP CROSSED", { countryName });
       popupEle.style.display = "none";
       stateLayer.revertStyle();
     });
@@ -670,7 +670,7 @@ function initMap() {
     (features) => {
       features.forEach((feature) => {
         const stateName = feature.getProperty("name");
-        console.log("Countries", stateName);
+        // console.log("Countries", stateName);
         if (stateName === "Antarctica") return;
         statePolygons[stateName] = feature;
         stateLayer.setStyle({
@@ -858,7 +858,7 @@ function initMap() {
     const defaultPopupEle = defaultPopup.cloneNode(true);
     defaultPopup.querySelector("[popup=country]").innerText =
       name.toUpperCase();
-    console.log("defaultPopup",defaultPopup);
+    // console.log("defaultPopup",defaultPopup);
 
     let finalText = "No data yet. Sign up for updates.";
     let ctaText = "Sign up";
@@ -889,7 +889,9 @@ function initMap() {
     // defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
     // defaultPopup.querySelector("[popup=title]").innerText = finalText;
 
+    console.log("xx",name)
     if(!upcomingCountries.includes(name)){
+      console.log("not in list", name)
       defaultPopup
         .querySelector("[popup=cta]")
         .addEventListener("click", handleSignupCta);
@@ -931,13 +933,13 @@ function initMap() {
       selecteedStates[name] = false;
     } */
     const isSelected = selecteedStates[name];
-    console.log("Clided >>>", { currentCountry, isSelected });
+    // console.log("Clided >>>", { currentCountry, isSelected });
 
     if (interactionType === "click") {
-      console.log("currentCountry",currentCountry);
-      console.log("name",name);
+      // console.log("currentCountry",currentCountry);
+      // console.log("name",name);
       if (currentCountry && currentCountry !== name) {
-        console.log("country chcek", { currentCountry, c: name });
+        // console.log("country chcek", { currentCountry, c: name });
         handlePopup(false, name, getValue(name), { x, y }, activePopups);
       }
 
@@ -1028,7 +1030,7 @@ function initMap() {
         upcomingData: true,
       };
     }
-    console.log("Active states >>>", activeStates);
+    // console.log("Active states >>>", activeStates);
 
     if (!activeStates.lowData && !activeStates.upcomingData) {
       countries = [...upcomingCountries, "United Kingdom", "Cambodia"];
@@ -1176,7 +1178,7 @@ function initMap() {
       toggleCountryLabels(postConsumptionCountries, false);
       //toggleCountryLabels(postConsumptionCountries, false);
     }
-    console.log("active countries", activeCountries);
+    // console.log("active countries", activeCountries);
 
     stateLayer.revertStyle();
     let countries = [
@@ -1233,7 +1235,7 @@ function initMap() {
       deactivateFilter(postIndustrialBtn);
       toggleCountryLabels(postIndustrialCountries, false);
     }
-    console.log("active countries", activeCountries);
+    // console.log("active countries", activeCountries);
 
     let countries = [
       ...postIndustrialCountries,
