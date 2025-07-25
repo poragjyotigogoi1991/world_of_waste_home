@@ -854,6 +854,7 @@ function initMap() {
     "Indonesia",
     ];
 
+    console.log("allpopup",document.querySelectorAll("[popup=default]"))
     const defaultPopup = document.querySelectorAll("[popup=default]")[1];
     const defaultPopupEle = defaultPopup.cloneNode(true);
     defaultPopup.querySelector("[popup=country]").innerText =
