@@ -874,8 +874,10 @@ function initMap() {
     
     const defaultPopup = document.querySelectorAll("[popup=default]")[1];
     const defaultPopupEle = defaultPopup.cloneNode(true);
-    defaultPopup.querySelector("[popup=country]").innerText =
+    matchingPopup.querySelector("[popup=country]").innerText =
       name.toUpperCase();
+    // defaultPopup.querySelector("[popup=country]").innerText =
+    //   name.toUpperCase();
 
     let finalText = "No data yet. Sign up for updates.";
     let ctaText = "Sign up";
@@ -914,12 +916,17 @@ function initMap() {
         .querySelector("[popup=cta]")
         .addEventListener("click", handleSignupCta);
       matchingPopup.querySelector("[popup=cta]").innerText = ctaText;
-      matchingPopup.querySelector("[popup=title]").innerText = finalText;
+      matchingPopup.querySelector("[popup=title]").innerText = finalText; 
     }
-    defaultPopup
+    // defaultPopup
+    //   .querySelector("[popup=close-btn]")
+    //   .addEventListener("click", () => {
+    //     handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
+    //   });
+    matchingPopup
       .querySelector("[popup=close-btn]")
       .addEventListener("click", () => {
-        handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
+        handlePopup(false, name, "", { x, y }, matchingPopup.parentElement);
       });
 
     // Toggle the 'isSelected' property
