@@ -705,43 +705,22 @@ function initMap() {
             );
           }
 
-          const labelElement = document.createElement("div");
-          labelElement.textContent = stateName;
-          // Base label style
-          labelElement.style.position = "relative";
-          labelElement.style.fontSize = "12px";
-          labelElement.style.color = "#000";
-          labelElement.style.opacity = "0.8";
-          labelElement.style.pointerEvents = "none"; // optional: lets clicks pass through
-
-          // Optional shift for specific countries
-          if (stateName === "Canada") {
-            labelElement.style.left = "-15px";           // Shift left by 10px
-            labelElement.style.textAlign = "right";      // Optional text alignment
-          }
-          
-          const label = new google.maps.marker.AdvancedMarkerElement({
-            map,
-            position: center, // must be a valid LatLng or {lat, lng}
-            content: labelElement,
+          const label = new google.maps.Marker({
+            position: center,
+            map: map,
+            label: {
+              text: stateName,
+              color: "#000000",
+              fontSize: "12px",
+              //fontWeight: "200",
+              opacity: 0.8,
+            },
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: 0,
+            },
+            visible: true,
           });
-
-          // const label = new google.maps.Marker({
-          //   position: center,
-          //   map: map,
-          //   label: {
-          //     text: stateName,
-          //     color: "#000000",
-          //     fontSize: "12px",
-          //     //fontWeight: "200",
-          //     opacity: 0.8,
-          //   },
-          //   icon: {
-          //     path: google.maps.SymbolPath.CIRCLE,
-          //     scale: 0,
-          //   },
-          //   visible: true,
-          // });
          
           if (
             [
