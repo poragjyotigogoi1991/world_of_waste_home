@@ -827,6 +827,35 @@ function initMap() {
       e.preventDefault();
       window.open(`https://www.worldofwaste.co/sign-up`, "_blank");
     }
+    
+    //removed but need to be added here later
+    const supportedCountries = [
+      "India",
+      "United States of America",
+      "United Kingdom",
+      "Tunisia",
+      "Spain",
+      "Poland",
+      "Netherlands",
+      "Morocco",
+      "Egypt",
+      "Belgium",
+      "Germany",
+      "Bangladesh",
+      "Pakistan",
+      "Sri Lanka",
+      "Vietnam",
+      "Indonesia",
+      "Canada",
+    ];
+    const upcomingCountry = [
+    // "China",
+    //"Russia",
+    "Sri Lanka",
+    "Vietnam",
+    "Indonesia",
+    "Cambodia"
+    ];
 
     const defaultPopup = document.querySelectorAll("[popup=default]")[1];
     const defaultPopupEle = defaultPopup.cloneNode(true);
@@ -856,11 +885,19 @@ function initMap() {
     //     .querySelector("[popup=cta]")
     //     .addEventListener("click", handleSignupCta);
     // }
-    
-    defaultPopup
+
+    //new logic for signup for upcoming countries
+    if (upcomingCountry.includes(name)) {
+      defaultPopup
         .querySelector("[popup=cta]")
-        .addEventListener("click", handleSignupCta);
+          .addEventListener("click", handleSignupCta);
+      defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
+      defaultPopup.querySelector("[popup=title]").innerText = finalText;
+    }
     
+    // defaultPopup
+    //     .querySelector("[popup=cta]")
+    //     .addEventListener("click", handleSignupCta);
     // defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
     // defaultPopup.querySelector("[popup=title]").innerText = finalText;
 
@@ -871,26 +908,6 @@ function initMap() {
       });
 
     // Toggle the 'isSelected' property
-    //removed but need to be added here later
-    const supportedCountries = [
-      "India",
-      "United States of America",
-      "United Kingdom",
-      "Tunisia",
-      "Spain",
-      "Poland",
-      "Netherlands",
-      "Morocco",
-      "Egypt",
-      "Belgium",
-      "Germany",
-      "Bangladesh",
-      "Pakistan",
-      "Sri Lanka",
-      "Vietnam",
-      "Indonesia",
-      "Canada",
-    ];
 
     if (!supportedCountries.includes(name)) {
       return;
@@ -1069,15 +1086,6 @@ function initMap() {
 
   // Define your sets of countries
 
-  const upcomingCountries = [
-    // "China",
-    "India",
-    "USA",
-    //"Russia",
-    "Sri Lanka",
-    "Vietnam",
-    "Indonesia",
-  ];
   //const highestDataCountries = ["Brazil", "Russia"];
   /* setTimeout(() => {
     highlightCountries(allCountries, highestDataBtn);
