@@ -855,9 +855,9 @@ function initMap() {
     ];
 
     console.log("allpopup",document.querySelectorAll("[popup=default]"))
-    const matchingPopup = Array.from(allPopups).find(popup => {
+    const matchingPopup = Array.from(document.querySelectorAll("[popup=default]")).find(popup => {
       const countryElement = popup.querySelector("[popup=country]");
-      return countryElement && countryElement.innerText.trim().toUpperCase() === name.toUpperCase();
+      return countryElement && countryElement.innerText.toUpperCase() === name.toUpperCase();
     });
     console.log("dd",matchingPopup)
     const defaultPopup = document.querySelectorAll("[popup=default]")[1];
