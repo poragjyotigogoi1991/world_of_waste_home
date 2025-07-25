@@ -889,7 +889,7 @@ function initMap() {
     // defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
     // defaultPopup.querySelector("[popup=title]").innerText = finalText;
 
-    if(upcomingCountries.includes(name)){
+    if(!upcomingCountries.includes(name)){
       defaultPopup
         .querySelector("[popup=cta]")
         .addEventListener("click", handleSignupCta);
