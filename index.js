@@ -762,9 +762,9 @@ function initMap() {
   let dottedOverlay;
 
   function getValue(country) {
-    if (["India", "USA", "Bangladesh", "China"].includes(country)) {
-      return "9,990,000";
-    }
+    // if (["India", "USA", "Bangladesh", "China"].includes(country)) {
+    //   return "9,990,000";
+    // }
     return "7,793,000";
   }
   // Highlight on hover
