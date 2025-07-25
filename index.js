@@ -846,13 +846,7 @@ function initMap() {
       "Canada",
       "Cambodia"
     ];
-    const upcomingCountry = [
-    // "China",
-    //"Russia",
-    "Sri Lanka",
-    "Vietnam",
-    "Indonesia",
-    ];
+    
 
     const allPopups = document.querySelectorAll("[popup=default]")
     console.log("allpopup",allPopups)
