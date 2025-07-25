@@ -855,6 +855,12 @@ function initMap() {
     ];
 
     console.log("allpopup",document.querySelectorAll("[popup=default]"))
+    console.log(
+      "ddd",
+      document
+        .querySelectorAll("[popup=default]")
+        .querySelector("[popup=country]").innerText
+    );
     const defaultPopup = document.querySelectorAll("[popup=default]")[1];
     const defaultPopupEle = defaultPopup.cloneNode(true);
     defaultPopup.querySelector("[popup=country]").innerText =
