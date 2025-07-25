@@ -729,6 +729,7 @@ function initMap() {
               "Germany",
               "Poland",
               "United Kingdom",
+              "Canada",
             ].includes(stateName)
           ) {
             label.setVisible(false);
