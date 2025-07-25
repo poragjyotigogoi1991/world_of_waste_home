@@ -857,7 +857,6 @@ function initMap() {
     const allPopups = document.querySelectorAll("[popup=default]")
     console.log("allpopup",allPopups)
     const matchingPopup = Array.from(allPopups).find(popup => {
-      console.log("popup inside matchingPopup",popup)
       if(popup){
       const countryElement = popup.querySelector("[popup=country]");
       return countryElement && countryElement.innerText.toUpperCase() === name.toUpperCase();
@@ -868,7 +867,6 @@ function initMap() {
     const defaultPopupEle = defaultPopup.cloneNode(true);
     defaultPopup.querySelector("[popup=country]").innerText =
       name.toUpperCase();
-    console.log("defaultPopup",defaultPopup);
 
     let finalText = "No data yet. Sign up for updates.";
     let ctaText = "Sign up";
@@ -900,6 +898,7 @@ function initMap() {
     // defaultPopup.querySelector("[popup=title]").innerText = finalText;
 
     console.log("xx",name)
+    console.log("matchingPopup",matchingPopup)
     if(!upcomingCountries.includes(name)){
       console.log("not in list", name)
       matchingPopup
