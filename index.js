@@ -858,7 +858,7 @@ function initMap() {
     const defaultPopupEle = defaultPopup.cloneNode(true);
     defaultPopup.querySelector("[popup=country]").innerText =
       name.toUpperCase();
-    // console.log("defaultPopup",defaultPopup);
+    console.log("defaultPopup",defaultPopup);
 
     let finalText = "No data yet. Sign up for updates.";
     let ctaText = "Sign up";
