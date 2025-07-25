@@ -848,13 +848,12 @@ function initMap() {
       "Indonesia",
       "Canada",
     ];
-    const upcomingCountry = [
+    const upcomingCountries = [
     // "China",
     //"Russia",
     "Sri Lanka",
     "Vietnam",
     "Indonesia",
-    "Cambodia"
     ];
 
     const defaultPopup = document.querySelectorAll("[popup=default]")[1];
@@ -885,21 +884,12 @@ function initMap() {
     //     .querySelector("[popup=cta]")
     //     .addEventListener("click", handleSignupCta);
     // }
-
-    //new logic for signup for upcoming countries
-    if (upcomingCountry.includes(name)) {
-      defaultPopup
-        .querySelector("[popup=cta]")
-          .addEventListener("click", handleSignupCta);
-      defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
-      defaultPopup.querySelector("[popup=title]").innerText = finalText;
-    }
     
-    // defaultPopup
-    //     .querySelector("[popup=cta]")
-    //     .addEventListener("click", handleSignupCta);
-    // defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
-    // defaultPopup.querySelector("[popup=title]").innerText = finalText;
+    defaultPopup
+        .querySelector("[popup=cta]")
+        .addEventListener("click", handleSignupCta);
+    defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
+    defaultPopup.querySelector("[popup=title]").innerText = finalText;
 
     defaultPopup
       .querySelector("[popup=close-btn]")
