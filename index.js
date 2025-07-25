@@ -577,12 +577,7 @@ window.addEventListener("resize", applyResponsiveStyles);
 // Initial call to set styles on page load
 //applyResponsiveStyles();
 
-function initMap() {
-  //new added start
-  await google.maps.importLibrary("maps");
-  await google.maps.importLibrary("marker");
-  //new added end
-  
+function initMap() {  
   map = new google.maps.Map(document.getElementById("custom-map"), {
     center: { lat: -34.397, lng: 150.644 }, // Centered on Africa
     zoom: 2.7, // Zoom level for viewing most of the world
@@ -665,16 +660,6 @@ function initMap() {
   LoadControls();
   applyResponsiveStyles();
 
-  //new added start
-  addMarker();
-  async function addMarker() {
-  const marker = new google.maps.marker.AdvancedMarkerElement({
-    map,
-    position: { lat: -34.397, lng: 150.644 },
-  });
-}
-  //new added end
-
   const labels = [];
   // Load state polygons (simplified example, normally you'd use GeoJSON or another method)
   // loadStatePolygons();
@@ -720,39 +705,39 @@ function initMap() {
             );
           }
 
-          // const label = new google.maps.Marker({
-          //   position: center,
-          //   map: map,
-          //   label: {
-          //     text: stateName,
-          //     color: "#000000",
-          //     fontSize: "12px",
-          //     //fontWeight: "200",
-          //     opacity: 0.8,
-          //   },
-          //   icon: {
-          //     path: google.maps.SymbolPath.CIRCLE,
-          //     scale: 0,
-          //     labelOrigin: stateName.toLowerCase() === "canada" ? 
-          //           new google.maps.Point(-10, 0) 
-          //             : new google.maps.Point(0, 0),
-          //   },
-          //   visible: true,
-          // });
+          const label = new google.maps.Marker({
+            position: center,
+            map: map,
+            label: {
+              text: stateName,
+              color: "#000000",
+              fontSize: "12px",
+              //fontWeight: "200",
+              opacity: 0.8,
+            },
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: 0,
+              labelOrigin: stateName.toLowerCase() === "canada" ? 
+                    new google.maps.Point(-10, 0) 
+                      : new google.maps.Point(0, 0),
+            },
+            visible: true,
+          });
          
-          // if (
-          //   [
-          //     "Netherlands",
-          //     "Belgium",
-          //     "Germany",
-          //     "Poland",
-          //     "United Kingdom",
-          //   ].includes(stateName)
-          // ) {
-          //   label.setVisible(false);
-          // }
+          if (
+            [
+              "Netherlands",
+              "Belgium",
+              "Germany",
+              "Poland",
+              "United Kingdom",
+            ].includes(stateName)
+          ) {
+            label.setVisible(false);
+          }
 
-          // labels.push(label);
+          labels.push(label);
         }
       });
       stateLayer.setMap(map);
