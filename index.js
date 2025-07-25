@@ -756,7 +756,8 @@ function initMap() {
   });
 
   getTotalWasteCountryWise();
-
+  console.log("upcomingCountries",upcomingCountries);
+  
   let masked = false;
   let dottedOverlay;
 
@@ -809,11 +810,7 @@ function initMap() {
     const { Fg } = event.feature; //Fg was internal variable and now removed
     const name = event.feature.getProperty("name");
     const code = Fg;
-
-    console.log("Fg",Fg);
-    console.log("name",name);
     
-
     const { clientX: x, clientY: y } = event.domEvent;
     if (
       [
@@ -892,7 +889,7 @@ function initMap() {
     // defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
     // defaultPopup.querySelector("[popup=title]").innerText = finalText;
 
-    if(upcomingCountry.includes(name)){
+    if(upcomingCountries.includes(name)){
       defaultPopup
         .querySelector("[popup=cta]")
         .addEventListener("click", handleSignupCta);
