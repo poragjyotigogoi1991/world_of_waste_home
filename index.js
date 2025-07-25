@@ -859,7 +859,7 @@ function initMap() {
       const countryElement = popup.querySelector("[popup=country]");
       return countryElement && countryElement.innerText.toUpperCase() === name.toUpperCase();
     });
-    console.log("dd",matchingPopup)
+    
     const defaultPopup = document.querySelectorAll("[popup=default]")[1];
     const defaultPopupEle = defaultPopup.cloneNode(true);
     defaultPopup.querySelector("[popup=country]").innerText =
@@ -898,11 +898,11 @@ function initMap() {
     console.log("xx",name)
     if(!upcomingCountries.includes(name)){
       console.log("not in list", name)
-      defaultPopup
+      matchingPopup
         .querySelector("[popup=cta]")
         .addEventListener("click", handleSignupCta);
-      defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
-      defaultPopup.querySelector("[popup=title]").innerText = finalText;
+      matchingPopup.querySelector("[popup=cta]").innerText = ctaText;
+      matchingPopup.querySelector("[popup=title]").innerText = finalText;
     }
     defaultPopup
       .querySelector("[popup=close-btn]")
