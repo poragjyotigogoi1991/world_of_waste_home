@@ -859,6 +859,7 @@ function initMap() {
     const matchingPopup = Array.from(allPopups).find(popup => {
       if(popup){
       const countryElement = popup.querySelector("[popup=country]");
+      console.log("text title", countryElement.innerText);
       return countryElement && countryElement.innerText.toUpperCase() === name.toUpperCase();
       }
     });
