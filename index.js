@@ -718,6 +718,9 @@ function initMap() {
             icon: {
               path: google.maps.SymbolPath.CIRCLE,
               scale: 0,
+              labelOrigin: stateName.toLowerCase() === "canada" ? 
+                    new google.maps.Point(-10, 0) 
+                      : new google.maps.Point(0, 0),
             },
             visible: true,
           });
