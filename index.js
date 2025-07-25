@@ -854,10 +854,14 @@ function initMap() {
     "Indonesia",
     ];
 
-    console.log("allpopup",document.querySelectorAll("[popup=default]"))
-    const matchingPopup = Array.from(document.querySelectorAll("[popup=default]")).find(popup => {
+    const allPopups = document.querySelectorAll("[popup=default]")
+    console.log("allpopup",allPopups)
+    const matchingPopup = Array.from(allPopups).find(popup => {
+      console.log("popup inside matchingPopup",popup)
+      if(popup){
       const countryElement = popup.querySelector("[popup=country]");
       return countryElement && countryElement.innerText.toUpperCase() === name.toUpperCase();
+      }
     });
     
     const defaultPopup = document.querySelectorAll("[popup=default]")[1];
