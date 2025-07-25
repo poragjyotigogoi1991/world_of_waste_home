@@ -885,12 +885,19 @@ function initMap() {
     //     .addEventListener("click", handleSignupCta);
     // }
     
-    defaultPopup
+    // defaultPopup
+    //     .querySelector("[popup=cta]")
+    //     .addEventListener("click", handleSignupCta);
+    // defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
+    // defaultPopup.querySelector("[popup=title]").innerText = finalText;
+
+    if(upcomingCountry.includes(name)){
+      defaultPopup
         .querySelector("[popup=cta]")
         .addEventListener("click", handleSignupCta);
-    defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
-    defaultPopup.querySelector("[popup=title]").innerText = finalText;
-
+      defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
+      defaultPopup.querySelector("[popup=title]").innerText = finalText;
+    }
     defaultPopup
       .querySelector("[popup=close-btn]")
       .addEventListener("click", () => {
