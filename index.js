@@ -43,76 +43,6 @@ cursor: pointer;
 overflow: hidden;
 box-shadow: 4px 4px 4px 0.25px black; /* simulate base 1px border */
 }
-
-.svg-border {
-position: absolute;
-top: 0; left: 0;
-width: 100%; height: 100%;
-pointer-events: none;
-z-index: 2;
-}
-
-.svg-border rect {
-fill: none;
-stroke: black;
-stroke-width: 2;
-transition: stroke-dashoffset 0.8s ease;
-}
-
-.svg-button {
-  position: relative;
-  width: 180px;
-  height: 60px;
-  background-color: #E4E4E4;
-  color: black;
-  font-size: 16px;
-  border: none;
-  border-radius: 30px;
-  padding: 0;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-
-.svg-button svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  pointer-events: none;
-}
-
-/* Black base stroke */
-.border-base {
-  fill: none;
-  stroke: black;
-  stroke-width: 2;
-}
-
-/* Blue animated stroke – slightly thicker to overlap perfectly */
-.border-animated {
-  fill: none;
-  stroke: black;
-  stroke-width: 3;                  /* <- 1px thicker */
-  stroke-dasharray: 500;
-  stroke-dashoffset: 500;
-  transition: stroke-dashoffset 0.6s ease;
-}
-
-.svg-button:hover .border-animated {
-  stroke-dashoffset: 0;
-}
-
-.svg-button span {
-  position: relative;
-  z-index: 3;
-  display: inline-block;
-  line-height: 60px;
-  text-align: center;
-  width: 100%;
-}
-
 `;
 document.head.appendChild(style);
 
@@ -269,15 +199,15 @@ function loadButtons() {
 
   // Apply rounded, outlined style to each button
   function styleButton(button) {
-    // button.style.margin = "0"; // Reset margin for a clean layout
-    // button.style.padding = "10px 20px"; // Add padding for spacing
-    // button.style.fontSize = "16px"; // Set font size
-    // button.style.cursor = "pointer"; // Pointer cursor on hover
-    // button.style.border = "2px solid #000"; // Add a black border for the outline
-    // button.style.borderRadius = "33px"; // Apply full-rounded corners
-    // button.style.backgroundColor = "#E4E4E4"; // Light background color
-    // button.style.color = "#000"; // Black text color
-    // button.style.pointerEvents = "auto";
+    button.style.margin = "0"; // Reset margin for a clean layout
+    button.style.padding = "10px 20px"; // Add padding for spacing
+    button.style.fontSize = "16px"; // Set font size
+    button.style.cursor = "pointer"; // Pointer cursor on hover
+    button.style.border = "2px solid #000"; // Add a black border for the outline
+    button.style.borderRadius = "33px"; // Apply full-rounded corners
+    button.style.backgroundColor = "#E4E4E4"; // Light background color
+    button.style.color = "#000"; // Black text color
+    button.style.pointerEvents = "auto";
   }
 
   function styleLinkButton(button) {
@@ -290,118 +220,30 @@ function loadButtons() {
     button.style.pointerEvents = "auto";
   }
 
-  const postConsumerWrapper = document.createElement("div");
-  postConsumerWrapper.className = "consumer-action-wrapper";
+  // Create the buttons and append them to the container
   postConsumerBtn = document.createElement("button");
-  // postConsumerBtn.className = "consumer-action-btn";
   postConsumerBtn.innerText = "Post-Consumer";
-  postConsumerBtn.className = "svg-button";
-  const postConsumerBtnsvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  postConsumerBtnsvg.setAttribute("viewBox", "0 0 184 64");
-  postConsumerBtnsvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-  const blackRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-  blackRect.setAttribute("class", "border-base");
-  blackRect.setAttribute("x", "1");
-  blackRect.setAttribute("y", "1");
-  blackRect.setAttribute("width", "182");
-  blackRect.setAttribute("height", "62");
-  blackRect.setAttribute("rx", "30");
-  blackRect.setAttribute("ry", "30");
-  const blueRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-  blueRect.setAttribute("class", "border-animated");
-  blueRect.setAttribute("x", "1");
-  blueRect.setAttribute("y", "1");
-  blueRect.setAttribute("width", "182");
-  blueRect.setAttribute("height", "62");
-  blueRect.setAttribute("rx", "30");
-  blueRect.setAttribute("ry", "30");
-  postConsumerBtnsvg.appendChild(blackRect);
-  postConsumerBtnsvg.appendChild(blueRect);
-  postConsumerBtn.appendChild(postConsumerBtnsvg);
-  postConsumerWrapper.appendChild(postConsumerBtn);
-  buttonContainer.appendChild(postConsumerWrapper);
+  buttonContainer.appendChild(postConsumerBtn);
+  postConsumerBtn.addEventListener("mouseover", (event) => {
+     // postConsumerBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
+    postConsumerBtn.style.border = "2px solid #000000";
+  })
+   postConsumerBtn.addEventListener("mouseout", (event) => {
+     // postConsumerBtn.style.boxShadow = "none";
+      postConsumerBtn.style.border = "2px solid rgba(0,0,0,0)";
+  })
 
-  // // Wrapper
-  // const postIndustrialWrapper = document.createElement("div");
-  // postIndustrialWrapper.className = "consumer-action-wrapper";
-  // postIndustrialBtn = document.createElement("button");
-  // // postIndustrialBtn.className = "consumer-action-btn";
-  // postIndustrialBtn.innerText = "Post-Industrial";
-  // postIndustrialBtn.className = "svg-button";
-  // const postIndustrialBtnsvg = document.createElementNS(
-  //   "http://www.w3.org/2000/svg",
-  //   "svg"
-  // );
-  // postIndustrialBtnsvg.setAttribute("viewBox", "0 0 184 64");
-  // postIndustrialBtnsvg.setAttribute("preserveAspectRatio", "none");
-  // const postIndustrialBtnrect = document.createElementNS(
-  //   "http://www.w3.org/2000/svg",
-  //   "rect"
-  // );
-  // postIndustrialBtnrect.setAttribute("x", "1");
-  // postIndustrialBtnrect.setAttribute("y", "1");
-  // postIndustrialBtnrect.setAttribute("width", "182");
-  // postIndustrialBtnrect.setAttribute("height", "62");
-  // postIndustrialBtnrect.setAttribute("rx", "30");
-  // postIndustrialBtnrect.setAttribute("ry", "30");
-  // postIndustrialBtnsvg.appendChild(postIndustrialBtnrect);
-  // postIndustrialBtn.appendChild(postIndustrialBtnsvg);
-  // postIndustrialWrapper.appendChild(postIndustrialBtn);
-  // buttonContainer.appendChild(postIndustrialWrapper);
-  
-  const postIndustrialWrapper = document.createElement("div");
-  postIndustrialWrapper.className = "consumer-action-wrapper";
   postIndustrialBtn = document.createElement("button");
-  // postIndustrialBtn.className = "consumer-action-btn";
-  postIndustrialBtn.innerText = "Post-Consumer";
-  postIndustrialBtn.className = "svg-button";
-  const postIndustrialBtnsvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  postIndustrialBtnsvg.setAttribute("viewBox", "0 0 184 64");
-  postIndustrialBtnsvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-  const blackRectt = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-  blackRectt.setAttribute("class", "border-base");
-  blackRectt.setAttribute("x", "1");
-  blackRectt.setAttribute("y", "1");
-  blackRectt.setAttribute("width", "182");
-  blackRectt.setAttribute("height", "62");
-  blackRectt.setAttribute("rx", "30");
-  blackRectt.setAttribute("ry", "30");
-  const blueRectt = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-  blueRectt.setAttribute("class", "border-animated");
-  blueRectt.setAttribute("x", "1");
-  blueRectt.setAttribute("y", "1");
-  blueRectt.setAttribute("width", "182");
-  blueRectt.setAttribute("height", "62");
-  blueRectt.setAttribute("rx", "30");
-  blueRectt.setAttribute("ry", "30");
-  postIndustrialBtnsvg.appendChild(blackRectt);
-  postIndustrialBtnsvg.appendChild(blueRectt);
-  postIndustrialBtn.appendChild(postIndustrialBtnsvg);
-  postIndustrialWrapper.appendChild(postIndustrialBtn);
-  buttonContainer.appendChild(postIndustrialWrapper);
-
-
-  // // Create the buttons and append them to the container
-  // postConsumerBtn = document.createElement("button");
-  // postConsumerBtn.innerText = "Post-Consumer";
-  // buttonContainer.appendChild(postConsumerBtn);
-  // postConsumerBtn.addEventListener("mouseover", (event) => {
-  //    postConsumerBtn.style.border = "2px solid #000000";
-  // })
-  //  postConsumerBtn.addEventListener("mouseout", (event) => {
-  //    postConsumerBtn.style.border = "2px solid rgba(0,0,0,0)";
-  // })
-
-  // postIndustrialBtn = document.createElement("button");
-  // postIndustrialBtn.innerText = "Post-Industrial";
-  // buttonContainer.appendChild(postIndustrialBtn);
-  //  postIndustrialBtn.addEventListener("mouseover", (event) => {
-  //    postIndustrialBtn.style.border = "2px solid #000000";
-  // })
-  //  postIndustrialBtn.addEventListener("mouseout", (event) => {
-  //    postIndustrialBtn.style.border = "2px solid rgba(0,0,0,0)";
-  // })
-  
+  postIndustrialBtn.innerText = "Post-Industrial";
+  buttonContainer.appendChild(postIndustrialBtn);
+   postIndustrialBtn.addEventListener("mouseover", (event) => {
+     // postIndustrialBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
+     postIndustrialBtn.style.border = "2px solid #000000";
+  })
+   postIndustrialBtn.addEventListener("mouseout", (event) => {
+     // postIndustrialBtn.style.boxShadow = "none";
+      postIndustrialBtn.style.border = "2px solid rgba(0,0,0,0)";
+  })
 
   highestDataBtn = document.createElement("a");
   highestDataBtn.innerText = "Reset";
