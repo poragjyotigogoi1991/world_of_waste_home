@@ -25,48 +25,47 @@ let scaleEle = null;
 
 const style = document.createElement("style");
 style.innerHTML = `
-.custom-button {
-  display: inline-block;
-  padding: .75rem 1.25rem;
-  border-radius: 10rem;
-  color: #fff;
-  text-transform: uppercase;
-  font-size: 1rem;
-  letter-spacing: .15rem;
-  transition: all .3s;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #0cf;
-    border-radius: 10rem;
-    z-index: -2;
-  }
-  &:before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0%;
-    height: 100%;
-    background-color: darken(#0cf, 15%);
-    transition: all .3s;
-    border-radius: 10rem;
-    z-index: -1;
-  }
-  &:hover {
-    color: #fff;
-    &:before {
-      width: 100%;
-    }
-  }
+.custom_main_button {
+	display: inline-block;
+	padding: .75rem 1.25rem;
+	border-radius: 10rem;
+	color: #000;
+	font-size: 1rem;
+	transition: all .3s;
+	position: relative;
+	overflow: hidden;
+	z-index: 1;
+	&:after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: #E4E4E4;
+		border-radius: 10rem;
+		z-index: -2;
+	}
+	&:before {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 0%;
+		height: 100%;
+		background-color: darken(#E4E4E4, 15%);
+		transition: all .3s;
+		border-radius: 10rem;
+		z-index: -1;
+	}
+	&:hover {
+		color: #000;
+		&:before {
+			width: 100%;
+		}
+	}
 }
+
 `;
 document.head.appendChild(style);
 
@@ -223,20 +222,21 @@ function loadButtons() {
 
   // Apply rounded, outlined style to each button
   function styleButton(button) {
-    button.style.margin = "0"; // Reset margin for a clean layout
-    button.style.padding = "12px 20px"; // Add padding for spacing
-    button.style.fontSize = "16px"; // Set font size
     button.style.cursor = "pointer"; // Pointer cursor on hover
     button.style.border = "2px solid rgb(0,0,0,0)";
-    button.style.backgroundColor = "#E4E4E4"; // Light background color
-    button.style.color = "#000"; // Black text color
+    button.style.margin = "0"; // Reset margin for a clean layout
     button.style.pointerEvents = "auto";
     
-    button.style.borderRadius = "10rem"; // Apply full-rounded corners
-    button.style.transition = "all .3s";
-    button.style.display = "inline-block";
-    button.style.position = "relative";
-    button.style.overflow= "hidden";
+    // button.style.display = "inline-block";
+    // button.style.padding = "12px 20px"; // Add padding for spacing
+    // button.style.borderRadius = "10rem"; // Apply full-rounded corners
+    // button.style.color = "#000"; // Black text color
+    // button.style.fontSize = "16px"; // Set font size
+    // button.style.transition = "all .3s";
+    // button.style.position = "relative";
+    // button.style.overflow= "hidden";
+    
+    // button.style.backgroundColor = "#E4E4E4"; // Light background color
   }
 
   function styleLinkButton(button) {
