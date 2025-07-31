@@ -1093,8 +1093,9 @@ function initMap() {
 
   function activateFilter(button) {
    button.style.border = "2px solid #000";
-    button.style.boxShadow = "none";
-    button.style.backgroundColor = "#F5F5F5";
+    // button.style.boxShadow = "none";
+   button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
+   button.style.backgroundColor = "#F5F5F5";
   }
 
   function deactivateFilter(button) {
