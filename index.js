@@ -229,14 +229,9 @@ function loadButtons() {
     button.style.fontFamily = "IBM Plex Mono";
     button.style.alignSelf = "center";
     button.style.fontWeight = 600;
-    // button.style.padding = "10px 20px"; // Add padding for spacing
     button.style.fontSize = "16px"; // Set font size
     button.style.cursor = "pointer"; // Pointer cursor on hover
-    //button.style.border = "1px solid #000"; // Add a black border for the outline
-    //button.style.borderRadius = "30px"; // Apply full-rounded corners
-    //button.style.backgroundColor = "#F5F5F5"; // Light background color
     button.style.color = "#000"; // Black text color
-    //button.style.boxShadow = "4px 4px 4px #333";
     button.style.pointerEvents = "auto";
   }
 
@@ -500,13 +495,13 @@ function formatDate(date) {
 
 function activateButton(button) {
   button.style.border = "2px solid #000000";
-  button.style.boxShadow = "none";
+  // button.style.boxShadow = "none";
 }
 
 // Function to deactivate the button (reset its style)
 function deactivateButton(button) {
   button.style.border = "2px solid #000000";
-  button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
+  // button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
 }
 
 function applyResponsiveStyles() {
