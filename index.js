@@ -287,8 +287,8 @@ function loadButtons() {
     "http://www.w3.org/2000/svg",
     "svg"
   );
-  svg.setAttribute("viewBox", "0 0 184 64");
-  svg.setAttribute("preserveAspectRatio", "none");
+  postConsumerBtnsvg.setAttribute("viewBox", "0 0 184 64");
+  postConsumerBtnsvg.setAttribute("preserveAspectRatio", "none");
   const postConsumerBtnrect = document.createElementNS(
     "http://www.w3.org/2000/svg",
     "rect"
