@@ -298,7 +298,7 @@ function loadButtons() {
   postConsumerBtn.className = "svg-button";
   const postConsumerBtnsvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   postConsumerBtnsvg.setAttribute("viewBox", "0 0 184 64");
-  postConsumerBtnsvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");\
+  postConsumerBtnsvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
   const blackRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
   blackRect.setAttribute("class", "border-base");
   blackRect.setAttribute("x", "1");
