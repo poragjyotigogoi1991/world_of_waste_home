@@ -252,7 +252,7 @@ function loadButtons() {
   // Create the buttons and append them to the container
   postConsumerBtn = document.createElement("button");
   postConsumerBtn.innerText = "Post-Consumer";
-  postConsumerBtn.classList.add("custom-button");
+  postConsumerBtn.className = "custom-button";
   buttonContainer.appendChild(postConsumerBtn);
   // postConsumerBtn.addEventListener("mouseover", (event) => {
   //    // postConsumerBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
@@ -265,7 +265,7 @@ function loadButtons() {
 
   postIndustrialBtn = document.createElement("button");
   postIndustrialBtn.innerText = "Post-Industrial";
-  postIndustrialBtn.classList.add("custom-button");
+  postIndustrialBtn.className = "custom-button";
   buttonContainer.appendChild(postIndustrialBtn);
   // postIndustrialBtn.addEventListener("mouseover", (event) => {
   //    // postIndustrialBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
