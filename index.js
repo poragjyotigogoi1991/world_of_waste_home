@@ -25,23 +25,47 @@ let scaleEle = null;
 
 const style = document.createElement("style");
 style.innerHTML = `
-.consumer-action-wrapper {
-position: relative;
-display: inline-block;
-}
-
-.consumer-action-btn {
-position: relative;
-z-index: 1;
-padding: 12px 24px;
-background: white;
-color: black;
-font-size: 16px;
-border: none; /* remove border */
-border-radius: 30px;
-cursor: pointer;
-overflow: hidden;
-box-shadow: 4px 4px 4px 0.25px black; /* simulate base 1px border */
+.custom-button {
+  display: inline-block;
+  padding: .75rem 1.25rem;
+  border-radius: 10rem;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: .15rem;
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0cf;
+    border-radius: 10rem;
+    z-index: -2;
+  }
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background-color: darken(#0cf, 15%);
+    transition: all .3s;
+    border-radius: 10rem;
+    z-index: -1;
+  }
+  &:hover {
+    color: #fff;
+    &:before {
+      width: 100%;
+    }
+  }
 }
 `;
 document.head.appendChild(style);
@@ -200,14 +224,19 @@ function loadButtons() {
   // Apply rounded, outlined style to each button
   function styleButton(button) {
     button.style.margin = "0"; // Reset margin for a clean layout
-    button.style.padding = "10px 20px"; // Add padding for spacing
+    button.style.padding = "12px 20px"; // Add padding for spacing
     button.style.fontSize = "16px"; // Set font size
     button.style.cursor = "pointer"; // Pointer cursor on hover
     button.style.border = "2px solid rgb(0,0,0,0)";
-    button.style.borderRadius = "33px"; // Apply full-rounded corners
     button.style.backgroundColor = "#E4E4E4"; // Light background color
     button.style.color = "#000"; // Black text color
     button.style.pointerEvents = "auto";
+    
+    button.style.borderRadius = "10rem"; // Apply full-rounded corners
+    button.style.transition = "all .3s";
+    button.style.display = "inline-block";
+    button.style.position = "relative";
+    button.style.overflow= "hidden";
   }
 
   function styleLinkButton(button) {
@@ -223,27 +252,29 @@ function loadButtons() {
   // Create the buttons and append them to the container
   postConsumerBtn = document.createElement("button");
   postConsumerBtn.innerText = "Post-Consumer";
+  postConsumerBtn.classList.add("custom-button");
   buttonContainer.appendChild(postConsumerBtn);
-  postConsumerBtn.addEventListener("mouseover", (event) => {
-     // postConsumerBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
-    postConsumerBtn.style.border = "2px solid #000000";
-  })
-   postConsumerBtn.addEventListener("mouseout", (event) => {
-     // postConsumerBtn.style.boxShadow = "none";
-      postConsumerBtn.style.border = "2px solid rgba(0,0,0,0)";
-  })
+  // postConsumerBtn.addEventListener("mouseover", (event) => {
+  //    // postConsumerBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
+  //   postConsumerBtn.style.border = "2px solid #000000";
+  // })
+  //  postConsumerBtn.addEventListener("mouseout", (event) => {
+  //    // postConsumerBtn.style.boxShadow = "none";
+  //     postConsumerBtn.style.border = "2px solid rgba(0,0,0,0)";
+  // })
 
   postIndustrialBtn = document.createElement("button");
   postIndustrialBtn.innerText = "Post-Industrial";
+  postIndustrialBtn.classList.add("custom-button");
   buttonContainer.appendChild(postIndustrialBtn);
-   postIndustrialBtn.addEventListener("mouseover", (event) => {
-     // postIndustrialBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
-     postIndustrialBtn.style.border = "2px solid #000000";
-  })
-   postIndustrialBtn.addEventListener("mouseout", (event) => {
-     // postIndustrialBtn.style.boxShadow = "none";
-      postIndustrialBtn.style.border = "2px solid rgba(0,0,0,0)";
-  })
+  // postIndustrialBtn.addEventListener("mouseover", (event) => {
+  //    // postIndustrialBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
+  //    postIndustrialBtn.style.border = "2px solid #000000";
+  // })
+  //  postIndustrialBtn.addEventListener("mouseout", (event) => {
+  //    // postIndustrialBtn.style.boxShadow = "none";
+  //     postIndustrialBtn.style.border = "2px solid rgba(0,0,0,0)";
+  // })
 
   highestDataBtn = document.createElement("a");
   highestDataBtn.innerText = "Reset";
