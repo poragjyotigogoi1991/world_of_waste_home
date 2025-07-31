@@ -62,16 +62,15 @@ transition: stroke-dashoffset 0.8s ease;
 .svg-button {
   position: relative;
   width: 180px;
-  height: 60px; /* updated height */
-  padding : 10px 20px;
+  height: 60px;
   background-color: #E4E4E4;
-  color: #000;
+  color: black;
   font-size: 16px;
-  cursor: pointer;
   border: none;
+  border-radius: 30px;
   padding: 0;
-  border-radius: 33px;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .svg-button svg {
@@ -80,17 +79,28 @@ transition: stroke-dashoffset 0.8s ease;
   left: 0;
   width: 100%;
   height: 100%;
-  fill: none;
-  stroke: rgb(11, 11, 11);
-  stroke-width: 2;
-  transition: stroke-dashoffset 1s ease;
   z-index: 2;
   pointer-events: none;
-  stroke-dasharray: 460; /* shorter path for 60px height */
-  stroke-dashoffset: 460;
 }
 
-.svg-button:hover svg {
+/* Black base stroke */
+.border-base {
+  fill: none;
+  stroke: black;
+  stroke-width: 2;
+}
+
+/* Blue animated stroke – slightly thicker to overlap perfectly */
+.border-animated {
+  fill: none;
+  stroke: black;
+  stroke-width: 3;                  /* <- 1px thicker */
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  transition: stroke-dashoffset 0.6s ease;
+}
+
+.svg-button:hover .border-animated {
   stroke-dashoffset: 0;
 }
 
@@ -99,7 +109,10 @@ transition: stroke-dashoffset 0.8s ease;
   z-index: 3;
   display: inline-block;
   line-height: 60px;
+  text-align: center;
+  width: 100%;
 }
+
 `;
 document.head.appendChild(style);
 
@@ -283,66 +296,89 @@ function loadButtons() {
   // postConsumerBtn.className = "consumer-action-btn";
   postConsumerBtn.innerText = "Post-Consumer";
   postConsumerBtn.className = "svg-button";
-  const postConsumerBtnsvg = document.createElementNS(
-    "http://www.w3.org/2000/svg",
-    "svg"
-  );
+  const postConsumerBtnsvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   postConsumerBtnsvg.setAttribute("viewBox", "0 0 184 64");
-  postConsumerBtnsvg.setAttribute("preserveAspectRatio", "none");
-  const postConsumerBtnrect = document.createElementNS(
-    "http://www.w3.org/2000/svg",
-    "rect"
-  );
-  postConsumerBtnrect.setAttribute("x", "1");
-  postConsumerBtnrect.setAttribute("y", "1");
-  postConsumerBtnrect.setAttribute("width", "182");
-  postConsumerBtnrect.setAttribute("height", "62");
-  postConsumerBtnrect.setAttribute("rx", "30");
-  postConsumerBtnrect.setAttribute("ry", "30");
-  postConsumerBtnsvg.appendChild(postConsumerBtnrect);
+  postConsumerBtnsvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");\
+  const blackRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  blackRect.setAttribute("class", "border-base");
+  blackRect.setAttribute("x", "1");
+  blackRect.setAttribute("y", "1");
+  blackRect.setAttribute("width", "182");
+  blackRect.setAttribute("height", "62");
+  blackRect.setAttribute("rx", "30");
+  blackRect.setAttribute("ry", "30");
+  const blueRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  blueRect.setAttribute("class", "border-animated");
+  blueRect.setAttribute("x", "1");
+  blueRect.setAttribute("y", "1");
+  blueRect.setAttribute("width", "182");
+  blueRect.setAttribute("height", "62");
+  blueRect.setAttribute("rx", "30");
+  blueRect.setAttribute("ry", "30");
+  postConsumerBtnsvg.appendChild(blackRect);
+  postConsumerBtnsvg.appendChild(blueRect);
   postConsumerBtn.appendChild(postConsumerBtnsvg);
   postConsumerWrapper.appendChild(postConsumerBtn);
   buttonContainer.appendChild(postConsumerWrapper);
-  // postConsumerBtn.addEventListener("mouseover", (event) => {
-  //   postConsumerBtn.style.border = "2px solid #000000";
-  // });
-  // postConsumerBtn.addEventListener("mouseout", (event) => {
-  //   postConsumerBtn.style.border = "2px solid rgba(0,0,0,0)";
-  // });
 
-  // Wrapper
+  // // Wrapper
+  // const postIndustrialWrapper = document.createElement("div");
+  // postIndustrialWrapper.className = "consumer-action-wrapper";
+  // postIndustrialBtn = document.createElement("button");
+  // // postIndustrialBtn.className = "consumer-action-btn";
+  // postIndustrialBtn.innerText = "Post-Industrial";
+  // postIndustrialBtn.className = "svg-button";
+  // const postIndustrialBtnsvg = document.createElementNS(
+  //   "http://www.w3.org/2000/svg",
+  //   "svg"
+  // );
+  // postIndustrialBtnsvg.setAttribute("viewBox", "0 0 184 64");
+  // postIndustrialBtnsvg.setAttribute("preserveAspectRatio", "none");
+  // const postIndustrialBtnrect = document.createElementNS(
+  //   "http://www.w3.org/2000/svg",
+  //   "rect"
+  // );
+  // postIndustrialBtnrect.setAttribute("x", "1");
+  // postIndustrialBtnrect.setAttribute("y", "1");
+  // postIndustrialBtnrect.setAttribute("width", "182");
+  // postIndustrialBtnrect.setAttribute("height", "62");
+  // postIndustrialBtnrect.setAttribute("rx", "30");
+  // postIndustrialBtnrect.setAttribute("ry", "30");
+  // postIndustrialBtnsvg.appendChild(postIndustrialBtnrect);
+  // postIndustrialBtn.appendChild(postIndustrialBtnsvg);
+  // postIndustrialWrapper.appendChild(postIndustrialBtn);
+  // buttonContainer.appendChild(postIndustrialWrapper);
+  
   const postIndustrialWrapper = document.createElement("div");
   postIndustrialWrapper.className = "consumer-action-wrapper";
   postIndustrialBtn = document.createElement("button");
   // postIndustrialBtn.className = "consumer-action-btn";
-  postIndustrialBtn.innerText = "Post-Industrial";
+  postIndustrialBtn.innerText = "Post-Consumer";
   postIndustrialBtn.className = "svg-button";
-  const postIndustrialBtnsvg = document.createElementNS(
-    "http://www.w3.org/2000/svg",
-    "svg"
-  );
+  const postIndustrialBtnsvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   postIndustrialBtnsvg.setAttribute("viewBox", "0 0 184 64");
-  postIndustrialBtnsvg.setAttribute("preserveAspectRatio", "none");
-  const postIndustrialBtnrect = document.createElementNS(
-    "http://www.w3.org/2000/svg",
-    "rect"
-  );
-  postIndustrialBtnrect.setAttribute("x", "1");
-  postIndustrialBtnrect.setAttribute("y", "1");
-  postIndustrialBtnrect.setAttribute("width", "182");
-  postIndustrialBtnrect.setAttribute("height", "62");
-  postIndustrialBtnrect.setAttribute("rx", "30");
-  postIndustrialBtnrect.setAttribute("ry", "30");
-  postIndustrialBtnsvg.appendChild(postIndustrialBtnrect);
+  postIndustrialBtnsvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+  const blackRectt = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  blackRectt.setAttribute("class", "border-base");
+  blackRectt.setAttribute("x", "1");
+  blackRectt.setAttribute("y", "1");
+  blackRectt.setAttribute("width", "182");
+  blackRectt.setAttribute("height", "62");
+  blackRectt.setAttribute("rx", "30");
+  blackRectt.setAttribute("ry", "30");
+  const blueRectt = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  blueRectt.setAttribute("class", "border-animated");
+  blueRectt.setAttribute("x", "1");
+  blueRectt.setAttribute("y", "1");
+  blueRectt.setAttribute("width", "182");
+  blueRectt.setAttribute("height", "62");
+  blueRectt.setAttribute("rx", "30");
+  blueRectt.setAttribute("ry", "30");
+  postIndustrialBtnsvg.appendChild(blackRectt);
+  postIndustrialBtnsvg.appendChild(blueRectt);
   postIndustrialBtn.appendChild(postIndustrialBtnsvg);
   postIndustrialWrapper.appendChild(postIndustrialBtn);
   buttonContainer.appendChild(postIndustrialWrapper);
-  // postConsumerBtn.addEventListener("mouseover", (event) => {
-  //   postConsumerBtn.style.border = "2px solid #000000";
-  // });
-  // postConsumerBtn.addEventListener("mouseout", (event) => {
-  //   postConsumerBtn.style.border = "2px solid rgba(0,0,0,0)";
-  // });
 
 
   // // Create the buttons and append them to the container
