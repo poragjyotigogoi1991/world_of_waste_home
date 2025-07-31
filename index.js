@@ -203,7 +203,7 @@ function loadButtons() {
     button.style.padding = "10px 20px"; // Add padding for spacing
     button.style.fontSize = "16px"; // Set font size
     button.style.cursor = "pointer"; // Pointer cursor on hover
-    button.style.border = "2px solid #000"; // Add a black border for the outline
+    button.style.outline = "2px solid rgba(0,0,0,0)"; // Add a black border for the outline
     button.style.borderRadius = "33px"; // Apply full-rounded corners
     button.style.backgroundColor = "#E4E4E4"; // Light background color
     button.style.color = "#000"; // Black text color
@@ -1061,13 +1061,13 @@ function initMap() {
   };
 
   function activateFilter(button) {
-   button.style.border = "2px solid #000";
+   button.style.outline = "2px solid #000";
     button.style.boxShadow = "none";
     button.style.backgroundColor = "#F5F5F5";
   }
 
   function deactivateFilter(button) {
-    button.style.border = "2px solid rgba(0,0,0,0)";
+    button.style.outline = "2px solid rgba(0,0,0,0)";
      button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
     button.style.backgroundColor = "#E4E4E4";
   }
