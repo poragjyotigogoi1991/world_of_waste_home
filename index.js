@@ -882,8 +882,9 @@ function initMap() {
     
     const defaultPopup = document.querySelectorAll("[popup=default]")[1];
     const defaultPopupEle = defaultPopup.cloneNode(true);
-    matchingPopup.querySelector("[popup=country]").innerText =
-      name.toUpperCase();
+    matchingPopup.querySelector("[popup=country]").innerText = name;
+    // matchingPopup.querySelector("[popup=country]").innerText =
+    //   name.toUpperCase();
     // defaultPopup.querySelector("[popup=country]").innerText =
     //   name.toUpperCase();
 
