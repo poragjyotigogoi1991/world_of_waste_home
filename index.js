@@ -354,20 +354,20 @@ function loadButtons() {
   postConsumerBtn.innerText = "Post-Consumer";
   buttonContainer.appendChild(postConsumerBtn);
   postConsumerBtn.addEventListener("mouseover", (event) => {
-     postConsumerBtn.style.boxShadow = "none";
+     postConsumerBtn.style.border = "2px solid #000000";
   })
    postConsumerBtn.addEventListener("mouseout", (event) => {
-     postConsumerBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.4)";
+     postConsumerBtn.style.border = "2px solid rgba(0,0,0,0)";
   })
 
   postIndustrialBtn = document.createElement("button");
   postIndustrialBtn.innerText = "Post-Industrial";
   buttonContainer.appendChild(postIndustrialBtn);
    postIndustrialBtn.addEventListener("mouseover", (event) => {
-     postIndustrialBtn.style.boxShadow = "none";
+     postIndustrialBtn.style.border = "2px solid #000000";
   })
    postIndustrialBtn.addEventListener("mouseout", (event) => {
-     postIndustrialBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.4)";
+     postIndustrialBtn.style.border = "2px solid rgba(0,0,0,0)";
   })
   
 
