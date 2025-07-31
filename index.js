@@ -907,14 +907,17 @@ function initMap() {
 
     console.log("xx",name)
     console.log("matchingPopup",matchingPopup)
-    if(!upcomingCountries.includes(name)){
-      console.log("not in list", name)
-      matchingPopup
-        .querySelector("[popup=cta]")
-        .addEventListener("click", handleSignupCta);
-      matchingPopup.querySelector("[popup=cta]").innerText = ctaText;
-      matchingPopup.querySelector("[popup=title]").innerText = finalText; 
-    }
+
+    //Signup button not needed anymore
+    // if(!upcomingCountries.includes(name)){
+    //   console.log("not in list", name)
+    //   matchingPopup
+    //     .querySelector("[popup=cta]")
+    //     .addEventListener("click", handleSignupCta);
+    //   matchingPopup.querySelector("[popup=cta]").innerText = ctaText;
+    //   matchingPopup.querySelector("[popup=title]").innerText = finalText; 
+    // }
+    
     // defaultPopup
     //   .querySelector("[popup=close-btn]")
     //   .addEventListener("click", () => {
