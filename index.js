@@ -279,8 +279,8 @@ function loadButtons() {
 
   const postConsumerWrapper = document.createElement("div");
   postConsumerWrapper.className = "consumer-action-wrapper";
-  //start of new code
   postConsumerBtn = document.createElement("button");
+  // postConsumerBtn.className = "consumer-action-btn";
   postConsumerBtn.innerText = "Post-Consumer";
   postConsumerBtn.className = "svg-button";
   const postConsumerBtnsvg = document.createElementNS(
@@ -303,71 +303,47 @@ function loadButtons() {
   postConsumerBtn.appendChild(postConsumerBtnsvg);
   postConsumerWrapper.appendChild(postConsumerBtn);
   buttonContainer.appendChild(postConsumerWrapper);
-  postConsumerBtn.addEventListener("mouseover", (event) => {
-    postConsumerBtn.style.border = "2px solid #000000";
-  });
-  postConsumerBtn.addEventListener("mouseout", (event) => {
-    postConsumerBtn.style.border = "2px solid rgba(0,0,0,0)";
-  });
-  //end of new code
+  // postConsumerBtn.addEventListener("mouseover", (event) => {
+  //   postConsumerBtn.style.border = "2px solid #000000";
+  // });
+  // postConsumerBtn.addEventListener("mouseout", (event) => {
+  //   postConsumerBtn.style.border = "2px solid rgba(0,0,0,0)";
+  // });
 
   // Wrapper
   const postIndustrialWrapper = document.createElement("div");
   postIndustrialWrapper.className = "consumer-action-wrapper";
   postIndustrialBtn = document.createElement("button");
-  postIndustrialBtn.className = "consumer-action-btn";
+  // postIndustrialBtn.className = "consumer-action-btn";
   postIndustrialBtn.innerText = "Post-Industrial";
+  postIndustrialBtn.className = "svg-button";
+  const postIndustrialBtnsvg = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "svg"
+  );
+  postIndustrialBtnsvg.setAttribute("viewBox", "0 0 184 64");
+  postIndustrialBtnsvg.setAttribute("preserveAspectRatio", "none");
+  const postIndustrialBtnrect = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "rect"
+  );
+  postIndustrialBtnrect.setAttribute("x", "1");
+  postIndustrialBtnrect.setAttribute("y", "1");
+  postIndustrialBtnrect.setAttribute("width", "182");
+  postIndustrialBtnrect.setAttribute("height", "62");
+  postIndustrialBtnrect.setAttribute("rx", "30");
+  postIndustrialBtnrect.setAttribute("ry", "30");
+  postIndustrialBtnsvg.appendChild(postIndustrialBtnrect);
+  postIndustrialBtn.appendChild(postIndustrialBtnsvg);
   postIndustrialWrapper.appendChild(postIndustrialBtn);
   buttonContainer.appendChild(postIndustrialWrapper);
+  // postConsumerBtn.addEventListener("mouseover", (event) => {
+  //   postConsumerBtn.style.border = "2px solid #000000";
+  // });
+  // postConsumerBtn.addEventListener("mouseout", (event) => {
+  //   postConsumerBtn.style.border = "2px solid rgba(0,0,0,0)";
+  // });
 
-requestAnimationFrame(() => {
-  const { offsetWidth: w, offsetHeight: h } = postIndustrialBtn;
-  const radius = h / 2; // Set radius to half the height for fully rounded corners
-  const strokeWidth = 4;
-
-  // SVG container
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("class", "svg-border");
-  svg.setAttribute("preserveAspectRatio", "none");
-  svg.style.position = "absolute"; // Ensure SVG aligns with div
-  svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
-  svg.setAttribute("width", w.toString());
-  svg.setAttribute("height", h.toString());
-  svg.style.top = "0";
-  svg.style.left = "0";
-  
-
-  const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-  const inset = strokeWidth / 2;
-  rect.setAttribute("x", inset.toString());
-  rect.setAttribute("y", inset.toString());
-  rect.setAttribute("width", (w - strokeWidth).toString());
-  rect.setAttribute("height", (h - strokeWidth).toString());
-  rect.setAttribute("rx", radius.toString()); // Fully rounded corners
-  rect.setAttribute("ry", radius.toString()); // Same for both to avoid ellipse
-  rect.setAttribute("stroke-width", strokeWidth.toString());
-  rect.setAttribute("vector-effect", "non-scaling-stroke"); // Prevent stroke scaling
-
-  // Exact perimeter of rounded rect
-  const perimeter = 2 * (w - 2 * radius) + 2 * (h - 2 * radius) + 2 * Math.PI * radius;
-  rect.setAttribute("stroke-dasharray", perimeter.toString());
-  rect.setAttribute("stroke-dashoffset", perimeter.toString());
-
-  svg.appendChild(rect);
-  postIndustrialWrapper.appendChild(svg);
-
-  // Ensure wrapper is positioned relatively to contain absolute SVG
-  postIndustrialWrapper.style.position = "relative";
-
-  // Hover logic
-  postIndustrialWrapper.addEventListener("mouseenter", () => {
-    rect.style.strokeDashoffset = "0";
-  });
-
-  postIndustrialWrapper.addEventListener("mouseleave", () => {
-    rect.style.strokeDashoffset = perimeter.toString();
-  });
-});
 
   // // Create the buttons and append them to the container
   // postConsumerBtn = document.createElement("button");
