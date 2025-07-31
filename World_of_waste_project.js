@@ -43,7 +43,7 @@ const updateBargraph = (id = "pc", barcolor) => {
   percentages.forEach((percentage, i) => {
     bars[i].style.transition = "width 1s";
     // bars[i].style.width = `${percentage}%`;
-    bars[i].style.width = `${textValues === ""?"0%": textValues}`;
+    bars[i].style.width = `${textValues[i] === ""?"0%": textValues[i]}`;
   });
 };
 
