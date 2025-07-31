@@ -499,18 +499,14 @@ function formatDate(date) {
 }
 
 function activateButton(button) {
-   //button.style.backgroundColor = "#F5F5F5"; // White background when active
-  // button.style.border = "0px";
-  // button.style.color = "#fff";
   button.style.border = "2px solid #000000";
-  button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
+  button.style.boxShadow = "none";
 }
 
 // Function to deactivate the button (reset its style)
 function deactivateButton(button) {
-  // button.style.backgroundColor = "#F5F5F5"; // Revert to default background
-  //button.style.color = "#333";
   button.style.border = "2px solid #000000";
+  button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
 }
 
 function applyResponsiveStyles() {
