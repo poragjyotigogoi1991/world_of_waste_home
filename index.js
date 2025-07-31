@@ -203,7 +203,6 @@ function loadButtons() {
     button.style.padding = "10px 20px"; // Add padding for spacing
     button.style.fontSize = "16px"; // Set font size
     button.style.cursor = "pointer"; // Pointer cursor on hover
-    button.style.outline = "2px solid rgba(0,0,0,0)"; // Add a black border for the outline
     button.style.borderRadius = "33px"; // Apply full-rounded corners
     button.style.backgroundColor = "#E4E4E4"; // Light background color
     button.style.color = "#000"; // Black text color
@@ -368,13 +367,13 @@ function formatDate(date) {
 }
 
 function activateButton(button) {
-  button.style.border = "2px solid #000000";
+  // button.style.border = "2px solid #000000";
   button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
 }
 
 // Function to deactivate the button (reset its style)
 function deactivateButton(button) {
-   button.style.border = "2px solid #000000";
+   // button.style.border = "2px solid #000000";
 }
 
 function applyResponsiveStyles() {
