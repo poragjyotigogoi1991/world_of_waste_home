@@ -53,7 +53,7 @@ style.innerHTML = `
 		left: 0;
 		width: 0%;
 		height: 100%;
-		background-color: darken(#E4E4E4, 15%);
+		background-color: #BDBDBD;
 		transition: all .3s;
 		border-radius: 10rem;
 		z-index: -1;
@@ -1092,13 +1092,13 @@ function initMap() {
   };
 
   function activateFilter(button) {
-   button.style.outline = "2px solid #000";
+   button.style.border = "2px solid #000";
     button.style.boxShadow = "none";
     button.style.backgroundColor = "#F5F5F5";
   }
 
   function deactivateFilter(button) {
-    button.style.outline = "2px solid rgba(0,0,0,0)";
+    button.style.border = "2px solid rgba(0,0,0,0)";
      button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
     button.style.backgroundColor = "#E4E4E4";
   }
