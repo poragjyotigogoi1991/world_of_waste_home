@@ -37,6 +37,7 @@ const updateBargraph = (id = "pc", barcolor) => {
     // bars[i].style.width = `${Math.random() * 50}%`;
   });
 
+  console.log("textValues",textValues)
   percentages = calculatePercentages(textValues);
   console.log("Percentages", percentages);
   percentages.forEach((percentage, i) => {
