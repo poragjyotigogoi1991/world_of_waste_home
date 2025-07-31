@@ -58,6 +58,48 @@ stroke: black;
 stroke-width: 2;
 transition: stroke-dashoffset 0.8s ease;
 }
+
+.svg-button {
+  position: relative;
+  width: 180px;
+  height: 60px; /* updated height */
+  padding : 10px 20px;
+  background-color: #E4E4E4;
+  color: #000;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  border-radius: 33px;
+  overflow: hidden;
+}
+
+.svg-button svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: rgb(11, 11, 11);
+  stroke-width: 2;
+  transition: stroke-dashoffset 1s ease;
+  z-index: 2;
+  pointer-events: none;
+  stroke-dasharray: 460; /* shorter path for 60px height */
+  stroke-dashoffset: 460;
+}
+
+.svg-button:hover svg {
+  stroke-dashoffset: 0;
+}
+
+.svg-button span {
+  position: relative;
+  z-index: 3;
+  display: inline-block;
+  line-height: 60px;
+}
 `;
 document.head.appendChild(style);
 
@@ -235,61 +277,39 @@ function loadButtons() {
     button.style.pointerEvents = "auto";
   }
 
-const postConsumerWrapper = document.createElement("div");
-postConsumerWrapper.className = "consumer-action-wrapper";
-postConsumerBtn = document.createElement("button");
-postConsumerBtn.className = "consumer-action-btn";
-postConsumerBtn.innerText = "Post-Consumer";
-postConsumerWrapper.appendChild(postConsumerBtn);
-buttonContainer.appendChild(postConsumerWrapper);
-
-requestAnimationFrame(() => {
-  const { offsetWidth: w, offsetHeight: h } = postConsumerBtn;
-  const radius = h / 2; // Set radius to half the height for fully rounded corners
-  const strokeWidth = 4;
-
-  // SVG container
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("class", "svg-border");
-  svg.setAttribute("width", w.toString());
-  svg.setAttribute("height", h.toString());
-  svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
-  svg.style.position = "absolute"; // Ensure SVG aligns with div
-  svg.style.top = "0";
-  svg.style.left = "0";
+  const postConsumerWrapper = document.createElement("div");
+  postConsumerWrapper.className = "consumer-action-wrapper";
+  //start of new code
+  postConsumerBtn = document.createElement("button");
+  postConsumerBtn.innerText = "Post-Consumer";
+  postConsumerBtn.className = "svg-button";
+  const postConsumerBtnsvg = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "svg"
+  );
+  svg.setAttribute("viewBox", "0 0 184 64");
   svg.setAttribute("preserveAspectRatio", "none");
-
-  const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-  const inset = strokeWidth / 2;
-  rect.setAttribute("x", inset.toString());
-  rect.setAttribute("y", inset.toString());
-  rect.setAttribute("width", (w - strokeWidth).toString());
-  rect.setAttribute("height", (h - strokeWidth).toString());
-  rect.setAttribute("rx", radius.toString()); // Fully rounded corners
-  rect.setAttribute("ry", radius.toString()); // Same for both to avoid ellipse
-  rect.setAttribute("stroke-width", strokeWidth.toString());
-  rect.setAttribute("vector-effect", "non-scaling-stroke"); // Prevent stroke scaling
-
-  // Exact perimeter of rounded rect
-  const perimeter = 2 * (w - 2 * radius) + 2 * (h - 2 * radius) + 2 * Math.PI * radius;
-  rect.setAttribute("stroke-dasharray", perimeter.toString());
-  rect.setAttribute("stroke-dashoffset", perimeter.toString());
-
-  svg.appendChild(rect);
-  postConsumerWrapper.appendChild(svg);
-
-  // Ensure wrapper is positioned relatively to contain absolute SVG
-  postConsumerWrapper.style.position = "relative";
-
-  // Hover logic
-  postConsumerWrapper.addEventListener("mouseenter", () => {
-    rect.style.strokeDashoffset = "0";
+  const postConsumerBtnrect = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "rect"
+  );
+  postConsumerBtnrect.setAttribute("x", "1");
+  postConsumerBtnrect.setAttribute("y", "1");
+  postConsumerBtnrect.setAttribute("width", "182");
+  postConsumerBtnrect.setAttribute("height", "62");
+  postConsumerBtnrect.setAttribute("rx", "30");
+  postConsumerBtnrect.setAttribute("ry", "30");
+  postConsumerBtnsvg.appendChild(postConsumerBtnrect);
+  postConsumerBtn.appendChild(postConsumerBtnsvg);
+  postConsumerWrapper.appendChild(postConsumerBtn);
+  buttonContainer.appendChild(postConsumerWrapper);
+  postConsumerBtn.addEventListener("mouseover", (event) => {
+    postConsumerBtn.style.border = "2px solid #000000";
   });
-
-  postConsumerWrapper.addEventListener("mouseleave", () => {
-    rect.style.strokeDashoffset = perimeter.toString();
+  postConsumerBtn.addEventListener("mouseout", (event) => {
+    postConsumerBtn.style.border = "2px solid rgba(0,0,0,0)";
   });
-});
+  //end of new code
 
   // Wrapper
   const postIndustrialWrapper = document.createElement("div");
