@@ -176,11 +176,11 @@ const init = () => {
   }
 
   const colors = [color1, color2, color3];
+  updateBarGraphs(color2);
   updateDonughtChart(values, colors);
   updateBarGraphTitleColors(barGraph1Title, color1);
   updateBarGraphTitleColors(barGraph2Title, color2);
   updateBarGraphTitleColors(barGraph3Title, color3);
-  updateBarGraphs(color2);
   // handleDownloadBtn();
 };
 
