@@ -146,6 +146,7 @@ function getCountryHighlightColor(countryName) {
 
 function getPopupElement(countryName) {
   const allPopups = document.querySelectorAll("[country-name]");
+	console.log("All popups",allPopups);
   allPopups.forEach((ev) => {
     const value = ev.getAttribute("country-name");
     var countryValue = value;
@@ -893,6 +894,9 @@ function initMap() {
       } */
       activePopups = popupElerEF;
       currentCountry = name;
+	console.log("popupElerEF",popupElerEF);
+	console.log("name",name);
+	console.log("getValue",getValue(name));
       handlePopup(true, name, getValue(name), { x, y }, popupElerEF);
     }
 
