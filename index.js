@@ -786,7 +786,7 @@ function initMap() {
       }
     });
     
-    const defaultPopup = document.querySelectorAll("[popup=default]")[1];
+    const defaultPopup = document.querySelectorAll("[popup=default]")[0];
     const defaultPopupEle = defaultPopup.cloneNode(true);
     matchingPopup.querySelector("[popup=country]").innerText = name;
     // matchingPopup.querySelector("[popup=country]").innerText =
