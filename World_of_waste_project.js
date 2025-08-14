@@ -31,19 +31,16 @@ const updateBargraph = (id = "pc", barcolor) => {
       value: values[i].innerText,
       bar: bars[i],
     });
-    bars[i].style.backgroundColor = barcolor;
+    // Removed: bars[i].style.backgroundColor = barcolor;
     textValues.push(values[i].innerText.replaceAll(",", ""));
-    // bars[i].style.transition = "width 1s";
-    // bars[i].style.width = `${Math.random() * 50}%`;
   });
 
-  console.log("textValues",textValues)
+  console.log("textValues", textValues);
   percentages = calculatePercentages(textValues);
   console.log("Percentages", percentages);
   percentages.forEach((percentage, i) => {
     bars[i].style.transition = "width 1s";
-    // bars[i].style.width = `${percentage}%`;
-    bars[i].style.width = `${textValues[i] === ""?"0%": textValues[i]}`;
+    bars[i].style.width = `${textValues[i] === "" ? "0%" : percentage + "%"}`; // Fixed: Use percentage instead of textValues[i]
   });
 };
 
@@ -66,20 +63,20 @@ const updateDonughtChart = (
         "Post consumer waste",
         "Post Industrial waste",
         "Imported waste",
-      ], // Labels for your segments
+      ],
       datasets: [
         {
-          data: values, // Values for each segment
-          backgroundColor: colors, // Colors for each segment
+          data: values,
+          backgroundColor: colors,
           hoverBackgroundColor: colors,
-          borderWidth: 0, // No border
+          borderWidth: 0,
         },
       ],
     },
     options: {
-      rotation: -90, // Start angle (90 degrees to the left)
-      circumference: 180, // End angle (180 degrees)
-      cutout: "70%", // Makes the chart hollow
+      rotation: -90,
+      circumference: 180,
+      cutout: "70%",
       responsive: true,
       maintainAspectRatio: false,
       aspectRatio: 1,
@@ -88,10 +85,10 @@ const updateDonughtChart = (
       },
       plugins: {
         legend: {
-          display: false, // Hide legend
+          display: false,
         },
         tooltip: {
-          enabled: false, // Hide tooltip
+          enabled: false,
         },
       },
     },
@@ -109,17 +106,12 @@ function updateBarGraphTitleColors(element, color) {
   }
 }
 
-// First, include the required libraries in your HTML
-// <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-// <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
 function captureScreenshot(name) {
-  const element = document.body; // Or any specific element like document.getElementById('myElement')
+  const element = document.body;
 
   htmlToImage
     .toPng(element)
     .then(function (dataUrl) {
-      // Create a link element, set the download attribute and click it
       const link = document.createElement("a");
       link.download = `${name}.png`;
       link.href = dataUrl;
@@ -135,9 +127,6 @@ function handleDownloadBtn() {
   downloadBtn.click((ev) => {
     console.log("Generate a screenshot");
     const projectName = document.querySelector("[project-name]").innerText;
-    /* setTimeout(() => {
-      captureAndDownloadScreenshot(projectName);
-    }, 100); */
     captureScreenshot(projectName);
   });
 }
@@ -181,7 +170,6 @@ const init = () => {
   updateBarGraphTitleColors(barGraph1Title, color1);
   updateBarGraphTitleColors(barGraph2Title, color2);
   updateBarGraphTitleColors(barGraph3Title, color3);
-  // handleDownloadBtn();
 };
 
 window.addEventListener("DOMContentLoaded", init);
