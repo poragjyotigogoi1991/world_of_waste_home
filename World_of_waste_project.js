@@ -40,7 +40,7 @@ const updateBargraph = (id = "pc", barcolor) => {
   console.log("Percentages", percentages);
   percentages.forEach((percentage, i) => {
     bars[i].style.transition = "width 1s";
-    bars[i].style.width = `${textValues[i] === "" ? "0%" : percentage + "%"}`; // Fixed: Use percentage instead of textValues[i]
+    bars[i].style.width = `${textValues[i] === "" ? "0%" : textValues[i]}`;
   });
 };
 
@@ -165,7 +165,7 @@ const init = () => {
   }
 
   const colors = [color1, color2, color3];
-  updateBarGraphs(color2);
+  updateBarGraphs(color1); // Changed from color2 to color1
   updateDonughtChart(values, colors);
   updateBarGraphTitleColors(barGraph1Title, color1);
   updateBarGraphTitleColors(barGraph2Title, color2);
