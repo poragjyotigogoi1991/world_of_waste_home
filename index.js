@@ -765,7 +765,7 @@ function initMap() {
       "Indonesia",
       "Canada",
       "Cambodia",
-		"Turkey"
+	  "Türkiye"
     ];
     
 
