@@ -766,7 +766,7 @@ function initMap() {
       "Indonesia",
       "Canada",
       "Cambodia",
-	  "Türkiye"
+	  "Turkey"
     ];
     
 
@@ -932,7 +932,7 @@ function initMap() {
     "United Kingdom",
     "Canada",
     "Pakistan",
-	  "Türkiye",
+	  "Turkey",
   ]; // Add real country names
   const postIndustrialCountries = [
     "Egypt",
@@ -940,7 +940,7 @@ function initMap() {
     "Bangladesh",
     "Tunisia",
     "India",
-	  "Türkiye",
+	  "Turkeye",
   ];
 
   let activeStates = {
