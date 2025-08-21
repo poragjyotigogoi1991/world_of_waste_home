@@ -125,7 +125,7 @@ function getTotalWasteCountryWise() {
   });
 
   console.log("Country wise waste :::", countryWiseTotalWaste);
-  // highlightAllStates(allCountries);
+	highlightAllStates(allCountries);
 }
 
 function getCountryHighlightColor(countryName) {
@@ -173,6 +173,7 @@ function getPopupElement(countryName) {
 }
 
 function highlightAllStates(states) {
+console.log("states",states)
   stateLayer.revertStyle();
   states.forEach((state) => {
     stateLayer.setStyle(function (feature) {
