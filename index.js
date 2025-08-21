@@ -852,6 +852,7 @@ function initMap() {
     // Toggle the 'isSelected' property
 
     if (!supportedCountries.includes(name)) {
+		console.log("not in supported list", name)
       return;
     }
     
