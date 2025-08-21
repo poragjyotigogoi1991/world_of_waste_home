@@ -588,7 +588,7 @@ function initMap() {
     (features) => {
       features.forEach((feature) => {
         const stateName = feature.getProperty("name");
-        // console.log("Countries", stateName);
+        console.log("Countries", stateName);
         if (stateName === "Antarctica") return;
         statePolygons[stateName] = feature;
         stateLayer.setStyle({
