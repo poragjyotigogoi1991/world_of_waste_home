@@ -596,7 +596,6 @@ function initMap() {
 
           labels.push(label);
         }
-		getCountryHighlightColor(stateName);
       });
 		attachMapListeners();
       stateLayer.setMap(map);
