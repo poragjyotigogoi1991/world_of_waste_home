@@ -597,8 +597,11 @@ function initMap() {
           labels.push(label);
         }
       });
-		attachMapListeners();
-      stateLayer.setMap(map);
+		stateLayer.setMap(map);
+    	google.maps.event.addListenerOnce(map, "tilesloaded", () => {
+    	  console.log("Map and GeoJSON features fully rendered");
+      	attachMapListeners();
+    	});
     }
   );
 	
@@ -629,6 +632,11 @@ function initMap() {
   }
   
 function attachMapListeners() {
+	// Clear old listeners to avoid duplicates
+  google.maps.event.clearListeners(stateLayer, "mouseover");
+  google.maps.event.clearListeners(stateLayer, "mouseout");
+  google.maps.event.clearListeners(stateLayer, "click");
+	
     stateLayer.addListener("mouseover", function (event) {
       map.data.revertStyle(); // Revert previous highlight
       const name = event.feature.getProperty("name");
