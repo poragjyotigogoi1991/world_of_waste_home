@@ -546,184 +546,91 @@ async function initMap() {
   map.fitBounds(bounds);
 
   const labels = [];
-  // Load state polygons (simplified example, normally you'd use GeoJSON or another method)
-  // loadStatePolygons();
   stateLayer = new google.maps.Data();
-  
-  // stateLayer.loadGeoJson(
-  //   "https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json",
-  //   null,
-  //   (features) => {
-  //     features.forEach((feature) => {
-  //       const stateName = feature.getProperty("name");
-  //       console.log("Countries", stateName);
-  //       if (stateName === "Antarctica") return;
-  //       statePolygons[stateName] = feature;
-  //       stateLayer.setStyle({
-  //         fillColor: "#FFFFFF",
-  //         strokeWeight: 0,
-  //       });
+  stateLayer.loadGeoJson(
+    "https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json",
+    null,
+    (features) => {
+      features.forEach((feature) => {
+        const stateName = feature.getProperty("name");
+        console.log("Countries", stateName);
+        if (stateName === "Antarctica") return;
+        statePolygons[stateName] = feature;
+        stateLayer.setStyle({
+          fillColor: "#FFFFFF",
+          strokeWeight: 0,
+        });
 
-  //       if (allCountries.includes(stateName)) {
-  //         const bounds = new google.maps.LatLngBounds();
-  //         feature.getGeometry().forEachLatLng((latlng) => {
-  //           bounds.extend(latlng);
-  //         });
-
-  //         let center = bounds.getCenter();
-  //         const southWest = bounds.getSouthWest();
-  //         const northEast = bounds.getNorthEast();
-
-  //         // Adjust the center based on the country size
-  //         const countryName = feature.getProperty("name"); // Assuming the country name is stored in 'name'
-  //         if (countryName === "United States of America") {
-  //           // Adjust the center by moving it slightly towards the south or east based on the country's shape
-  //           center = new google.maps.LatLng(
-  //             (southWest.lat() + northEast.lat()) / 2.3, // Adjust factor here for better centering
-  //             (southWest.lng() + northEast.lng()) / 2.3 // Adjust factor here for better centering
-  //           );
-  //         }
-
-  //         if (countryName === "India") {
-  //           center = new google.maps.LatLng(
-  //             (southWest.lat() + northEast.lat()) / 2, // Adjust factor here for better centering
-  //             (southWest.lng() + northEast.lng()) / 2.1 // Adjust factor here for better centering
-  //           );
-  //         }
-
-  //         const label = new google.maps.Marker({
-  //           position: center,
-  //           map: map,
-  //           label: {
-  //             text: stateName,
-  //             color: "#000000",
-  //             fontSize: "12px",
-  //             //fontWeight: "200",
-  //             opacity: 0.8,
-  //           },
-  //           icon: {
-  //             path: google.maps.SymbolPath.CIRCLE,
-  //             scale: 0,
-  //             labelOrigin:
-  //               stateName.toLowerCase() === "canada"
-  //                 ? new google.maps.Point(-10, 0)
-  //                 : new google.maps.Point(0, 0),
-  //           },
-  //           visible: true,
-  //         });
-
-  //         if (
-  //           [
-  //             "Netherlands",
-  //             "Belgium",
-  //             "Germany",
-  //             "Poland",
-  //             "United Kingdom",
-  //           ].includes(stateName)
-  //         ) {
-  //           label.setVisible(false);
-  //         }
-
-  //         labels.push(label);
-  //       }
-  //     });
-  //     stateLayer.setMap(map);
-  //     google.maps.event.addListenerOnce(map, "tilesloaded", () => {
-  //       console.log("Map and GeoJSON features fully rendered");
-  //       attachMapListeners();
-  //     });
-  //   }
-  // );
-
-  await new Promise((resolve, reject) => {
-    stateLayer.loadGeoJson(
-      "https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json",
-      null,
-      (features) => {
-        try {
-          features.forEach((feature) => {
-            const stateName = feature.getProperty("name");
-            console.log("Countries", stateName);
-            if (stateName === "Antarctica") return;
-            statePolygons[stateName] = feature;
-            stateLayer.setStyle({
-              fillColor: "#FFFFFF",
-              strokeWeight: 0,
-            });
-
-            if (allCountries.includes(stateName)) {
-              const bounds = new google.maps.LatLngBounds();
-              feature.getGeometry().forEachLatLng((latlng) => {
-                bounds.extend(latlng);
-              });
-
-              let center = bounds.getCenter();
-              const southWest = bounds.getSouthWest();
-              const northEast = bounds.getNorthEast();
-
-              // Adjust center for specific countries
-              const countryName = feature.getProperty("name");
-              if (countryName === "United States of America") {
-                center = new google.maps.LatLng(
-                  (southWest.lat() + northEast.lat()) / 2.3,
-                  (southWest.lng() + northEast.lng()) / 2.3
-                );
-              }
-              if (countryName === "India") {
-                center = new google.maps.LatLng(
-                  (southWest.lat() + northEast.lat()) / 2,
-                  (southWest.lng() + northEast.lng()) / 2.1
-                );
-              }
-
-              const label = new google.maps.Marker({
-                position: center,
-                map: map,
-                label: {
-                  text: stateName,
-                  color: "#000000",
-                  fontSize: "12px",
-                  opacity: 0.8,
-                },
-                icon: {
-                  path: google.maps.SymbolPath.CIRCLE,
-                  scale: 0,
-                  labelOrigin:
-                    stateName.toLowerCase() === "canada"
-                      ? new google.maps.Point(-10, 0)
-                      : new google.maps.Point(0, 0),
-                },
-                visible: true,
-              });
-
-              if (
-                [
-                  "Netherlands",
-                  "Belgium",
-                  "Germany",
-                  "Poland",
-                  "United Kingdom",
-                ].includes(stateName)
-              ) {
-                label.setVisible(false);
-              }
-
-              labels.push(label);
-            }
+        if (allCountries.includes(stateName)) {
+          const bounds = new google.maps.LatLngBounds();
+          feature.getGeometry().forEachLatLng((latlng) => {
+            bounds.extend(latlng);
           });
 
-          stateLayer.setMap(map);
-          google.maps.event.addListenerOnce(map, "tilesloaded", () => {
-            console.log("Map and GeoJSON features fully rendered");
+          let center = bounds.getCenter();
+          const southWest = bounds.getSouthWest();
+          const northEast = bounds.getNorthEast();
+
+          // Adjust the center based on the country size
+          const countryName = feature.getProperty("name"); // Assuming the country name is stored in 'name'
+          if (countryName === "United States of America") {
+            // Adjust the center by moving it slightly towards the south or east based on the country's shape
+            center = new google.maps.LatLng(
+              (southWest.lat() + northEast.lat()) / 2.3, // Adjust factor here for better centering
+              (southWest.lng() + northEast.lng()) / 2.3 // Adjust factor here for better centering
+            );
+          }
+
+          if (countryName === "India") {
+            center = new google.maps.LatLng(
+              (southWest.lat() + northEast.lat()) / 2, // Adjust factor here for better centering
+              (southWest.lng() + northEast.lng()) / 2.1 // Adjust factor here for better centering
+            );
+          }
+
+          const label = new google.maps.Marker({
+            position: center,
+            map: map,
+            label: {
+              text: stateName,
+              color: "#000000",
+              fontSize: "12px",
+              //fontWeight: "200",
+              opacity: 0.8,
+            },
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: 0,
+              labelOrigin:
+                stateName.toLowerCase() === "canada"
+                  ? new google.maps.Point(-10, 0)
+                  : new google.maps.Point(0, 0),
+            },
+            visible: true,
           });
 
-          resolve(features);
-        } catch (error) {
-          reject(error);
+          if (
+            [
+              "Netherlands",
+              "Belgium",
+              "Germany",
+              "Poland",
+              "United Kingdom",
+            ].includes(stateName)
+          ) {
+            label.setVisible(false);
+          }
+
+          labels.push(label);
         }
-      }
-    );
-  });
+      });
+      stateLayer.setMap(map);
+      google.maps.event.addListenerOnce(map, "tilesloaded", () => {
+        console.log("Map and GeoJSON features fully rendered");
+        attachMapListeners();
+      });
+    }
+  );
 
   //load buttons
   loadButtons();
