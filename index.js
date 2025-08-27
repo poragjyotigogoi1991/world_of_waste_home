@@ -116,7 +116,7 @@ function getTotalWasteCountryWise() {
       );
     }
   });
-  console.log("allCountries ss",allCountries):
+  console.log("allCountries ss",allCountries);
   console.log("Country wise waste :::", countryWiseTotalWaste);
   highlightAllStates(allCountries);
 }
