@@ -938,7 +938,6 @@ function initMap() {
     "United Kingdom",
     "Canada",
     "Pakistan",
-	"Turkey",
   ]; 
   const postIndustrialCountries = [
     "Egypt",
