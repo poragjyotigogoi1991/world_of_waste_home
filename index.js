@@ -516,14 +516,7 @@ function initMap() {
 
   // Fit the map to the defined bounds, excluding Antarctica
   map.fitBounds(bounds);
-
-  //load buttons
-  loadButtons();
-  activateButton(postIndustrialBtn);
-  activateButton(postConsumerBtn);
-  LoadControls();
-  applyResponsiveStyles();
-
+	
   const labels = [];
   // Load state polygons (simplified example, normally you'd use GeoJSON or another method)
   // loadStatePolygons();
@@ -608,6 +601,13 @@ function initMap() {
       stateLayer.setMap(map);
     }
   );
+	
+	//load buttons
+  loadButtons();
+  activateButton(postIndustrialBtn);
+  activateButton(postConsumerBtn);
+  LoadControls();
+  applyResponsiveStyles();
 
   const southAfricaTip = { lat: -3.8588, lng: 2.0111 };
 
