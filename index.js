@@ -99,9 +99,13 @@ function getTotalWasteCountryWise() {
     console.log("Country + waste>>>", { countryName, waste });
     // var countryValue = value;
     allCountries.push(countryName);
-    if (isNaN(waste)) {
-      upcomingCountries.push(countryName);
-    }
+    
+	// if (isNaN(waste)) {
+    //   upcomingCountries.push(countryName);
+    // }
+	if(waste===""){
+		upcomingCountries.push(countryName);
+	}
     if (countryName === "USA") {
       countryWiseTotalWaste["United States of America"] = parseInt(
         waste?.replaceAll(",", "").replace("K", "000")
