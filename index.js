@@ -95,6 +95,7 @@ function getTotalWasteCountryWise() {
   allPopups.forEach((popup) => {
     const countryName = popup.getAttribute("country-name");
     const waste = popup.querySelector(".dialog_number").innerText;
+	console.log("waste", countryName+">>"+waste)
     console.log("Country + waste>>>", { countryName, waste });
     // var countryValue = value;
     allCountries.push(countryName);
