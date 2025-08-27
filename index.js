@@ -933,15 +933,14 @@ function initMap() {
     "United Kingdom",
     "Canada",
     "Pakistan",
-	  "Turkey",
-  ]; // Add real country names
+	"Turkey",
+  ]; 
   const postIndustrialCountries = [
     "Egypt",
     "Morocco",
     "Bangladesh",
     "Tunisia",
     "India",
-	  "Turkeye",
   ];
 
   let activeStates = {
@@ -1114,7 +1113,9 @@ function initMap() {
   }
 
   function handlePostConsumerBtn() {
-    //deactivate other active button
+	console.log("active countries pc", activeCountries);
+    
+	  //deactivate other active button
     if (activeCountries.postIndustrial) {
       activeCountries.postIndustrial = false;
       deactivateFilter(postIndustrialBtn);
@@ -1130,7 +1131,6 @@ function initMap() {
       toggleCountryLabels(postConsumptionCountries, false);
       //toggleCountryLabels(postConsumptionCountries, false);
     }
-    // console.log("active countries", activeCountries);
 
     stateLayer.revertStyle();
     let countries = [
@@ -1172,7 +1172,9 @@ function initMap() {
   }
 
   function handlePostIndustrialBtn() {
-    //deactivate other active button
+    console.log("active countries pi", activeCountries);
+    
+	  //deactivate other active button
     if (activeCountries.postConsumer) {
       activeCountries.postConsumer = false;
       deactivateFilter(postConsumerBtn);
@@ -1187,7 +1189,6 @@ function initMap() {
       deactivateFilter(postIndustrialBtn);
       toggleCountryLabels(postIndustrialCountries, false);
     }
-    // console.log("active countries", activeCountries);
 
     let countries = [
       ...postIndustrialCountries,
