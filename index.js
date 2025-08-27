@@ -87,67 +87,37 @@ let upcomingCountries = [];
 let postConsumptionCountries = [];
 let postIndustrialCountries = [];
 
-// function getTotalWasteCountryWise() {
-//   const allPopups = document.querySelectorAll("[country-name]");
-//   allPopups.forEach((popup) => {
-//     const countryName = popup.getAttribute("country-name");
-//     const waste = popup.querySelector(".dialog_number").innerText;
-//     console.log("Country + waste>>>", { countryName, waste });
-//     allCountries.push(countryName);
-//     if (waste === "") {
-//       upcomingCountries.push(countryName);
-//     }
-//     if (countryName === "USA") {
-//       countryWiseTotalWaste["United States of America"] = parseInt(
-//         waste?.replaceAll(",", "").replace("K", "000")
-//       );
-//       allCountries.push("United States of America");
-//     }
-//     if (countryName === "UK") {
-//       countryWiseTotalWaste["United Kingdom"] = parseInt(
-//         waste?.replaceAll(",", "").replace("K", "000")
-//       );
-//       allCountries.push("United Kingdom");
-//     }
-
-//     if (countryWiseTotalWaste[countryName] === undefined) {
-//       countryWiseTotalWaste[countryName] = parseInt(
-//         waste?.replaceAll(",", "").replace("K", "000")
-//       );
-//     }
-//   });
-//   console.log("Country wise waste :::", countryWiseTotalWaste);
-//   highlightAllStates(allCountries);
-// }
 function getTotalWasteCountryWise() {
-  return new Promise((resolve) => {
-    const allPopups = document.querySelectorAll("[country-name]");
-    allPopups.forEach((popup) => {
-      const countryName = popup.getAttribute("country-name");
-      const waste = popup.querySelector(".dialog_number").innerText;
-      allCountries.push(countryName);
+  const allPopups = document.querySelectorAll("[country-name]");
+  allPopups.forEach((popup) => {
+    const countryName = popup.getAttribute("country-name");
+    const waste = popup.querySelector(".dialog_number").innerText;
+    console.log("Country + waste>>>", { countryName, waste });
+    allCountries.push(countryName);
+    if (waste === "") {
+      upcomingCountries.push(countryName);
+    }
+    if (countryName === "USA") {
+      countryWiseTotalWaste["United States of America"] = parseInt(
+        waste?.replaceAll(",", "").replace("K", "000")
+      );
+      allCountries.push("United States of America");
+    }
+    if (countryName === "UK") {
+      countryWiseTotalWaste["United Kingdom"] = parseInt(
+        waste?.replaceAll(",", "").replace("K", "000")
+      );
+      allCountries.push("United Kingdom");
+    }
 
-      if (waste === "") {
-        upcomingCountries.push(countryName);
-      }
-
-      if (countryName === "USA") {
-        countryWiseTotalWaste["United States of America"] = parseInt(waste.replaceAll(",", "").replace("K", "000"));
-        allCountries.push("United States of America");
-      }
-      if (countryName === "UK") {
-        countryWiseTotalWaste["United Kingdom"] = parseInt(waste.replaceAll(",", "").replace("K", "000"));
-        allCountries.push("United Kingdom");
-      }
-
-      if (countryWiseTotalWaste[countryName] === undefined) {
-        countryWiseTotalWaste[countryName] = parseInt(waste.replaceAll(",", "").replace("K", "000"));
-      }
-    });
-
-    console.log("Country wise waste :::", countryWiseTotalWaste);
-    resolve();
+    if (countryWiseTotalWaste[countryName] === undefined) {
+      countryWiseTotalWaste[countryName] = parseInt(
+        waste?.replaceAll(",", "").replace("K", "000")
+      );
+    }
   });
+  console.log("Country wise waste :::", countryWiseTotalWaste);
+  highlightAllStates(allCountries);
 }
 
 function getCountryHighlightColor(countryName) {
@@ -469,7 +439,7 @@ window.addEventListener("resize", applyResponsiveStyles);
 // Initial call to set styles on page load
 //applyResponsiveStyles();
 
-async function initMap() {
+function initMap() {
   map = new google.maps.Map(document.getElementById("custom-map"), {
     center: { lat: -34.397, lng: 150.644 }, // Centered on Africa
     zoom: 2.7, // Zoom level for viewing most of the world
@@ -648,8 +618,7 @@ async function initMap() {
     });
   });
 
-  // getTotalWasteCountryWise();
-  await getTotalWasteCountryWise();
+  getTotalWasteCountryWise();
   console.log("upcomingCountries", upcomingCountries);
 
   let masked = false;
