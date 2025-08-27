@@ -516,6 +516,10 @@ function initMap() {
 
   // Fit the map to the defined bounds, excluding Antarctica
   map.fitBounds(bounds);
+
+  let mapReady = false;
+  let geoJsonReady = false;
+  let dataReady = false;
 	
   const labels = [];
   // Load state polygons (simplified example, normally you'd use GeoJSON or another method)
@@ -597,11 +601,9 @@ function initMap() {
           labels.push(label);
         }
       });
-		stateLayer.setMap(map);
-    	google.maps.event.addListenerOnce(map, "tilesloaded", () => {
-    	  console.log("Map and GeoJSON features fully rendered");
-      	attachMapListeners();
-    	});
+	  stateLayer.setMap(map);
+      geoJsonReady = true;
+      initializeMapStyling();
     }
   );
 	
@@ -612,6 +614,12 @@ function initMap() {
   LoadControls();
   applyResponsiveStyles();
 
+  google.maps.event.addListenerOnce(map, "tilesloaded", () => {
+    console.log("✅ Map tiles fully loaded");
+    mapReady = true;
+    initializeMapStyling();
+  });
+
   const southAfricaTip = { lat: -3.8588, lng: 2.0111 };
 
   map.addListener("zoom_changed", () => {
@@ -621,8 +629,13 @@ function initMap() {
     });
   });
 
-  getTotalWasteCountryWise();
-  console.log("upcomingCountries",upcomingCountries);
+  // getTotalWasteCountryWise();
+  // console.log("upcomingCountries",upcomingCountries);
+  getTotalWasteCountryWise().then(() => {
+    console.log("Waste data loaded");
+    dataReady = true;
+    initializeMapStyling();
+  });
   
   let masked = false;
   let dottedOverlay;
@@ -1071,8 +1084,16 @@ function attachMapListeners() {
   postConsumerBtn.onclick = handlePostConsumerBtn;
   postIndustrialBtn.onclick = handlePostIndustrialBtn;
   highestDataBtn.onclick = handleResetButton;
-  setTimeout(() => {
+  // setTimeout(() => {
+  //   handleResetButton();
+  // }, 1500);
+
+  function initializeMapStyling() {
+    if (!mapReady || !geoJsonReady || !dataReady) return;
+    console.log("All dependencies ready: Applying styles, listeners, and reset state");
+    highlightAllStates(allCountries);
+    attachMapListeners();
     handleResetButton();
-  }, 1500);
+  }
 }
 window.initMap = initMap;
