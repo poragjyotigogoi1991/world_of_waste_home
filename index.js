@@ -469,7 +469,7 @@ window.addEventListener("resize", applyResponsiveStyles);
 // Initial call to set styles on page load
 //applyResponsiveStyles();
 
-function initMap() {
+async function initMap() {
   map = new google.maps.Map(document.getElementById("custom-map"), {
     center: { lat: -34.397, lng: 150.644 }, // Centered on Africa
     zoom: 2.7, // Zoom level for viewing most of the world
