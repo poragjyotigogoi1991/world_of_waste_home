@@ -440,6 +440,9 @@ window.addEventListener("resize", applyResponsiveStyles);
 //applyResponsiveStyles();
 
 function initMap() {
+  getTotalWasteCountryWise();
+  console.log("upcomingCountries", upcomingCountries);
+	
   map = new google.maps.Map(document.getElementById("custom-map"), {
     center: { lat: -34.397, lng: 150.644 }, // Centered on Africa
     zoom: 2.7, // Zoom level for viewing most of the world
@@ -618,8 +621,8 @@ function initMap() {
     });
   });
 
-  getTotalWasteCountryWise();
-  console.log("upcomingCountries", upcomingCountries);
+  // getTotalWasteCountryWise();
+  // console.log("upcomingCountries", upcomingCountries);
 
   let masked = false;
   let dottedOverlay;
