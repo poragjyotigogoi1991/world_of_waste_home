@@ -1,4 +1,3 @@
-//console.log = () => {};
 window.V = "2.0-";
 console.log("Loadded...", V);
 let map;
@@ -78,7 +77,6 @@ const selectors = {
 };
 
 const getElement = (selector) => document.querySelector(selector);
-//const popupEle = getElement(selectors.popup);
 const popupTitle = getElement(selectors.popupTitle);
 const popupValue = getElement(selectors.popupValue);
 
@@ -95,14 +93,8 @@ function getTotalWasteCountryWise() {
   allPopups.forEach((popup) => {
     const countryName = popup.getAttribute("country-name");
     const waste = popup.querySelector(".dialog_number").innerText;
-	console.log("waste", countryName+">>"+waste)
     console.log("Country + waste>>>", { countryName, waste });
-    // var countryValue = value;
     allCountries.push(countryName);
-    
-	// if (isNaN(waste)) {
-    //   upcomingCountries.push(countryName);
-    // }
 	if(waste===""){
 		upcomingCountries.push(countryName);
 	}
@@ -123,12 +115,8 @@ function getTotalWasteCountryWise() {
       countryWiseTotalWaste[countryName] = parseInt(
         waste?.replaceAll(",", "").replace("K", "000")
       );
-    } /* else {
-      countryWiseTotalWaste[countryName] =
-        parseInt(countryWiseTotalWaste[countryName]) + parseInt(waste);
-    } */
+    } 
   });
-
   console.log("Country wise waste :::", countryWiseTotalWaste);
 	highlightAllStates(allCountries);
 }
@@ -209,11 +197,8 @@ function loadButtons() {
   mainContainer.style.position = "absolute";
   mainContainer.style.bottom = "5%";
   mainContainer.style.left = "3%";
-  //mainContainer.style.transform = "translateX(-50%)";
   mainContainer.style.display = "flex"; // Align buttons horizontally
-  // mainContainer.style.flexDirection = "column";
   mainContainer.style.gap = "10rem";
-  //to let click pass through
   mainContainer.style.pointerEvents = "none";
 
   const buttonInfoWrapper = document.createElement("div");
@@ -233,17 +218,6 @@ function loadButtons() {
     button.style.border = "2px solid rgb(0,0,0,0)";
     button.style.margin = "0"; // Reset margin for a clean layout
     button.style.pointerEvents = "auto";
-    
-    // button.style.display = "inline-block";
-    // button.style.padding = "12px 20px"; // Add padding for spacing
-    // button.style.borderRadius = "10rem"; // Apply full-rounded corners
-    // button.style.color = "#000"; // Black text color
-    // button.style.fontSize = "16px"; // Set font size
-    // button.style.transition = "all .3s";
-    // button.style.position = "relative";
-    // button.style.overflow= "hidden";
-    
-    // button.style.backgroundColor = "#E4E4E4"; // Light background color
   }
 
   function styleLinkButton(button) {
@@ -261,33 +235,16 @@ function loadButtons() {
   postConsumerBtn.innerText = "Post-Consumer";
   postConsumerBtn.className = "custom_main_button";
   buttonContainer.appendChild(postConsumerBtn);
-  // postConsumerBtn.addEventListener("mouseover", (event) => {
-  //    // postConsumerBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
-  //   postConsumerBtn.style.border = "2px solid #000000";
-  // })
-  //  postConsumerBtn.addEventListener("mouseout", (event) => {
-  //    // postConsumerBtn.style.boxShadow = "none";
-  //     postConsumerBtn.style.border = "2px solid rgba(0,0,0,0)";
-  // })
 
   postIndustrialBtn = document.createElement("button");
   postIndustrialBtn.innerText = "Post-Industrial";
   postIndustrialBtn.className = "custom_main_button";
   buttonContainer.appendChild(postIndustrialBtn);
-  // postIndustrialBtn.addEventListener("mouseover", (event) => {
-  //    // postIndustrialBtn.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
-  //    postIndustrialBtn.style.border = "2px solid #000000";
-  // })
-  //  postIndustrialBtn.addEventListener("mouseout", (event) => {
-  //    // postIndustrialBtn.style.boxShadow = "none";
-  //     postIndustrialBtn.style.border = "2px solid rgba(0,0,0,0)";
-  // })
 
   highestDataBtn = document.createElement("a");
   highestDataBtn.innerText = "Reset";
 
   buttonContainer.appendChild(highestDataBtn);
-  // Apply the styles to each button
   styleButton(postConsumerBtn);
   styleButton(postIndustrialBtn);
   styleLinkButton(highestDataBtn);
@@ -298,7 +255,6 @@ function loadButtons() {
   infoText.style.fontSize = "16px";
   infoText.style.width = "24rem";
   infoText.style.marginTop = "0.25rem";
-  //buttonContainer.append(infoText);
 
   filterText = document.createElement("p");
   filterText.innerText = filtertext;
@@ -310,7 +266,6 @@ function loadButtons() {
 
   scaleEle = document.createElement("img");
   scaleEle.src = mapScaleSvgUrl;
-  //scaleEle.style.height = "20px";
   scaleEle.style.width = "50%";
   scaleEle.style.alignSelf = "flex-end";
   buttonInfoWrapper.append(filterText);
@@ -320,13 +275,11 @@ function loadButtons() {
 
   mainContainer.appendChild(buttonInfoWrapper);
   mainContainer.appendChild(scaleEle);
-  // Append the button container to the map container
   mapWrapper.appendChild(mainContainer);
 }
 
 function LoadControls() {
  worldMapButton = document.createElement("button");
- // worldMapButton.insertAdjacentHTML("beforeend", worldIconSvgUrl); // Unicode character for world map
 
   // Create the second button with a plus sign
   plusButton = document.createElement("button");
@@ -354,7 +307,6 @@ function LoadControls() {
     button.style.pointerEvents = "auto";
   }
 
- // styleControls(worldMapButton);
   styleControls(plusButton);
   styleControls(minusButton);
 
@@ -362,7 +314,6 @@ function LoadControls() {
   controlsContainer.style.position = "absolute";
   controlsContainer.style.bottom = "5%";
   controlsContainer.style.right = "3%";
-  //mainContainer.style.transform = "translateX(-50%)";
   controlsContainer.style.display = "flex"; // Align buttons horizontally
   controlsContainer.style.flexDirection = "column";
   controlsContainer.style.gap = "1rem";
@@ -377,8 +328,6 @@ function LoadControls() {
   lastUpdatedText.style.padding = "10px";
   lastUpdatedText.style.fontSize = "16px";
   lastUpdatedText.style.fontWeight = "600";
-
-  //infoText.style.width = "25rem";
   lastUpdatedText.style.alignText = "right";
   lastUpdatedText.style.color = "#017C8B";
 
@@ -406,7 +355,6 @@ function formatDate(date) {
 }
 
 function activateButton(button) {
-  // button.style.border = "2px solid #000000";
   button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
 }
 
@@ -447,8 +395,6 @@ function applyResponsiveStyles() {
     // Desktop and larger view
     buttonContainer.style.flexDirection = "row"; // Align buttons horizontally
     buttonContainer.style.width = "auto";
-    //buttonContainer.style.left = "15%";
-    // buttonContainer.style.transform = "translateX(-50%)";
 
     mainContainer.style.flexDirection = "row";
     mainContainer.style.gap = "10rem";
@@ -470,8 +416,6 @@ function applyResponsiveStyles() {
 }
 
 function handlePopup(show = true, title, value, coords, popupEle) {
-  // console.log("called", { show, title, value, coords, popupEle });
-
   if (show) {
     popupEle.style.display = "block";
     popupEle.style.position = "absolute";
@@ -488,9 +432,6 @@ function handlePopup(show = true, title, value, coords, popupEle) {
     popupEle.classList.remove("show");
     return;
   }
-
-  //popupTitle.innerText = title;
-  //popupValue.innerText = value;
 }
 
 // Call the responsive style function on window resize
@@ -499,8 +440,6 @@ window.addEventListener("resize", applyResponsiveStyles);
 //TODO : figure out intial styles if loaded on phone
 // Initial call to set styles on page load
 //applyResponsiveStyles();
-
-window.initMap = initMap;
 
 function initMap() {  
   map = new google.maps.Map(document.getElementById("custom-map"), {
@@ -671,11 +610,6 @@ function initMap() {
 
   const southAfricaTip = { lat: -3.8588, lng: 2.0111 };
 
-  // Center the map on the tip of South Africa
-  /* setTimeout(() => {
-    map.setCenter(southAfricaTip);
-  }, 1000); */
-
   map.addListener("zoom_changed", () => {
     const zoom = map.getZoom();
     labels.forEach((label) => {
@@ -690,26 +624,12 @@ function initMap() {
   let dottedOverlay;
 
   function getValue(country) {
-    // if (["India", "USA", "Bangladesh", "China"].includes(country)) {
-    //   return "9,990,000";
-    // }
     return "7,793,000";
   }
-  // Highlight on hover
   stateLayer.addListener("mouseover", function (event) {
     map.data.revertStyle(); // Revert previous highlight
-
-    //remove from here
-    //const { Fg } = event.feature; // something messed up in Geo.json Fg is undefined
-    //if (["ATA", "RUS"].includes(Fg)) return;
-    // createOverlay(event);
-    //to here
-
-    //replacing instead
     const name = event.feature.getProperty("name");
     if (["Antarctica", "Russia"].includes(name)) return;
-    //till here
-    
     //TODO:Define color scheme based on countries
     stateLayer.overrideStyle(event.feature, {
       // fillColor: getCountryHighlightColor(name), // Highlight fill color
@@ -798,110 +718,30 @@ function initMap() {
     const defaultPopup = document.querySelectorAll("[popup=default]")[0];
     const defaultPopupEle = defaultPopup.cloneNode(true);
     matchingPopup.querySelector("[popup=country]").innerText = name;
-    // matchingPopup.querySelector("[popup=country]").innerText =
-    //   name.toUpperCase();
-    // defaultPopup.querySelector("[popup=country]").innerText =
-    //   name.toUpperCase();
-
     let finalText = "No data yet. Sign up for updates.";
     let ctaText = "Sign up";
-    //if (Fg === "PAK" || Fg === "KHM") {
-    //    if ( Fg === "KHM") {
-    //   finalText = `Upcoming: 2025`;
-    //   ctaText = "Read more";
-    //   if (Fg === "KHM") {
-    //     defaultPopup
-    //       .querySelector("[popup=cta]")
-    //       .addEventListener("click", (rv) => {
-    //         rv.preventDefault();
-    //         window.location.href = `https://www.worldofwaste.co/projects/cambodia`;
-    //       });
-    //   }
-    //   //defaultPopup.querySelector("[popup=cta]").removeEventListener("click", handleSignupCta);
-    // } else {
-    //   finalText = "No data yet. Sign up for updates.";
-    //   ctaText = "Sign up";
-    //   defaultPopup
-    //     .querySelector("[popup=cta]")
-    //     .addEventListener("click", handleSignupCta);
-    // }
-    
-    // defaultPopup
-    //     .querySelector("[popup=cta]")
-    //     .addEventListener("click", handleSignupCta);
-    // defaultPopup.querySelector("[popup=cta]").innerText = ctaText;
-    // defaultPopup.querySelector("[popup=title]").innerText = finalText;
-
-    console.log("xx",name)
-    console.log("matchingPopup",matchingPopup)
-
-    //Signup button not needed anymore
-    // if(!upcomingCountries.includes(name)){
-    //   console.log("not in list", name)
-    //   matchingPopup
-    //     .querySelector("[popup=cta]")
-    //     .addEventListener("click", handleSignupCta);
-    //   matchingPopup.querySelector("[popup=cta]").innerText = ctaText;
-    //   matchingPopup.querySelector("[popup=title]").innerText = finalText; 
-    // }
-    
-    // defaultPopup
-    //   .querySelector("[popup=close-btn]")
-    //   .addEventListener("click", () => {
-    //     handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
-    //   });
     matchingPopup
       .querySelector("[popup=close-btn]")
       .addEventListener("click", () => {
         handlePopup(false, name, "", { x, y }, matchingPopup.parentElement);
       });
 
-    // Toggle the 'isSelected' property
-
     if (!supportedCountries.includes(name)) {
 		console.log("not in supported list", name)
       return;
     }
-    
-    //need to check for upcoming countries popup
-    // if (!["IND","USA","GBR","TUN","ESP","POL","NLD",
-    //       "MAR","EGY","BEL","DEU","BGD",
-    //       "PAK","LKA","VNM","IDN","CAN"].includes(Fg)) {
-    //     //hide popop
-    //     handlePopup(true, name, "", { x, y }, defaultPopup.parentElement);
-    //     if (activePopups)
-    //     handlePopup(false, name, getValue(name), { x, y }, activePopups);
-    //     return;
-    //   } else {
-    //     handlePopup(false, name, "", { x, y }, defaultPopup.parentElement);
-    //   }
-
-    
-    // if (isSelected) popupEle?.classList.remove("show");
     event.feature.setProperty("isSelected", !!selecteedStates[name]);
 
     if (!selecteedStates[name]) {
       selecteedStates[name] = true;
-    } /* else {
-      selecteedStates[name] = false;
-    } */
+    }
     const isSelected = selecteedStates[name];
-    // console.log("Clided >>>", { currentCountry, isSelected });
-
     if (interactionType === "click") {
-      // console.log("currentCountry",currentCountry);
-      // console.log("name",name);
       if (currentCountry && currentCountry !== name) {
-        // console.log("country chcek", { currentCountry, c: name });
         handlePopup(false, name, getValue(name), { x, y }, activePopups);
       }
 
       const popupElerEF = getPopupElement(name);
-      /*  if (activePopups && activePopups !== popupElerEF) {
-        console.log("REF check", { activePopups, popupElerEF });
-        handlePopup(false, name, getValue(name), { x, y }, activePopups);
-        return;
-      } */
       activePopups = popupElerEF;
       currentCountry = name;
 	console.log("popupElerEF",popupElerEF);
@@ -918,15 +758,6 @@ function initMap() {
       strokeColor: !isSelected ? "#000000" : "#888888", // Toggle stroke color
       strokeWeight: 0, // Toggle stroke weight
     });
-
-    /* stateLayer.setStyle(function (feature) {
-      return {
-        fillColor: isSelected
-          ? getCountryHighlightColor(feature.getProperty("name"))
-          : "#ffffff",
-        strokeWeight: 0,
-      };
-    }); */
   });
 
   const postConsumptionCountries = [
@@ -973,13 +804,6 @@ function initMap() {
       } else {
         deactivateButton(btn);
       }
-
-      // If both buttons are inactive, reset to highlight all
-      /*  if (!activeStates.lowData && !activeStates.upcomingData) {
-        activeStates.lowData = activeStates.upcomingData = true;
-        activateButton(postConsumerBtn); // assuming buttons are accessible
-        activateButton(postIndustrialBtn);
-      } */
     } else {
       activeStates = {
         lowData: true,
@@ -1036,45 +860,6 @@ function initMap() {
       };
     });
   }
-
-  // Define your sets of countries
-
-  //const highestDataCountries = ["Brazil", "Russia"];
-  /* setTimeout(() => {
-    highlightCountries(allCountries, highestDataBtn);
-  }, 1500); */
-  // Add event listeners for the buttons
-  /* postConsumerBtn.addEventListener("click", () => {
-    // toggleHighlight(postConsumerBtn, postConsumptionCountries, lowData, "lowData");
-    highlightCountries2(
-      postConsumptionCountries,
-      postConsumerBtn,
-      "upcomingData",
-      postIndustrialBtn,
-      "lowData"
-    );
-    toggleCountryLabels(postIndustrialCountries, activeStates.upcomingData);
-  });
-
-  postIndustrialBtn.addEventListener("click", () => {
-    highlightCountries2(
-      postIndustrialCountries,
-      postIndustrialBtn,
-      "lowData",
-      postConsumerBtn,
-      "upcomingData"
-    );
-
-    toggleCountryLabels(postConsumptionCountries, activeStates.lowData);
-  }); 
-
-  //reset button
-  highestDataBtn.addEventListener("click", () => {
-    highlightCountries(allCountries, highestDataBtn);
-    toggleCountryLabels(allCountries, activeStates.highestData);
-  });
-
-  */
 
   worldMapButton.addEventListener("click", () => {
     map.setZoom(3);
@@ -1171,7 +956,6 @@ function initMap() {
       return {
         fillColor: fillColor,
         strokeWeight: 0,
-        // fillOpacity: 1,
         fillOpacity: fillColor === "#FFFFFF" ? 0.4 : 0.9,
       };
     });
@@ -1233,7 +1017,6 @@ function initMap() {
       return {
         fillColor: fillColor,
         strokeWeight: 0,
-        // fillOpacity: 1,
         fillOpacity: fillColor === "#FFFFFF" ? 0.4 : 0.9,
       };
     });
@@ -1264,7 +1047,6 @@ function initMap() {
       return {
         fillColor: fillColor,
         strokeWeight: 0,
-        // fillOpacity: 1,
         fillOpacity: fillColor === "#FFFFFF" ? 0.4 : 0.9,
       };
     });
@@ -1278,5 +1060,4 @@ function initMap() {
     handleResetButton();
   }, 1500);
 }
-
-
+window.initMap = initMap;
