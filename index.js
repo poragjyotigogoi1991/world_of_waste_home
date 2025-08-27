@@ -500,6 +500,8 @@ window.addEventListener("resize", applyResponsiveStyles);
 // Initial call to set styles on page load
 //applyResponsiveStyles();
 
+window.initMap = initMap;
+
 function initMap() {  
   map = new google.maps.Map(document.getElementById("custom-map"), {
     center: { lat: -34.397, lng: 150.644 }, // Centered on Africa
@@ -1277,4 +1279,4 @@ function initMap() {
   }, 1500);
 }
 
-window.initMap = initMap;
+
