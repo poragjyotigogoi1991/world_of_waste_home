@@ -599,12 +599,13 @@ function initMap() {
         }
       });
       stateLayer.setMap(map);
-      google.maps.event.addListenerOnce(map, "tilesloaded", () => {
+    }
+  );
+
+	google.maps.event.addListenerOnce(map, "tilesloaded", () => {
         console.log("Map and GeoJSON features fully rendered");
         attachMapListeners();
       });
-    }
-  );
 
   //load buttons
   loadButtons();
