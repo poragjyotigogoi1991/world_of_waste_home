@@ -615,7 +615,7 @@ function initMap() {
   applyResponsiveStyles();
 
   google.maps.event.addListenerOnce(map, "tilesloaded", () => {
-    console.log("✅ Map tiles fully loaded");
+    console.log("Map tiles fully loaded");
     mapReady = true;
     initializeMapStyling();
   });
@@ -629,13 +629,10 @@ function initMap() {
     });
   });
 
-  // getTotalWasteCountryWise();
   // console.log("upcomingCountries",upcomingCountries);
-  getTotalWasteCountryWise().then(() => {
-    console.log("Waste data loaded");
-    dataReady = true;
-    initializeMapStyling();
-  });
+  getTotalWasteCountryWise();
+  dataReady = true;
+  initializeMapStyling();
   
   let masked = false;
   let dottedOverlay;
