@@ -439,10 +439,7 @@ window.addEventListener("resize", applyResponsiveStyles);
 // Initial call to set styles on page load
 //applyResponsiveStyles();
 
-function initMap() {
-  getTotalWasteCountryWise();
-  console.log("upcomingCountries", upcomingCountries);
-	
+function initMap() {	
   map = new google.maps.Map(document.getElementById("custom-map"), {
     center: { lat: -34.397, lng: 150.644 }, // Centered on Africa
     zoom: 2.7, // Zoom level for viewing most of the world
@@ -520,6 +517,9 @@ function initMap() {
 
   const labels = [];
   stateLayer = new google.maps.Data();
+  getTotalWasteCountryWise();
+  console.log("upcomingCountries", upcomingCountries);
+	
   stateLayer.loadGeoJson(
     "https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json",
     null,
