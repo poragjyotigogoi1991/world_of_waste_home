@@ -21,7 +21,6 @@ let infoText = null;
 let lastUpdatedText = null;
 let scaleEle = null;
 
-
 const style = document.createElement("style");
 style.innerHTML = `
 .custom_main_button {
@@ -95,9 +94,9 @@ function getTotalWasteCountryWise() {
     const waste = popup.querySelector(".dialog_number").innerText;
     console.log("Country + waste>>>", { countryName, waste });
     allCountries.push(countryName);
-	if(waste===""){
-		upcomingCountries.push(countryName);
-	}
+    if (waste === "") {
+      upcomingCountries.push(countryName);
+    }
     if (countryName === "USA") {
       countryWiseTotalWaste["United States of America"] = parseInt(
         waste?.replaceAll(",", "").replace("K", "000")
@@ -115,10 +114,10 @@ function getTotalWasteCountryWise() {
       countryWiseTotalWaste[countryName] = parseInt(
         waste?.replaceAll(",", "").replace("K", "000")
       );
-    } 
+    }
   });
   console.log("Country wise waste :::", countryWiseTotalWaste);
-	highlightAllStates(allCountries);
+  highlightAllStates(allCountries);
 }
 
 function getCountryHighlightColor(countryName) {
@@ -139,7 +138,7 @@ function getCountryHighlightColor(countryName) {
 
 function getPopupElement(countryName) {
   const allPopups = document.querySelectorAll("[country-name]");
-	console.log("All popups",allPopups);
+  console.log("All popups", allPopups);
   allPopups.forEach((ev) => {
     const value = ev.getAttribute("country-name");
     var countryValue = value;
@@ -166,7 +165,7 @@ function getPopupElement(countryName) {
 }
 
 function highlightAllStates(states) {
-console.log("states",states)
+  console.log("states", states);
   stateLayer.revertStyle();
   states.forEach((state) => {
     stateLayer.setStyle(function (feature) {
@@ -271,7 +270,6 @@ function loadButtons() {
   buttonInfoWrapper.append(filterText);
   buttonInfoWrapper.append(buttonContainer);
   buttonInfoWrapper.append(infoText);
-  
 
   mainContainer.appendChild(buttonInfoWrapper);
   mainContainer.appendChild(scaleEle);
@@ -279,7 +277,7 @@ function loadButtons() {
 }
 
 function LoadControls() {
- worldMapButton = document.createElement("button");
+  worldMapButton = document.createElement("button");
 
   // Create the second button with a plus sign
   plusButton = document.createElement("button");
@@ -360,7 +358,7 @@ function activateButton(button) {
 
 // Function to deactivate the button (reset its style)
 function deactivateButton(button) {
-   // button.style.border = "2px solid #000000";
+  // button.style.border = "2px solid #000000";
 }
 
 function applyResponsiveStyles() {
@@ -441,7 +439,7 @@ window.addEventListener("resize", applyResponsiveStyles);
 // Initial call to set styles on page load
 //applyResponsiveStyles();
 
-function initMap() {  
+function initMap() {
   map = new google.maps.Map(document.getElementById("custom-map"), {
     center: { lat: -34.397, lng: 150.644 }, // Centered on Africa
     zoom: 2.7, // Zoom level for viewing most of the world
@@ -501,7 +499,7 @@ function initMap() {
       },
     ],
   });
-  
+
   const worldBounds = {
     north: 85, // Maximum north latitude (close to the North Pole)
     south: -60, // Minimum south latitude (excludes Antarctica)
@@ -517,10 +515,6 @@ function initMap() {
   // Fit the map to the defined bounds, excluding Antarctica
   map.fitBounds(bounds);
 
-  let mapReady = false;
-  let geoJsonReady = false;
-  let dataReady = false;
-	
   const labels = [];
   // Load state polygons (simplified example, normally you'd use GeoJSON or another method)
   // loadStatePolygons();
@@ -579,13 +573,14 @@ function initMap() {
             icon: {
               path: google.maps.SymbolPath.CIRCLE,
               scale: 0,
-              labelOrigin: stateName.toLowerCase() === "canada" ? 
-                    new google.maps.Point(-10, 0) 
-                      : new google.maps.Point(0, 0),
+              labelOrigin:
+                stateName.toLowerCase() === "canada"
+                  ? new google.maps.Point(-10, 0)
+                  : new google.maps.Point(0, 0),
             },
             visible: true,
           });
-         
+
           if (
             [
               "Netherlands",
@@ -601,24 +596,20 @@ function initMap() {
           labels.push(label);
         }
       });
-	  stateLayer.setMap(map);
-      geoJsonReady = true;
-      initializeMapStyling();
+      stateLayer.setMap(map);
+      google.maps.event.addListenerOnce(map, "tilesloaded", () => {
+        console.log("Map and GeoJSON features fully rendered");
+        attachMapListeners();
+      });
     }
   );
-	
-	//load buttons
+
+  //load buttons
   loadButtons();
   activateButton(postIndustrialBtn);
   activateButton(postConsumerBtn);
   LoadControls();
   applyResponsiveStyles();
-
-  google.maps.event.addListenerOnce(map, "tilesloaded", () => {
-    console.log("Map tiles fully loaded");
-    mapReady = true;
-    initializeMapStyling();
-  });
 
   const southAfricaTip = { lat: -3.8588, lng: 2.0111 };
 
@@ -629,24 +620,22 @@ function initMap() {
     });
   });
 
-  // console.log("upcomingCountries",upcomingCountries);
   getTotalWasteCountryWise();
-  dataReady = true;
-  initializeMapStyling();
-  
+  console.log("upcomingCountries", upcomingCountries);
+
   let masked = false;
   let dottedOverlay;
 
   function getValue(country) {
     return "7,793,000";
   }
-  
-function attachMapListeners() {
-	// Clear old listeners to avoid duplicates
-  google.maps.event.clearListeners(stateLayer, "mouseover");
-  google.maps.event.clearListeners(stateLayer, "mouseout");
-  google.maps.event.clearListeners(stateLayer, "click");
-	
+
+  function attachMapListeners() {
+    // Clear old listeners to avoid duplicates
+    google.maps.event.clearListeners(stateLayer, "mouseover");
+    google.maps.event.clearListeners(stateLayer, "mouseout");
+    google.maps.event.clearListeners(stateLayer, "click");
+
     stateLayer.addListener("mouseover", function (event) {
       map.data.revertStyle(); // Revert previous highlight
       const name = event.feature.getProperty("name");
@@ -784,7 +773,7 @@ function attachMapListeners() {
       });
     });
   }
-	
+
   const postConsumptionCountries = [
     "India",
     "Belgium",
@@ -796,7 +785,7 @@ function attachMapListeners() {
     "United Kingdom",
     "Canada",
     "Pakistan",
-  ]; 
+  ];
   const postIndustrialCountries = [
     "Egypt",
     "Morocco",
@@ -916,22 +905,22 @@ function attachMapListeners() {
   };
 
   function activateFilter(button) {
-   button.style.border = "2px solid #000";
+    button.style.border = "2px solid #000";
     // button.style.boxShadow = "none";
-   button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
-   button.style.backgroundColor = "#F5F5F5";
+    button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
+    button.style.backgroundColor = "#F5F5F5";
   }
 
   function deactivateFilter(button) {
     button.style.border = "2px solid rgba(0,0,0,0)";
-     button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
+    button.style.boxShadow = "4px 4px 4px rgba(0,0,0,0.25)";
     button.style.backgroundColor = "#E4E4E4";
   }
 
   function handlePostConsumerBtn() {
-	console.log("active countries pc", activeCountries);
-    
-	  //deactivate other active button
+    console.log("active countries pc", activeCountries);
+
+    //deactivate other active button
     if (activeCountries.postIndustrial) {
       activeCountries.postIndustrial = false;
       deactivateFilter(postIndustrialBtn);
@@ -988,8 +977,8 @@ function attachMapListeners() {
 
   function handlePostIndustrialBtn() {
     console.log("active countries pi", activeCountries);
-    
-	  //deactivate other active button
+
+    //deactivate other active button
     if (activeCountries.postConsumer) {
       activeCountries.postConsumer = false;
       deactivateFilter(postConsumerBtn);
@@ -1081,16 +1070,8 @@ function attachMapListeners() {
   postConsumerBtn.onclick = handlePostConsumerBtn;
   postIndustrialBtn.onclick = handlePostIndustrialBtn;
   highestDataBtn.onclick = handleResetButton;
-  // setTimeout(() => {
-  //   handleResetButton();
-  // }, 1500);
-
-  function initializeMapStyling() {
-    if (!mapReady || !geoJsonReady || !dataReady) return;
-    console.log("All dependencies ready: Applying styles, listeners, and reset state");
-    highlightAllStates(allCountries);
-    attachMapListeners();
+  setTimeout(() => {
     handleResetButton();
-  }
+  }, 1500);
 }
 window.initMap = initMap;
