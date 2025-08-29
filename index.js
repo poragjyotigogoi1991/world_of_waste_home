@@ -530,23 +530,10 @@ function initMap() {
         // console.log("Countries", stateName);
         if (stateName === "Antarctica") return;
         statePolygons[stateName] = feature;
-        // stateLayer.setStyle({
-        //   fillColor: "#FFFFFF",
-        //   strokeWeight: 0,
-        // });
-		stateLayer.setStyle((feature) => {
-          const stateName = feature.getProperty("name");
-          let fillColor = "#FFFFFF";
-          if (allCountries.includes(stateName)) {
-            fillColor = getCountryHighlightColor(stateName); // Custom function for color
-          }
-          return {
-            fillColor: fillColor,
-            strokeWeight: 0,
-            fillOpacity: fillColor === "#FFFFFF" ? 0.4 : 0.9, // lighter for default, darker for highlight
-          };
+        stateLayer.setStyle({
+          fillColor: "#FFFFFF",
+          strokeWeight: 0,
         });
-
         if (allCountries.includes(stateName)) {
           const bounds = new google.maps.LatLngBounds();
           feature.getGeometry().forEachLatLng((latlng) => {
@@ -1085,8 +1072,8 @@ function initMap() {
   postConsumerBtn.onclick = handlePostConsumerBtn;
   postIndustrialBtn.onclick = handlePostIndustrialBtn;
   highestDataBtn.onclick = handleResetButton;
-  // setTimeout(() => {
-  //   handleResetButton();
-  // }, 1500);
+  setTimeout(() => {
+    handleResetButton();
+  }, 2000);
 }
 window.initMap = initMap;
