@@ -1031,6 +1031,6 @@ function initMap() {
   highestDataBtn.onclick = handleResetButton;
   setTimeout(() => {
     handleResetButton();
-  }, 200);
+  }, 2000);
 }
 window.initMap = initMap;
