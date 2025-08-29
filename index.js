@@ -2,12 +2,6 @@ window.V = "2.0-";
 console.log("Loadded...", V);
 let map;
 let stateLayer;
-const statePolygons = {}; // Store state polygons
-const highlightedStates = {};
-const lowData = "#4CACB6";
-const upcomingData = "#9E9E9E";
-const highestData = "#015F6B";
-
 let postConsumerBtn = null;
 let postIndustrialBtn = null;
 let highestDataBtn = null;
@@ -92,7 +86,6 @@ function getTotalWasteCountryWise() {
   allPopups.forEach((popup) => {
     const countryName = popup.getAttribute("country-name");
     const waste = popup.querySelector(".dialog_number").innerText;
-    console.log("Country + waste>>>", { countryName, waste });
     allCountries.push(countryName);
     if (waste === "") {
       upcomingCountries.push(countryName);
@@ -116,9 +109,6 @@ function getTotalWasteCountryWise() {
       );
     }
   });
-  console.log("allCountries ss",allCountries);
-  console.log("Country wise waste :::", countryWiseTotalWaste);
-  highlightAllStates(allCountries);
 }
 
 function getCountryHighlightColor(countryName) {
@@ -139,43 +129,24 @@ function getCountryHighlightColor(countryName) {
 
 function getPopupElement(countryName) {
   const allPopups = document.querySelectorAll("[country-name]");
-  console.log("All popups", allPopups);
   allPopups.forEach((ev) => {
     const value = ev.getAttribute("country-name");
-    var countryValue = value;
     if (
       value === countryName ||
       (countryName.includes("United States of America") && value === "USA") ||
       (countryName.includes("United Kingdom") && value === "UK")
     ) {
-      // console.log("<<< MATCHED >>>", { value, countryName });
       popupEle = ev;
     }
   });
-
-  //attach addEventListener
   popupEle
     .querySelector('[popup="close-btn"]')
     .addEventListener("click", () => {
-      // console.log("POPUP CROSSED", { countryName });
       popupEle.style.display = "none";
       stateLayer.revertStyle();
     });
 
   return popupEle;
-}
-
-function highlightAllStates(states) {
-  console.log("states", states);
-  stateLayer.revertStyle();
-  states.forEach((state) => {
-    stateLayer.setStyle(function (feature) {
-      return {
-        fillColor: getCountryHighlightColor(feature.getProperty("name")),
-        strokeWeight: 0,
-      };
-    });
-  });
 }
 
 const text = `This map displays countries and cities with available textile waste data. Click on a region for an overview or to check more details.`;
@@ -322,7 +293,7 @@ function LoadControls() {
 
   lastUpdatedText = document.createElement("p");
   lastUpdatedText.innerText = `Last updated on ${formatDate(
-    new Date(2024, 10, 06)
+    new Date(2024, 10, 6)
   )}`;
   lastUpdatedText.style.padding = "10px";
   lastUpdatedText.style.fontSize = "16px";
@@ -414,7 +385,7 @@ function applyResponsiveStyles() {
   }
 }
 
-function handlePopup(show = true, title, value, coords, popupEle) {
+function handlePopup(show = true, coords, popupEle) {
   if (show) {
     popupEle.style.display = "block";
     popupEle.style.position = "absolute";
@@ -440,7 +411,7 @@ window.addEventListener("resize", applyResponsiveStyles);
 // Initial call to set styles on page load
 //applyResponsiveStyles();
 
-function initMap() {	
+function initMap() {
   map = new google.maps.Map(document.getElementById("custom-map"), {
     center: { lat: -34.397, lng: 150.644 }, // Centered on Africa
     zoom: 2.7, // Zoom level for viewing most of the world
@@ -518,18 +489,14 @@ function initMap() {
 
   const labels = [];
   stateLayer = new google.maps.Data();
-  getTotalWasteCountryWise();
-  console.log("upcomingCountries", upcomingCountries);
-	
+
   stateLayer.loadGeoJson(
     "https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json",
     null,
     (features) => {
       features.forEach((feature) => {
         const stateName = feature.getProperty("name");
-        // console.log("Countries", stateName);
         if (stateName === "Antarctica") return;
-        statePolygons[stateName] = feature;
         stateLayer.setStyle({
           fillColor: "#FFFFFF",
           strokeWeight: 0,
@@ -601,10 +568,10 @@ function initMap() {
     }
   );
 
-	google.maps.event.addListenerOnce(map, "tilesloaded", () => {
-        console.log("Map and GeoJSON features fully rendered");
-        attachMapListeners();
-      });
+  google.maps.event.addListenerOnce(map, "tilesloaded", () => {
+    console.log("Map and GeoJSON features fully rendered");
+    attachMapListeners();
+  });
 
   //load buttons
   loadButtons();
@@ -622,15 +589,8 @@ function initMap() {
     });
   });
 
-  // getTotalWasteCountryWise();
-  // console.log("upcomingCountries", upcomingCountries);
-
-  let masked = false;
-  let dottedOverlay;
-
-  function getValue(country) {
-    return "7,793,000";
-  }
+  getTotalWasteCountryWise();
+  console.log("upcomingCountries", upcomingCountries);
 
   function attachMapListeners() {
     // Clear old listeners to avoid duplicates
@@ -738,7 +698,7 @@ function initMap() {
       matchingPopup
         .querySelector("[popup=close-btn]")
         .addEventListener("click", () => {
-          handlePopup(false, name, "", { x, y }, matchingPopup.parentElement);
+          handlePopup(false, { x, y }, matchingPopup.parentElement);
         });
 
       if (!supportedCountries.includes(name)) {
@@ -753,16 +713,13 @@ function initMap() {
       const isSelected = selecteedStates[name];
       if (interactionType === "click") {
         if (currentCountry && currentCountry !== name) {
-          handlePopup(false, name, getValue(name), { x, y }, activePopups);
+          handlePopup(false, { x, y }, activePopups);
         }
 
         const popupElerEF = getPopupElement(name);
         activePopups = popupElerEF;
         currentCountry = name;
-        console.log("popupElerEF", popupElerEF);
-        console.log("name", name);
-        console.log("getValue", getValue(name));
-        handlePopup(true, name, getValue(name), { x, y }, popupElerEF);
+        handlePopup(true, { x, y }, popupElerEF);
       }
 
       // Set style based on 'isSelected' property
@@ -965,7 +922,7 @@ function initMap() {
         allCountries.includes(countryName)
       ) {
         fillColor = getCountryHighlightColor(countryName);
-        toggleCountryLabels(allCountries, activeStates.highestData);
+        toggleCountryLabels(allCountries, true);
       }
 
       // Return the style with appropriate color
@@ -1026,7 +983,7 @@ function initMap() {
         allCountries.includes(countryName)
       ) {
         fillColor = getCountryHighlightColor(countryName);
-        toggleCountryLabels(allCountries, activeStates.highestData);
+        toggleCountryLabels(allCountries, true);
       }
 
       // Return the style with appropriate color
@@ -1066,7 +1023,7 @@ function initMap() {
         fillOpacity: fillColor === "#FFFFFF" ? 0.4 : 0.9,
       };
     });
-    toggleCountryLabels(allCountries, activeStates.highestData);
+    toggleCountryLabels(allCountries, true);
   };
 
   postConsumerBtn.onclick = handlePostConsumerBtn;
@@ -1074,6 +1031,6 @@ function initMap() {
   highestDataBtn.onclick = handleResetButton;
   setTimeout(() => {
     handleResetButton();
-  }, 2000);
+  }, 200);
 }
 window.initMap = initMap;
