@@ -794,6 +794,7 @@ function initMap() {
     "Bangladesh",
     "Tunisia",
     "India",
+	"Canada",
   ];
 
   let activeStates = {
