@@ -893,6 +893,7 @@ function initMap() {
   function toggleCountryLabels(countriesArray, visible) {
     for (let country of countriesArray) {
       if (country === "India" || country === "Canada") {
+		  //if country is in both postconsumer and postindustrial then show the label always
         continue;
       }
       const label = labels.find(({ label }) => label.text === country);
