@@ -666,25 +666,25 @@ function initMap() {
     // Add click event to toggle highlight
     stateLayer.addListener("click", function (event) {
       // const isSelected = event.feature.getProperty("isSelected");
-		console.log("name",name);
-		console.log("activeCountries", activeCountries);
-		console.log("name is not in postConsumptionCountries?", !postConsumptionCountries.includes(name));
-		console.log("name is not in postIndustrialCountries?", !postIndustrialCountries.includes(name));
-		
-		// If Post-Consumer is active, only allow clicks on those states
-  		if (activeCountries.postConsumer && !postConsumptionCountries.includes(name)) {
-    		return; 
-  		}
-
-  		// If Post-Industrial is active, only allow clicks on those states
-  		if (activeCountries.postIndustrial && !postIndustrialCountries.includes(name)) {
-    		return; 
-  		}
-		
       stateLayer.revertStyle();
       const { Fg } = event.feature; //Fg was internal variable and now removed
       const name = event.feature.getProperty("name");
       const code = Fg;
+
+	  console.log("name",name);
+	  console.log("activeCountries", activeCountries);
+	  console.log("name is not in postConsumptionCountries?", !postConsumptionCountries.includes(name));
+	  console.log("name is not in postIndustrialCountries?", !postIndustrialCountries.includes(name));
+		
+      // If Post-Consumer is active, only allow clicks on those states
+  	  if (activeCountries.postConsumer && !postConsumptionCountries.includes(name)) {
+    	return; 
+  	  }
+
+  	  // If Post-Industrial is active, only allow clicks on those states
+  	  if (activeCountries.postIndustrial && !postIndustrialCountries.includes(name)) {
+    	return; 
+  	  }
 
       const { clientX: x, clientY: y } = event.domEvent;
       if (
