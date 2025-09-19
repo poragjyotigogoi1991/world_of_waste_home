@@ -892,7 +892,7 @@ function initMap() {
 
   function toggleCountryLabels(countriesArray, visible) {
     for (let country of countriesArray) {
-      if (country === "India") {
+      if (country === "India" || country === "Canada") {
         continue;
       }
       const label = labels.find(({ label }) => label.text === country);
