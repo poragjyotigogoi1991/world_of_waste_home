@@ -803,7 +803,6 @@ function initMap() {
     "United Kingdom",
     "Canada",
     "Pakistan",
-	"China",
   ];
   const postIndustrialCountries = [
     "Egypt",
@@ -812,7 +811,6 @@ function initMap() {
     "Tunisia",
     "India",
 	"Canada",
-	"China",
   ];
 
   let activeStates = {
