@@ -758,6 +758,8 @@ function initMap() {
         });
 
       if (!supportedCountries.includes(name)) {
+		console.log("supportedCountries",supportedCountries);
+		console.log("name",name);
         console.log("not in supported list", name);
         return;
       }
