@@ -721,6 +721,7 @@ function initMap() {
         "Canada",
         "Cambodia",
         "Turkey",
+		"China"
       ];
 
       const allPopups = document.querySelectorAll("[popup=default]");
@@ -802,6 +803,7 @@ function initMap() {
     "United Kingdom",
     "Canada",
     "Pakistan",
+	"China",
   ];
   const postIndustrialCountries = [
     "Egypt",
@@ -810,6 +812,7 @@ function initMap() {
     "Tunisia",
     "India",
 	"Canada",
+	"China",
   ];
 
   let activeStates = {
