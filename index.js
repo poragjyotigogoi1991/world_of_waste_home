@@ -322,7 +322,7 @@ function LoadControls() {
 
   lastUpdatedText = document.createElement("p");
   lastUpdatedText.innerText = `Last updated on ${formatDate(
-    new Date(2025, 10, 06)
+    new Date(2025, 09, 06)
   )}`;
   lastUpdatedText.style.padding = "10px";
   lastUpdatedText.style.fontSize = "16px";
